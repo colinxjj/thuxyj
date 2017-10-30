@@ -43,7 +43,7 @@ bian;time;
 
 #if {$v_extra_natural==0 && $hp_nl<@evla{$hp_nlmax*2-200}} {#al do_next {#math tick_time {295-@time_c{}};w;#if $v_chargefabao==3 {#var v_chargefabao 1}}};
 
-#if {$v_autolearn==1 && $skill_nummin<=@eval{$skill_nummin_limit-5} && $hp_qn>10000 && $v_int>=40}
+#if {$v_autolearn==1 && @eval{$skill_nummin<=@eval{$skill_nummin_limit-5} || @eval{"$skill_idnow"=="literate" && $skill_nummin<200}} && $skill_nummin<$v_skill_max && $hp_qn>10000 && $v_int>=40}
 {#if $skill_nummin>=250 
 {#al do_next {T- control;T+ skills.tin;#if $v_guild==1 {fly guild;wait {skills;hp} 1} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}};skills;hp}}} 
 {#al do_next {#if {&v_menpai} {T- control;Tmenpai} {menpai @time{}}}}
