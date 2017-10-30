@@ -16,12 +16,13 @@ delwait;time;
 #if {$skill_nummin_max<=@eval{($skill_nummin+1)*($skill_nummin+1)} && $hp_qn>0} {#if {$skill_nummin>=250} {#al do_next {#5 {research $skill_idnow;exert refresh};skills;hp};#if $skill_nummin_max>@eval{($skill_nummin+1)*($skill_nummin+1)-6000} {#al do_next {#2 {research $skill_idnow;exert refresh};skills;hp}}} {T- skills;Tmenpai}};
 #if {$skill_nummin_max>@eval{($skill_nummin+1)*($skill_nummin+1)}}
 {
-#if {@time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {tick 5;touxiang;fly changan;ne;#if {"$skill_idnow"!="parry"} {yao $skill_idnow};sw;e;n;open north;n;open north;n;l paizi}};
+#if {@time_c{}<@eval{$v_checktime_lijing+30} && "$skill_idnow"!="spells"} {#al do_next {tick 5;touxiang;fly changan;ne;#if {"$skill_idnow"!="parry"} {yao $skill_idnow};sw;e;n;open north;n;open north;n;l paizi}};
 #if {"$skill_idnow"=="spells" && @time_c{}<@eval{$v_checktime_lijing+20}} {#al do_next {tick 40;xiudao 31}};
 #if {"$skill_idnow"=="archery"} {#al do_next {tick 10;fly meishan;e;e;ne;unwield all;wear jian nang;wield bow;input 10 tie jian in jian nang;shejian;exert recover;skills;wait hp 2}};
 #if {"$skill_idnow"=="dodge"} {#al do_next {tick 10;get xueshan map from hualan;touxiang;fly xueshan;#3 nu;n;jump shi bi;n;skate;exert recover;wait hp 2}};
 #if {"$skill_idnow"=="force"} {#al do_next {tick 5;touxiang;fly changan;ne;yao qin;sw;e;n;open north;n;open north;n;#var v_enableforce 1;l paizi}};
 #if {"$skill_idnow"=="dragonforce"} {#al do_next {tick 5;touxiang;fly changan;#16 s;#3 e;dive;wait {#2 e;#if $v_train>10 {ne;e;e;eu;e;n;n;nw} {sw;s}} 4}};
+#if {"$skill_idnow"=="literate"} {#al do_next {tick 10;fly changan;s;s;w;u;u;u;l poem}};
 }
 };
 
@@ -80,6 +81,11 @@ tick 15;fly changan;e;n;kill shadai;jiali 0;pfm_bang;wait {#unac {^ÄãÔË×ª¾Å×ªÉñÄ
 #al do_next {gotolijing}
 };
 
+#if {@time_c{}>=@eval{$v_checktime_lijing+20} && "$skill_idnow"=="spells"}
+{
+#al do_next {gotolijing}
+};
+
 wait do_next 0.5
 } {4};
 
@@ -107,6 +113,8 @@ wait do_next 0.5
 #ac {^ÄãµÄ¡¸ÄÚ¹¦ĞÄ·¨¡¹½ø²½ÁË£¡} {#if {$v_enableforce==2} {n;n;l paizi}} {1};
 #ac {^ÄãµÄÁ½ÒÇ½£·¨½ø²½ÁË£¡} {#if {$v_enableforce==2} {lian parry;lian sword}} {1};
 
+#ac {^µ±Ç°ÌâÄ¿£º¡¡¡¡¡¡%1}  {#line log poem_$myid's.txt %1;wait {#textin answer_poem_$myid's.txt} 1};
+#ac {^ÄãµÄ¡¸¶ÁÊéÊ¶×Ö¡¹½ø²½ÁË£¡} {d;d;d;e;skills;hp} {1};
 #ac {^ÄãµÄ¡¸·¨Êõ¡¹½ø²½ÁË£¡} {tick 5;skills;hp} {1};
 
 #ac {^ÄãµÄ¡¸»ù±¾Çá¹¦¡¹½ø²½ÁË£¡} {tick 5;skills;hp} {1};
