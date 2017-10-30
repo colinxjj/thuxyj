@@ -1,0 +1,408 @@
+#class pathkg open;
+#al timeout1 {
+#if {$v_lianxu>=1 && $v_xinxiang==1} {
+    #if {$kangguai_find==1} {#math kangguai_find {$kangguai_find+1};#if {"$kangguai_name"=="$kangguai_tasks[$kangguai_owner][1]"} {#var kangguai_tasks[$kangguai_owner][4] $kangguai_find}}
+} {
+    #math kangguai_find {$kangguai_find+1};#if {"$kangguai_name"=="$kangguai_tasks[$kangguai_owner][1]"} {#var kangguai_tasks[$kangguai_owner][4] $kangguai_find};
+};
+timeout
+};
+
+#var 长安城 {fly changan;d;d;u;u;n;w;e;e;e;w;w;n;n;s;s;s;e;n;n;n;s;s;e;w;s;s;n;e;n;s;s;n;e;n;s;ne;sw;e;e;w;w;s;e;w;sw;s;se;ne;e;e;w;n;s;w;se;enter;out;nw;sw;ne;sw;nw;n;w;n;n;s;s;w;enter;u;u;u;u;u;u;u;u;u;u;u;u;u;u;d;d;d;d;d;d;d;d;d;d;d;d;d;d;out;e;s;sw;se;s;enter;s;n;e;enter;u;u;u;u;u;u;d;d;d;d;d;d;out;w;out;n;nw;w;w;w;e;s;n;nw;e;w;n;w;s;s;n;w;w;e;e;n;w;w;e;e;e;w;nw;e;w;w;e;n;w;w;e;e;n;s;e;s;s;e;w;n;n;n;s;e;n;s;s;d;u;n;e;nw;u;d;se;se;nw;s;w;e;s;w;e;e;w;s;w;e;e;w;s;s;n;n;n;w;w;e;n;s;u;e;w;w;e;s;n;n;s;u;s;n;n;s;e;w;w;e;u;w;e;n;s;e;w;d;d;d;e;n;e;u;e;w;d;w;timeout1};
+#var 长安城南 {fly changan;s;s;s;s;s;s;e;e;e;e;e;s;n;e;w;w;w;w;nu;enter;out;sd;w;w;w;w;w;w;w;w;w;e;e;e;e;e;e;s;n;n;e;s;s;e;s;s;s;e;w;s;s;s;nw;w;w;w;wu;wu;wu;s;n;wu;wu;s;n;wu;w;n;s;s;n;wu;w;e;ed;e;ed;ed;ed;ed;ed;ed;e;e;e;se;se;nw;s;w;w;w;w;e;e;e;e;s;s;s;e;e;e;n;s;u;d;w;w;w;n;n;n;n;n;n;n;n;n;jump bridge;n;timeout1};
+#var 朱紫国 {fly xiaoxitian;nw;nw;n;w;sw;w;sw;se;s;sw;w;w;nw;nw;se;se;e;e;s;s;s;s;w;w;w;e;s;s;w;w;e;n;s;s;n;e;s;n;e;s;n;n;e;n;e;e;e;s;s;e;w;w;n;s;s;e;w;s;n;n;w;n;s;w;s;s;e;w;s;w;e;e;w;s;sw;e;s;e;ne;w;w;n;n;n;n;n;n;n;n;n;timeout1};
+#var 玉华县 {fly baotou;sd;sd;se;ed;ed;se;se;se;sd;se;se;w;w;w;nw;nw;nw;se;se;se;e;e;e;e;e;se;e;w;nw;w;w;nw;nw;se;ne;ne;sw;sw;se;s;s;s;w;w;e;e;e;e;w;w;s;e;w;s;w;e;s;w;e;e;w;s;s;w;w;w;e;e;s;n;e;e;e;e;w;w;s;n;w;s;s;e;e;e;w;w;w;s;sw;ne;n;n;n;n;n;n;n;n;timeout1};
+#var 竹节山 {fly baotou;sd;sd;se;ed;ed;se;se;se;sd;se;se;s;s;s;n;n;n;w;w;w;e;e;e;e;e;w;w;nw;nw;se;ne;ne;ne;nu;nw;ne;nu;e;e;se;ne;nu;ne;nw;w;w;w;sw;sw;se;e;ne;e;ne;sw;w;nw;w;sw;w;nw;w;sw;ne;e;se;e;ne;e;se;sw;w;timeout1};
+#var 小西天 {fly jisaiguo;n;n;n;n;w;w;w;w;w;w;w;nw;w;w;w;sw;w;n;w;sw;w;sw;se;s;sw;ne;n;nw;ne;e;ne;e;s;se;se;s;sw;s;n;ne;e;n;s;s;n;e;w;w;n;timeout1};
+#var 车迟国 {fly wuji;e;w;e;e;e;e;e;sw;w;sw;nw;n;nw;w;w;s;s;e;w;s;e;w;n;n;w;w;w;w;s;s;n;w;e;n;w;e;n;n;w;e;n;w;e;s;e;e;e;n;w;e;n;w;e;s;s;w;w;w;s;w;w;sw;sw;nw;se;ne;ne;e;n;n;n;e;e;e;su;eu;sw;su;se;e;n;n;s;s;e;e;nu;sd;w;w;se;nw;w;nw;nd;ne;wd;nd;e;e;e;s;s;s;s;s;s;w;w;w;nu;nu;nu;w;e;e;w;n;n;nw;spell shugui1;s;spell shugui2;s;spell shugui3;s;spell shugui4;s;spell shugui5;s;spell shugui6;s;spell shugui7;s;spell shugui8;s;spell shugui9;s;se;s;ne;e;e;w;w;sw;s;sd;sd;sd;w;w;w;n;n;n;e;s;e;e;n;w;w;n;n;n;n;e;e;e;e;s;s;s;s;w;w;n;s;n;s;n;n;w;e;e;n;w;w;e;n;w;e;e;w;s;s;s;s;s;timeout1};
+#var 大唐皇宫 {fly changan;n;n;n;nw;n;n;ne;n;w;e;n;w;e;n;w;e;n;w;e;n;w;e;e;w;s;e;w;s;e;w;s;e;w;s;e;w;s;se;s;s;sw;s;timeout1};
+#var 比丘国 {fly wudidong;nu;wu;ed;se;e;e;e;n;ne;e;e;e;w;s;n;w;w;sw;nw;se;e;s;w;s;se;nw;sw;s;w;w;s;n;e;e;sw;ne;n;ne;se;nw;n;w;w;w;nw;wu;ed;se;e;e;e;n;ne;e;e;se;e;e;e;e;se;eu;wd;nw;w;nw;w;w;w;s;sw;e;w;se;w;e;se;s;sw;s;sw;s;e;sw;se;s;s;sw;w;w;se;e;e;ne;w;w;{#3 turn left;#3 turn right;push tree};out;w;e;timeout1};
+#var 碧波潭 {fly jisaiguo;n;n;n;n;n;w;w;w;w;w;w;w;e;sw;s;se;w;e;s;sw;su;wd;sd;s;n;se;ed;se;e;ne;ne;e;n;n;n;e;n;n;n;e;n;n;n;w;w;w;sw;sw;{get bishui zhou from hualan;dive};n;n;nu;n;nu;w;e;e;w;n;e;w;n;e;e;enter;out;w;w;n;nw;nw;ne;ne;se;se;sw;sw;nw;nw;jump;s;s;s;s;sd;s;sd;s;s;u;w;timeout1};
+#var 豹头山 {fly baotou;sd;sd;se;ed;ed;se;se;se;sd;se;se;nw;nw;nu;nw;nw;nw;nu;nu;sd;sd;wu;wu;nw;se;nw;fly changan;s;e;{bian guguai diaozuan;ask diaozuan guguai about 虎口洞};nw;n;ne;sw;s;se;nw;n;ne;sw;s;se;timeout1};
+#var 宝象国 {fly baoxiang;n;n;n;n;s;s;e;w;s;e;w;s;e;w;s;su;e;w;w;e;su;e;w;w;e;su;e;w;w;e;su;e;w;w;e;su;e;w;w;e;su;e;w;w;e;su;nd;nd;nd;nd;nd;nd;nd;n;sw;n;s;w;w;s;n;w;nw;n;ne;fly pingding;nw;se;n;nw;ne;sw;s;se;sw;se;s;ed;ed;se;ne;ne;se;se;nu;ne;e;e;sink;w;e;down;e;e;down;e;e;down;e;e;w;w;sw;sd;se;nu;se;sw;se;nw;ne;se;s;se;{break shi ban;se};nw;fly pingding;nw;se;n;nw;ne;sw;s;se;sw;se;s;ed;ed;se;ne;ne;se;se;se;nu;ed;e;e;ne;ne;ne;e;e;w;w;sw;sw;sw;{findpet;follow $myid's;whisper $myid's se;#var v_nolook_room 1;follow $myid's $kangguai_id;kill $myid's $kangguai_id;pfm_kangguai;hp};timeout1};
+#var 开封城 {fly changan;e;e;e;e;e;e;e;e;e;e;e;e;s;n;e;e;n;n;n;nu;nu;nu;nu;n;s;sd;sd;sd;sd;s;s;s;w;ne;e;w;n;e;e;n;n;s;s;w;w;n;e;w;n;n;e;e;w;w;nw;n;w;sw;nw;n;ne;e;se;e;e;e;n;e;se;se;sw;nw;nw;w;w;nu;sd;s;s;sw;s;w;w;n;s;s;n;e;e;s;s;w;e;s;w;e;se;se;e;e;w;w;s;eu;s;se;w;w;ne;se;w;n;su;s;e;s;e;w;s;w;s;s;n;n;w;n;w;e;n;e;n;nd;n;wd;n;nw;timeout1};
+#var 灵山 {fly tianzhu;w;w;w;w;w;w;w;s;s;s;s;w;w;w;w;s;wu;sw;nu;wu;nw;n;nw;wu;s;n;s;s;w;w;w;e;e;e;e;e;e;s;w;w;w;w;w;w;s;e;e;e;s;w;u;d;e;s;n;e;u;d;n;s;w;n;e;e;e;s;s;s;w;w;w;w;w;w;s;e;e;e;e;e;e;n;w;w;w;w;w;w;n;n;n;e;e;e;n;n;n;n;timeout1};
+#var 凤仙郡 {fly yinwu;sw;w;w;w;w;sw;sw;s;s;s;s;s;s;sw;w;nw;w;e;se;e;ne;n;n;n;n;n;w;n;n;s;s;s;s;n;w;n;w;n;s;s;n;w;n;n;s;s;s;s;sw;se;ne;nw;n;n;w;n;s;s;w;s;n;n;n;s;w;n;s;s;w;e;e;n;e;e;timeout1};
+#var 高老庄 {fly putuo;sd;sd;s;s;swim;n;n;n;w;w;w;w;w;w;n;w;e;e;w;n;w;e;e;w;s;s;w;s;n;w;n;s;s;n;w;w;n;s;s;s;s;e;w;sw;ne;n;n;n;e;e;e;e;n;n;n;w;u;d;e;e;w;n;s;n;climb wall;n;n;e;nu;e;w;sd;w;s;s;climb wall;timeout1};
+#var 金平府 {fly qinglong;sw;se;sd;se;s;w;n;s;e;se;se;s;s;s;e;w;s;w;s;n;e;e;s;n;e;n;s;e;n;e;w;n;e;w;n;s;s;s;se;se;se;s;s;se;se;se;e;e;w;w;nw;nw;nw;n;eu;e;e;n;e;s;e;se;nw;w;w;w;w;timeout1};
+#var 天竺国 {fly lingshan;w;w;e;e;e;e;n;n;n;n;e;e;e;e;e;e;e;e;w;w;w;n;s;w;w;w;n;s;w;w;s;e;w;w;e;s;e;w;s;w;e;s;w;w;w;e;e;e;e;e;n;s;e;e;s;n;e;e;e;w;e;se;s;se;se;s;s;e;w;n;sw;sw;s;w;w;e;se;s;n;se;nw;n;n;ne;ne;n;nw;nw;n;nw;w;n;n;w;e;n;w;e;n;s;s;s;s;s;w;e;s;w;e;s;s;w;n;s;w;n;s;s;n;w;sw;s;s;s;n;n;n;nw;w;s;n;w;n;s;w;s;n;n;w;e;n;w;e;n;e;w;n;e;e;e;s;s;s;n;e;w;w;e;n;w;e;n;n;n;n;e;e;w;w;n;n;e;w;w;n;e;e;e;w;w;w;w;e;e;s;s;s;s;s;timeout1};
+#var 青龙山 {fly jinping;s;n;s;s;s;w;w;w;w;n;w;w;e;n;n;n;n;nw;nw;w;e;n;nw;nu;nw;ne;jump;jump;u;nw;wu;wu;nw;nu;ne;ne;n;nw;se;e;ne;sw;e;w;se;nw;w;s;sw;sw;timeout1};
+#var 平顶山 {fly wuji;e;w;e;e;e;e;e;ne;ne;ne;ne;eu;ne;ne;se;se;se;ne;sw;e;e;w;w;s;n;nw;nw;s;nw;sw;wd;sw;sw;sw;sw;ne;ne;ne;ne;eu;ne;s;se;sw;se;s;ed;ed;se;ne;ne;sw;sw;nw;wu;wu;sw;su;se;sw;sw;se;wu;sw;se;s;sw;e;w;sw;ne;ne;n;nw;ne;nd;timeout1};
+#var 压龙山 {fly wuji;e;w;e;e;e;e;e;ne;ne;ne;ne;eu;ne;ne;se;se;se;ne;sw;e;e;w;w;s;n;nw;nw;s;nw;sw;wd;sw;sw;sw;sw;ne;ne;ne;ne;eu;ne;s;se;sw;se;s;ed;ed;se;ne;ne;sw;sw;nw;wu;wu;sw;su;se;sw;sw;se;wu;sw;se;s;sw;e;w;sw;ne;ne;n;nw;ne;nd;timeout1};
+#var 蓬莱仙岛 {fly changan;{get eastsea map from hualan;fly penglai};nu;enter;ne;ne;ne;ne;ne;nw;nw;nw;nw;nw;nw;nw;n;n;n;ne;ne;nw;n;n;n;fly penglai;su;nd;su;s;n;out;enter;out;jump down;{wait n 3};n;n;n;n;e;n;n;n;n;n;e;n;n;n;n;n;e;n;n;n;n;n;e;n;n;n;n;n;e;n;n;n;n;n;n;n;n;n;timeout1};
+#var 盘丝岭 {fly zhuzi;n;n;n;n;n;n;n;n;n;n;w;w;nw;nw;sw;w;wu;se;se;se;e;s;e;ne;sw;s;n;w;w;e;n;jump danlu;{wait {touxiang;s} 3};jump danlu;{wait {touxiang;s} 3};jump danlu;{wait {touxiang;s} 3};jump danlu;{wait {touxiang;s} 3};w;nw;nw;w;sw;se;e;sd;nu;w;nw;sw;ne;ne;w;nw;w;s;s;w;e;s;sw;ne;n;n;n;e;se;e;e;nw;nw;nw;wd;nw;w;nw;w;e;e;se;eu;ne;ed;ed;d;d;d;d;d;u;u;u;u;u;wu;{get huang qian from hualan;jump};e;w;e;nu;ne;nu;se;s;ne;e;enter;out;ne;e;se;s;w;w;nw;w;timeout1};
+#var 女儿国 {fly jindou;sw;ne;sw;n;nw;nw;n;sw;w;sw;sd;wd;nw;w;s;s;fly nuerguo;s;s;e;e;se;e;n;s;w;nw;n;n;w;nu;n;w;e;e;w;n;s;s;sd;w;s;s;e;n;n;e;s;s;se;e;n;s;w;s;su;enter;out;nd;w;wu;nd;nu;nu;ed;wu;nw;nw;w;sw;ne;e;se;se;sd;sd;su;ed;e;n;nw;n;n;w;timeout1};
+#var 月宫 {fly changan;{#2 put snowglass in hualan;w};w;w;w;w;w;w;nw;w;w;sw;ne;e;e;ne;nw;nw;nw;n;n;s;s;w;wu;su;su;wu;wu;nu;w;w;w;e;enter;out;e;e;e;e;enter;out;w;n;w;e;e;w;n;s;s;climb tree;u;u;enter;n;n;w;s;n;u;d;e;e;w;n;e;e;w;n;nw;w;w;e;s;w;e;e;s;w;s;cai lian;u;n;e;s;fly changan;{d;#3 drop lian zi};u;timeout1};
+#var 梅山 {fly changan;s;s;s;s;s;s;s;s;s;s;s;s;se;e;e;se;e;n;n;s;s;e;ne;n;s;e;w;e;e;ne;se;nw;e;w;nu;nw;se;nw;nu;nu;sd;timeout1};
+#var 东海龙宫 {fly changan;ne;{drop yao pai;yao pai;sw};fly putuo;{get bishui zhou from
+hualan;sd};sd;s;s;swim;e;e;e;dive;{wait e 4};e;ne;e;e;ne;ne;e;w;n;s;sw;sw;se;se;n;s;s;n;e;w;nw;nw;eu;n;n;n;e;e;e;e;s;s;s;s;w;w;w;w;n;n;n;e;n;n;nw;se;ne;e;w;sw;s;s;s;s;sw;ne;se;e;w;nw;n;n;e;eu;eu;e;e;n;s;s;n;e;turn statue;enter;out;s;s;w;w;n;n;n;n;w;w;s;s;s;wd;w;w;sw;{#if {$v_lianxu>=1 && $v_xinxiang==1} {#if {$kangguai_find==1} {#math kangguai_find {$kangguai_find+1}}} {#math kangguai_find {$kangguai_find+1}};set public 海底莽林启动}};
+#var 龙宫 {fly changan;ne;{drop yao pai;yao pai;sw};fly putuo;{get bishui zhou from
+hualan;sd};sd;s;s;swim;e;e;e;dive;{wait e 4};e;ne;e;e;ne;ne;e;w;n;s;sw;sw;se;se;n;s;s;n;e;w;nw;nw;eu;n;n;n;e;e;e;e;s;s;s;s;w;w;w;w;n;n;n;e;n;n;nw;se;ne;e;w;sw;s;s;s;s;sw;ne;se;e;w;nw;n;n;e;eu;eu;e;e;n;s;s;n;e;turn statue;enter;out;s;s;w;w;n;n;n;n;w;w;s;s;s;wd;w;w;sw;{#if {$v_lianxu>=1 && $v_xinxiang==1} {#if {$kangguai_find==1} {#math kangguai_find {$kangguai_find+1}}} {#math kangguai_find {$kangguai_find+1}};set public 海底莽林启动}};
+#var 祭赛国 {fly xiaoxitian;nw;nw;e;ne;e;e;e;se;e;sw;ne;e;e;s;s;s;s;e;e;e;e;n;n;n;n;e;e;ne;e;eu;se;e;w;nw;wd;w;sw;w;w;w;s;n;w;s;n;nu;sd;w;s;n;n;s;w;s;s;s;s;e;e;n;n;w;e;e;w;n;w;e;e;w;nu;ask kusu chanshi about 扫塔;go enter;u;u;u;u;u;u;u;u;u;u;u;u;d;d;d;d;d;d;d;d;d;d;d;d;knock door;go out;sd;s;timeout1};
+#var 钦法国 {fly yinwu;se;e;e;e;ne;e;e;e;e;e;e;n;n;n;n;e;e;w;w;w;w;w;s;s;w;w;e;e;e;w;s;s;n;n;n;n;w;w;w;w;w;w;e;e;n;s;e;s;n;n;s;e;n;e;w;n;e;n;s;e;s;n;n;e;n;s;e;e;ne;s;s;nw;e;w;w;w;w;s;timeout1};
+#var 方寸山 {fly changan;d;{#2 drop you hulu;u};fly lingtai;n;w;e;e;s;n;e;w;n;s;w;n;w;e;ne;s;n;n;u;d;s;e;w;n;s;sw;nu;n;nw;ne;nw;ne;enter;out;sw;se;sw;se;s;sd;s;s;sd;sd;sw;sw;sd;climb pine;d;nu;ne;e;w;sw;nw;nw;su;wu;ed;s;sd;w;w;e;e;s;n;e;s;sd;se;e;e;e;timeout1};
+#var 积雷山 {fly jisaiguo;n;n;n;n;e;e;ne;e;eu;se;e;se;e;se;ne;e;su;nd;w;sw;nw;sw;su;sw;se;e;su;sw;se;sw;ne;nw;sw;s;se;sw;w;sw;ne;e;se;nw;ne;nw;n;timeout1};
+#var 乌鸡国 {fly changan;d;{drop xuanhua fu;u};ne;{yao axe;sw};n;fly pingding;nw;sw;sw;wd;sw;sw;sw;sw;sw;w;sw;n;s;nw;se;ne;e;ne;eu;se;eu;su;nd;n;s;e;se;ed;e;w;wu;nw;nw;enter;n;w;e;e;n;s;w;s;out;s;wd;nw;wd;w;w;w;s;n;w;s;{give 1 silver to er;u};d;n;w;n;n;e;ne;s;e;w;s;n;w;w;n;w;e;w;w;e;w;w;e;w;n;e;n;s;e;s;n;n;w;e;enter;d;d;u;u;timeout1};
+#var 长安城西 {fly changan;w;w;w;w;w;w;w;nw;ne;nw;nw;nw;se;se;se;sw;w;w;sw;w;nw;w;nu;enter;out;n;nu;nw;n;nu;nu;nu;n;nu;sd;s;sd;sd;sd;s;se;sd;s;sd;w;w;w;e;e;go out;n;n;s;s;s;w;e;w;su;nd;e;e;e;se;e;ne;e;e;se;e;e;e;e;timeout1};
+#var 五庄观 {fly wuzhuang;sd;s;se;sd;s;n;nu;nw;n;nu;nu;nu;n;nu;e;su;nd;w;w;su;nd;n;e;n;eu;u;d;ed;s;w;e;e;n;e;w;n;n;w;e;n;w;w;s;e;w;s;s;w;e;s;s;n;n;n;n;e;w;n;e;n;n;nw;se;ne;d;u;sw;nw;n;se;n;n;nw;jump bridge;u;n;nw;se;ne;ne;nw;nw;sw;sw;se;se;set public 五庄观后院启动};
+#var 五庄观后院 {l;n;nw;n;ne;se;s;sw;s;n;timeout1};
+#var 大雪山 {fly moon;sd;ed;ed;nd;nd;ed;e;n;n;nw;se;nw;n;n;n;e;n;n;n;e;n;n;n;e;n;n;n;{get xueshan map from hualan;touxiang;fly xueshan};nu;sd;nu;nu;nu;w;e;e;e;e;climb up;climb left;climb up;climb up;climb left;climb left;climb up;climb up;s;s;s;s;n;w;fly xueshan;nu;sd;nu;nu;nu;w;e;e;e;s;n;e;w;w;w;n;jump shi bi;w;e;e;n;w;w;n;e;e;w;n;jump shi bi;e;w;w;s;bed;out;n;n;s;e;n;n;{jump shi bi;#var v_bian_hudie 0};{kangguaiwait_xs;e};{kangguaiwait_xs;w};{kangguaiwait_xs;w};{kangguaiwait_xs;n};{kangguaiwait_xs;w};{kangguaiwait_xs;s};{kangguaiwait_xs;e};n;{#if $v_bian_hudie==0 {s} {tick 20}};out;s;timeout1};
+#var 通天河 {fly jindou;s;se;se;s;ne;ed;ne;e;e;se;n;s;s;s;s;s;n;n;e;n;e;s;e;n;n;s;s;s;s;s;n;n;e;ne;e;se;out;e;out;n;w;out;n;{bian kid;out};e;nw;out;ne;out;se;nw;fly kaifeng;nw;n;n;n;w;{bian xiao tong;e};kangguaiwait_tt;fly tongtian;n;n;n;n;n;s;{get bishui zhou from hualan;w};{tick 100;wait d 120};u;timeout1};
+#var 陈家庄 {fly jindou;s;se;se;s;ne;ed;ne;e;e;se;n;s;s;s;s;s;n;n;e;n;e;s;e;n;n;s;s;s;s;s;n;n;e;ne;e;se;out;e;out;n;w;out;n;{bian kid;out};e;nw;out;ne;out;se;nw;fly kaifeng;nw;n;n;n;w;{bian xiao tong;e};kangguaiwait_tt;fly tongtian;n;n;n;n;n;s;{get bishui zhou from hualan;w};{wait d 120};u;timeout1};
+#var 红楼一梦 {fly changan;s;e;{buy pillow from er;w};fly putuo;n;e;s;sleep;u;d;u;s;out;enter;w;e;e;w;n;w;e;n;e;w;n;enter;out;w;e;e;w;n;u;d;n;w;e;e;w;n;u;d;w;e;e;w;n;d;u;n;backyard;frontyard;s;s;s;s;s;s;s;timeout1};
+#var 无底洞 {fly yinwu;se;e;e;e;ne;e;e;e;e;e;e;n;n;n;n;w;w;e;e;e;e;e;s;n;n;s;e;s;{give 1 silver to waiter;s};n;n;n;s;e;n;s;s;s;n;n;e;ne;nu;ed;se;e;e;w;w;nw;wu;sd;sw;w;s;knock door;se;{get bishui zhou from hualan;dive well};e;d;u;w;u;nw;w;s;{jiali max;push statue};sw;ne;sw;su;su;wu;ed;wu;dive dong;n;w;e;e;w;n;w;e;e;w;n;n;s;e;w;s;w;{bian tianshu;e};n;n;n;s;s;e;kangguaiwait_wdd;e;w;w;s;s;s;u;u;timeout1};
+#var 荆棘岭 {fly jingjiling;e;w;wu;sw;w;nw;wu;nw;wu;s;su;sw;se;e;nw;e;nw;se;w;n;nd;timeout1};
+#var 毒敌山 {fly dudi;nw;ne;ne;sw;ne;sw;se;enter;out;sw;sw;se;sd;se;wd;se;ed;sw;se;ne;e;se;se;nw;nw;w;sw;nw;w;nw;se;e;ne;wu;nw;eu;nw;nu;nw;ne;se;enter;sw;s;se;s;e;w;n;nw;n;ne;out;sw;timeout1};
+#var 金兜山 {fly jilei;se;sw;s;{se;#var v_bian_yaoguai 0};{kangguaiwait_jd;sw};{kangguaiwait_jd;w};{kangguaiwait_jd;e};ne;nw;fly tongtian;n;n;n;n;n;s;w;w;w;n;nw;w;w;sw;wu;{kangguaiwait_jd;sw};{kangguaiwait_jd;n};{kangguaiwait_jd;nw};nw;n;{kangguaiwait_jd;sw};w;sw;sd;wd;nw;se;eu;nu;ne;e;ne;s;se;sw;{#sh 在这儿;jd_do};{bian;sw};w;s;ne;ne;n;ne;sw;timeout1};
+#var 麒麟山 {fly zhuzi;n;n;n;n;n;n;n;n;n;n;s;s;s;s;e;e;e;s;s;e;ne;eu;eu;se;nw;fly qilin;right;right;right;right;right;right;right;climb;right;right;right;right;right;climb;nw;wu;ne;e;nw;ne;sw;w;nw;se;se;sw;ed;se;timeout1};
+#var 隐雾山 {fly changan;s;e;{ask fei mayi about gogogo;bian shui laoshu;w};fly yinwu;sw;w;w;w;w;sw;ne;e;e;e;e;ne;se;sw;se;nw;ne;e;e;e;ne;sw;w;w;w;nw;ne;sw;nw;nw;nw;w;se;sw;ne;ne;nw;nu;w;sw;sd;nu;ne;e;sd;se;ne;e;se;sd;nu;sd;dive;w;n;s;se;nw;e;{bian fei mayi;w};w;w;nw;l;timeout1};
+#var 阴曹地府 {fly changan;s;s;s;s;s;s;w;n;{ask wu po about chuqiao;s};e;s;chuqiao;w;s;e;e;n;n;w;w;s;e;s;s;e;w;w;e;n;n;n;s;s;s;n;north;w;e;n;w;w;e;s;w;e;e;w;n;n;s;e;e;n;s;s;e;w;w;e;n;w;n;n;n;n;n;n;n;n;nu;sd;s;w;e;s;w;e;e;w;s;w;e;e;w;s;w;e;e;w;s;w;e;e;w;s;s;s;e;e;e;nw;w;s;n;w;e;e;se;s;s;s;se;out;open guancai;timeout1};
+#var 峨嵋山 {fly jiangzhou;e;e;e;e;n;n;n;n;nw;w;w;w;wu;wu;wu;s;n;wu;wu;s;n;wu;w;s;n;n;s;wu;w;e;timeout1};
+#var 火云洞 {fly wuji;e;e;e;e;e;sw;w;sw;n;nw;ne;n;n;n;nw;w;w;e;e;ne;n;n;n;s;s;s;sw;se;s;s;timeout1};
+#var 将军府 {fly changan;nw;u;d;se;se;nw;e;e;e;ne;sw;w;s;{answer 拜师;s};e;w;s;e;w;w;e;s;w;e;e;se;se;s;sw;s;se;n;s;nw;w;sw;s;w;e;e;w;n;ne;n;nw;w;u;n;s;d;e;ne;n;n;n;n;n;timeout1};
+#var 江州城 {fly jiangzhou;e;e;e;w;s;n;w;n;s;w;n;e;w;w;e;n;w;w;w;e;e;e;n;n;n;n;s;s;s;s;s;s;s;e;w;s;w;e;s;s;n;n;n;n;w;n;s;s;n;w;w;w;wu;wu;wu;s;n;ed;ed;ed;timeout1};
+#var 傲来国 {fly stone;sd;wd;sd;w;w;e;s;e;w;n;e;nu;nu;nu;w;e;nu;enter;enter;enter;enter;enter;enter;nu;w;e;e;w;fly stone;eu;nu;n;n;w;e;e;w;n;n;timeout1};
+#var 五行阵 {fly changan;s;s;s;s;s;s;s;s;s;e;e;e;e;ne;nu;w;e;e;w;s;n;n;s;sd;sw;w;w;w;w;timeout1};
+#var 天宫 {fly sky;s;s;s;s;s;s;n;n;n;n;n;n;n;w;e;e;w;n;n;nw;ne;nw;ne;se;s;sw;s;s;s;e;e;e;e;n;n;n;n;n;n;n;n;n;n;w;w;w;w;w;w;w;w;s;s;s;s;s;s;s;s;s;s;e;e;e;e;e;e;e;e;n;n;n;n;n;w;w;s;s;s;n;e;e;s;n;n;u;u;timeout1};
+#var 五台山 {fly kaifeng;e;n;n;n;nu;nu;w;w;e;e;nu;nu;n;enter;enter;out;out;s;sd;sd;sd;sd;s;s;s;w;w;w;timeout1};
+#var 云楼台 {fly sky;e;e;e;e;n;n;n;n;n;w;w;s;s;e;e;s;n;n;u;u;timeout1};
+#var 少林寺 {fly changan;s;s;s;s;s;s;s;s;s;s;wu;nu;eu;su;nd;wd;sd;ed;se;n;enter;out;s;nw;timeout1};
+#var 终南山 {fly changan;s;s;s;s;s;s;s;s;s;s;wu;nu;eu;n;enter;s;n;n;s;out;s;su;{tick 5;w};backyard;timeout1};
+#var 大神领域 {fly changan;s;e;u;e;w;d;w;n;ne;enter;out;sw;s;s;timeout1};
+#var 名人堂 {fly changan;u;u;s;out;se;out;ne;out;n;out;nw;out;e;out;w;out;sw;out;u;s;out;se;out;ne;out;n;out;nw;out;e;out;w;out;sw;out;u;s;out;se;out;ne;out;n;out;nw;out;e;out;w;out;sw;out;u;s;out;se;out;ne;out;n;out;nw;out;e;out;w;out;sw;out;u;s;out;se;out;ne;out;n;out;nw;out;e;out;w;out;sw;out;u;e;out;w;out;d;d;d;d;d;d;d;n;timeout1};
+#var 宠物店 {fly changan;ne;enter;out;sw;s;s;w;u;u;u;e;w;n;s;d;d;d;e;timeout1};
+#var 火焰山 {fly jisaiguo;n;n;n;n;e;e;ne;e;eu;se;e;se;e;se;ne;e;su;fly dudi;nw;ne;ne;sw;sw;se;sd;se;wd;se;ed;sw;se;ne;sw;nw;w;nw;nw;w;n;s;s;n;w;w;w;wu;ed;sw;sw;su;su;wu;sd;sd;se;sw;s;wu;su;wu;su;e;e;w;e;w;w;nd;ed;nd;ed;n;nu;nu;nu;ed;nd;nd;ne;ne;wu;wu;ed;{findpet;follow $myid's;get all from hualan;whisper $myid's wu;#delay 0.5 {look}};nu;timeout1};
+#nop var 火焰山 {fly jisaiguo;n;n;n;n;e;e;ne;e;eu;se;e;se;e;se;ne;e;su;fly dudi;nw;ne;ne;sw;sw;se;sd;se;wd;se;ed;sw;se;ne;sw;nw;w;nw;nw;w;n;s;s;n;w;w;w;wu;ed;sw;sw;su;su;wu;sd;sd;se;sw;s;wu;su;wu;su;e;e;w;e;{tick 60;findpet;whisper $myid's get stone;whisper $myid's hit door;#tick {hp} {whisper $myid's hit door} 10};out;w;w;nd;ed;nd;ed;n;nu;nu;nu;ed;nd;nd;ne;ne;wu;wu;ed;{findpet;follow $myid's;get all from hualan;whisper $myid's wu;#delay 0.5 {l}};nu;timeout1};
+#var 毛颖山 {fly tianzhu;e;e;e;e;e;e;e;e;w;s;s;s;s;s;s;s;s;w;w;w;sw;s;s;s;s;sw;s;se;se;sw;su;nd;ne;nw;nw;ne;n;n;n;n;s;s;s;s;sw;s;se;se;sw;eu;se;eu;se;se;sw;su;w;w;w;nw;nw;nd;ne;ne;su;nd;eu;se;eu;se;{se;#var v_kangguai_tuxue1 0;#var v_kangguai_tuxue2 0;#var v_kangguai_tuxue3 0};enter;e;ne;eu;se;eu;se;se;kangguaiwait_my;timeout1};
+#var 普陀山 {fly putuo;sd;sd;s;s;n;n;nu;nu;n;e;s;n;e;w;w;w;w;e;s;n;e;w;e;n;enter;out;w;nd;n;ne;se;s;su;w;e;nd;n;nw;n;ne;ne;ne;sw;nw;nw;nw;se;ne;ne;nw;nw;sw;sw;sw;se;se;n;s;w;enter;out;e;e;enter;out;w;s;s;timeout1};
+#var 世外桃源 {fly changan;s;s;s;s;s;s;e;e;e;e;e;s;s;s;s;s;s;s;s;w;e;e;w;s;s;s;s;s;s;n;n;n;n;n;n;n;n;n;n;n;n;n;timeout1};
+
+
+#class pathkg close;
+
+
+#class pathkg_search open;
+
+
+#al {kangguai_start} {enable_base;#if {$v_lianxu>=1 && $v_xinxiang==1} {#if {$kangguai_find<=1} {#math kangguai_find {$kangguai_find+1}}};tick 60;#if {"$pfm_buff"=="none"} {#var path_step 1;#list {path_now} {creat} {${$kangguai_where}};#var path_steps @numitems{path_now};T+ kangguaikill.tin;wait kangguai_s 0.5} {#if {"$kangguai_where"=="阴曹地府"} {} {$pfm_buff};#var path_step 1;#list {path_now} {creat} {${$kangguai_where}};#var path_steps @numitems{path_now};#if {$path_steps>0} {} {#log a lostguai.log;moveto $kangguai_id;#sh QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ;#sh $kangguai_where;#delay 2 {#log off}};
+T+ kangguaikill.tin;wait kangguai_s 1.5}};
+
+#nop al kangguaiwait_xs {#if {$v_bian_hudie==0} {#var v_bian_hudie 0} {#math path_step $path_step+2;@item{path_now;$path_step}}};
+#al kangguaiwait_xs {#if {$v_bian_hudie==0} {bian hu die}};
+
+#al kangguaiwait_tt {#if {$v_bian_xiaotong==1} {#var v_bian_xiaotong 0;#math path_step $path_step+1;@item{path_now;$path_step}} {#math path_step $path_step+10;@item{path_now;$path_step}}};
+
+#al kangguaiwait_wdd {#if {$v_bian_tianshu==1} {#var v_bian_tianshu 0;#math path_step $path_step+1;@item{path_now;$path_step}} {#math path_step $path_step+3;@item{path_now;$path_step}}};
+
+#al kangguaiwait_jd {#if {$v_bian_yaoguai==0} {bian yao guai}};
+
+#al kangguaiwait_my {#if {$v_kangguai_tuxue1==1 && $v_kangguai_tuxue2==1 && $v_kangguai_tuxue3==1} {#math path_step $path_step+1;@item{path_now;$path_step}} {#math path_step $path_step-8;@item{path_now;$path_step}}};
+#al jd_do {#if {$v_bian_yaoguai==1} {s} {#math path_step $path_step+6;@item{path_now;$path_step}}};
+
+#al {do_stop} {jiali max;jiali 100;#if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {#if {$n_renshen==0 || $n_lingzhi==0} {T- path;launch} {pfm_kill}} {pfm_kill};#math path_step $path_step-1;wait do_s 4;#ac {^%+死了} {#unac {^%+死了};get all from corpse;placenewbie;playnewbie;exert recover;exert refresh;wait do_s 0.01}};
+#al {do_stop_pfm} {jiali max;jiali 100;#if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {#if {$n_renshen==0 || $n_lingzhi==0} {T- path;launch} {pfm_kill}} {pfm_kill};#math path_step $path_step-1;wait do_s 4;#ac {^%+死了} {#unac {^%+死了};get all from corpse;placenewbie;playnewbie;exert recover;exert refresh;wait do_s 0.01}};
+#al {do_s} {#if "@item{path_now;$path_step}"=="" {l;#math path_step $path_step+1} {@item{path_now;$path_step}};#math path_step $path_step+1};
+#al {kangguai_s} {#if {$path_step<=$path_steps} {wait do_s 0.005}};
+
+#ac {^别忘了你现在是一位%*} {#if {"$kangguai_where"=="金兜山"} {#math path_step $path_step-1;bian me;l;#delay 2 {#var v_bian_yaoguai 0}};
+#if {"$kangguai_where"=="无底洞"} {bian me;e;#var v_bian_tianshu 0};
+#if {"$kangguai_where"=="将军府"} {#math path_step $path_step+2;bian me;nw};
+#if {"$kangguai_where"=="通天河"} {#if $path_step>50 {bian me;timeout} {bian me;out}};
+#if {"$kangguai_where"=="陈家庄"} {#if $path_step>50 {bian me;timeout} {bian me;out}}};
+
+#ac {^%?%s$kangguai_name走了过来} {delwait;T+ kangguaikill.tin;follow $myid's $kangguai_id;kill $myid's $kangguai_id;pfm_kangguai;hp};
+
+#ac {^亲兵喝道：闲杂人等不得乱闯！} {#math path_step $path_step+2;nw};
+#ac {^警告:非巫师，不得直接入内！} {#if {$path_step<=$path_steps} {#math path_step $path_step+1;wait do_s 0.005}};
+#ac {^%s这里%*的出口是} {tick 60;#if {$path_step<=$path_steps} {wait do_s 0.05}};
+#ac {^%s这里没有任何明显的出路。} {#if {$path_step<=$path_steps} {wait do_s 0.005}};
+#ac {^%?%s你在黑暗中梆地撞到了石墙上} {wait e 0.2};
+#ac {^%?%s这个方向没有出路}
+{
+#al do_next {wait do_s 0.001};
+#if {"$kangguai_where"=="宝象国" && $path_step==66} {#al do_next {#math path_step {$path_step-1};tick 60;sweat}};
+#if {"$kangguai_where"=="乌鸡国" && $path_step==99} {#al do_next {#math path_step {$path_step-1};unwield all;wield axe;kan bajiao;exert recover;exert refresh;do_s}};
+#if {"$kangguai_where"=="长安城西" && $path_step==52} {#al do_next {#math path_step {$path_step-1};tick 100;jiali max;break;sit}};
+#if {"$kangguai_where"=="荆棘岭" && $path_step>=4 && $path_step<=12} {#al do_next {#math path_step {$path_step-1};tick 60;push jingji}};
+#if {"$kangguai_where"=="毒敌山" && $path_step>=45 && $path_step<=47} {#al do_next {#math path_step {$path_step-1};tick 60;unwield all;wield $userweapon;wield all;placenewbie;playnewbie;hp;l $myid};#class path_search open;#ac {^%.%.手%+(%+)} {#unac {^%.%.手%+(%+)};#if {$hp_nl<300} {placenewbie;play newbie gift;eat ren shen};#if {$hp_fl<300} {placenewbie;play newbie gift;eat ling zhi};break door} {1};#ac {^特殊属性:} {#unac {^特殊属性:};#if {$hp_nl<300} {placenewbie;play newbie gift;eat ren shen};#if {$hp_fl<300} {placenewbie;play newbie gift;eat ling zhi};break door} {1};#class path_search close};
+#if {$path_step<=$path_steps} {do_next};
+};
+
+#ac {^你正忙着呢，没工夫腾云驾雾。} {#math path_step {$path_step-1};wait do_s 1};
+#ac {^你的动作还没有完成，不能移动。} {#math path_step {$path_step-1};wait do_s 1};
+#ac {^你运气自丹田，高举%+往门上一砸！} {exert recover;exert refresh;wait do_s 0.5};
+#ac {^守亭妖精一把将你劈胸揪住死活不让你过！} {timeout};
+
+#ac {^%?%s荆棘被推到两旁，闪出一条道路。} {placenewbie;playnewbie;exert recover;exert refresh;wait do_s 0.5};
+#ac {^%?%s只见荆棘如潮水般退后。} {placenewbie;playnewbie;exert recover;exert refresh;wait {push jingji} 0.2};
+#ac {^%?%s结果只拨开几枝小刺。} {placenewbie;playnewbie;exert recover;exert refresh;wait {jiali max;push jingji} 0.2};
+#ac {^%?%s结果拨倒一片荆棘。} {placenewbie;playnewbie;exert recover;exert refresh;wait {jiali max;push jingji} 0.2};
+#ac {^%?%s只见荆棘被推的不住后退。} {placenewbie;playnewbie;exert recover;exert refresh;wait {jiali max;push jingji} 0.2};
+
+#ac {^%?%s河面上的船慢慢聚在一起} {do_s};
+
+
+#ac {^%1一把抓住了你！} {#if {"%1"!="%*【%*" && "%1"!="%*：%*" && "%1"!="%*>%*" && "%1"!="$kangguai_name"} {#var blockguai_name %1;T+ blockguai.tin;id here;#math path_step $path_step-1};#if {"%1"=="$kangguai_name"} {l}};
+
+#ac {^你要对谁耳语些什么？} {tick 5};
+#ac {^你的法力不足！} {#2 eat ling zhi};
+
+#ac {^眼前雾气弥漫，无法前行。} {wait w 0.1};
+
+#ac {^你挥舞大锤，往墙上砸去．} {wait {hammer door} 0.2};
+#ac {^只听“哗啦”一声，房顶落下一堆砖瓦，正砸在你头顶！} {#if $n_renshen>1 {eat ren shen;#5 exert heal;exert recover;exert refresh;hp;placenewbie;playnewbie;#delay 2 {#if $hp_qiper>90 {jiali max;#math path_step $path_step-1;wait do_s 0.1} {#sh 只听“哗啦”一声，房顶落下一堆砖瓦，正砸在你头顶！}}}};
+#ac {^你伸出手将树用力一推。} {wait {#3 turn left;#3 turn right;push tree} 0.5};
+#ac {^%?%s夏鹏展一个箭步闪到你前面，狞笑道：} {kill xia;do_stop};
+#ac {^%?%s护宫卫士喝道：禁行！} {kill wei shi;do_stop};
+#ac {^%?%s阁门大使向你摇了摇手。} {kill da shi;do_stop};
+#ac {^%?%s吴刚拦道：} {kill wu gang;do_stop};
+#ac {^%?%s桂花树后转出吴刚，伸出一把大板斧拦住你道：} {kill wu gang;do_stop};
+#ac {^%?%s广羲子对你说到：上面是我道家弟子清修之地，请勿乱闯！} {kill guang xizi;do_stop};
+#ac {^%?%s守寺僧说道：} {kill shousi seng;do_stop};
+#ac {^%?%s边关守将嚷到：那不是你该去的地方！} {kill wu jiang;do_stop};
+#ac {^%?%s冰谷巡使喝道：女弟子卧房，男子严禁入内！} {kill xunshi;do_stop};
+#ac {^%?%s笑波儿天喝道：后院是禁地，还是莫去的好！} {kill xiaoboer tian;do_stop};
+#ac {^%?%s天波儿笑喝道：后院是禁地，还是莫去的好！} {kill tianboer xiao;do_stop};
+#ac {^%?%s西波儿古嚷道：宫中有贵客，闲人免进！} {kill xiboer gu;do_stop};
+#ac {^%?%s古波儿西嚷道：宫中有贵客，闲人免进！} {kill guboer xi;do_stop};
+#ac {^%?%s恶龙挡住了你的去路！} {kill dragon;do_stop};
+#ac {^%?%s妖王对你喝道：哪里逃！} {kill yao wang;do_stop};
+#ac {^一阵红光闪过，恶龙落在地上。定睛一看，原来恶龙已经遁去，地上只留下一条红索。} {#unac {^%+死了};wait do_s 0.01};
+#ac {^%?%s赤身鬼使一挺手中钢叉，挡住了你的去路。} {kill guard;do_stop};
+#ac {^%?%s%+精拉拉扯扯揪住你不放。} {kill yao jing;do_stop};
+#ac {^%?%s掌厨僧伸手拦住你：里面是本派厨房} {kill zhangchu seng;do_stop};
+#ac {^%?%s古波儿西嚷道：宫中有贵客，闲人免进！} {kill guboer xi;do_stop};
+#ac {^%?%s阿傩将你轻拦：我佛祖暂不待客也。} {give 1 silver to anuo zunzhe;#math path_step {$path_step-1};wait do_s 0.1};
+#ac {^%?%s迦叶将你轻拦：我佛祖暂不待客也。} {give 1 silver to jiaye zunzhe;#math path_step {$path_step-1};wait do_s 0.1};
+#ac {^%?%s百花仙子一把揪住你} {kill baihua xianzi;do_stop_pfm};
+#ac {^%?%s白猿舞动手中长剑，好象不愿让你过去！} {kill bai yuan;do_stop_pfm};
+#ac {^%?%s侍儿把你一拦道：公主有令，任何人不得入内打搅！} {kill shi er;do_stop};
+#ac {^%?%s五彩蜘蛛庞大的身躯挡住了去路。} {kill zhizhu;do_stop};
+#ac {^%?%s马盗喊叫着：不给钱我要杀人啦！} {#if {@eval{$hp_wx+$hp_dx_ctd}<1000000} {give 1 silver to ma dao;#math path_step $path_step-1;wait do_s 0.5} {kill ma dao;do_stop}};
+#ac {^你眼前身影一晃，似乎有谁挡住了你的路。} {kill nu zi;kill fu ren;kill gong gong;do_stop};
+#ac {^%?%s护殿妖喝道：呔！何方妖人，胆敢擅闯禁地！} {kill hudian yao;do_stop};
+#ac {^%?%s黑熊怪伸手拦住你} {kill bear monster;do_stop};
+#ac {^%?%s乱葬岗守卫拦住你说：“里面太危险了，还是不要去了！”} {kill shouwei;do_stop};
+#ac {^%?%s黑无常对你喝道：不许乱闯！} {kill black gargoyle;do_stop};
+#ac {^%?%s马面鬼抡起手中铜锤，对着你说：先问问它答应不！} {kill mamian gui;do_stop};
+#ac {^%?%s牛头鬼暴喝几声：擅闯阎罗殿，这不是找死吗？} {kill niutou gui;do_stop};
+#ac {^%?%s罗春喝道：呔！楼上乃贵人居住之处，不得擅闯！} {kill luo chun;do_stop};
+#ac {^%?%s请捐(donate)一两银子到雕玉箱里。欢迎多捐：）} {donate 1 silver;n};
+#nop ac {^%?%s你双脚在莲叶上一点，身子轻轻在水上掠过，回来时手中已多了一只莲蓬} {#math path_step $path_step-1;wait do_s 0.01};
+#nop ac {^你试着运用所学的轻功纵身跳上荷叶，发现不妙} {#math path_step $path_step-1;wait do_s 0.01};
+#nop ac {^你突然意识到采莲不免有失英雄本色，不禁又把手缩了回来} {#math path_step $path_step-1;wait do_s 0.01};
+#ac {^你见那莲蓬诱人，便伸手去摘．} {wait {cai lian} 1};
+#ac {^你脚下一滑，扑通一声掉进了莲花池．} {delwait};
+#ac {^你必须先把%+打开！} {#math path_step $path_step-1;
+#al do_next {open door};
+#if {"@item{path_now;$path_step}"=="s"} {#al do_next {open south}};
+#if {"@item{path_now;$path_step}"=="e"} {#al do_next {open east}};
+#if {"@item{path_now;$path_step}"=="w"} {#al do_next {open west}};
+#if {"@item{path_now;$path_step}"=="n"} {#al do_next {open north}};
+wait {do_next;do_s} 0.1
+};
+#ac {^只听门后传来一阵惊叫：你、你、你是什么妖怪？杀人啦！救命啊！} {#math path_step {$path_step+9};do_s};
+#ac {^那里只有洞主的亲信才能随意出入。} {tick 30;#math path_step {$path_step+2};do_s};
+
+#ac {^您先歇歇吧，别那么馋:)} {exert refresh;#math path_step $path_step-1;wait do_s 0.01};
+#ac {^洞口一阵腥风吹来，你感到一阵突如其来的头晕。} {placenewbie;playnewbie;exert recover;exert refresh};
+#ac {^对不起，比赛尚未开始，您不能进入场地。} {#math path_step $path_step+1;kangguai_s};
+#ac {^%?%s那里只有龙宫的弟子才能进去} {#math path_step $path_step+1;kangguai_s};
+#ac {^%?%s没付房钱就想住店？} {#math path_step $path_step+1;kangguai_s};
+#ac {^%?%s店小二满脸堆笑地挡住了你：对不起} {#math path_step $path_step+1;kangguai_s};
+#ac {^%?%s石屋的门轻轻的%1了。} {#if {"%1"=="开"} {wait do_s 0.005} {turn statue}};
+#ac {^%?%s你向苦宿禅师打听有关『扫塔』的消息。} {wait do_s 0.005};
+#ac {^%?%s小门被人打开了。} {wait do_s 0.005};
+#ac {^%?%s只听轰的一声，芭蕉树倒了，地下露出一口井。} {wait do_s 0.005};
+#nop ac {^%?%s「咚」的一声，你从机关掉到了铁笼中} {wait do_s 0.005};
+#ac {^%?%s铁栏杆的缝隙足够一个人钻出去了。} {wait do_s 0.005};
+#ac {^%?%s只听铁栏杆发出%+的响声} {placenewbie;playnewbie;exert recover;exert refresh;wait break 1};
+#ac {^%?%s哗啦啦一阵碎石头响，你从山壁上斜滑了下来！} {#math path_step $path_step-2};
+#ac {^%?%s乌鸦先生喝道：干嘛的？(answer ０．巡山的　１．过路的　２．捣乱的)} {answer 1;#math path_step {$path_step-1};wait do_s 0.1};
+#ac {^%?%s你手捻口诀，念动真言，摇身一变，变得和蝴蝶一模一样！} {#var v_bian_hudie 1};
+#ac {^%?%s五彩蜘蛛缩成一团，不再动了。} {wait do_s 0.005};
+#ac {^%?%s你手捻口诀，念动真言，摇身一变，变得和小童一模一样！} {#var v_bian_xiaotong 1};
+#ac {^%?%s你手捻口诀，念动真言，摇身一变，变得和田鼠精一模一样！} {#var v_bian_tianshu 1};
+#ac {^%?%s你手捻口诀，念动真言，摇身一变，变得和%.%.怪一模一样！} {#if {"$kangguai_where"=="金兜山"} {#var v_bian_yaoguai 1}};
+
+
+#ac {^%?%s一阵红云降临，云里雾在云里出现。} {#untick hp;ask cloud about 公主};
+#ac {^%?%s一阵红雾降临，雾里云在雾里出现。} {#untick hp;ask fog about 公主};
+#ac {^云里雾说道：这位$mynick非本门派弟子，又未必是武林高手，不能求见公主。} {jiali 10;fight cloud};
+#ac {^雾里云说道：这位$mynick非本门派弟子，又未必是武林高手，不能求见公主。} {jiali 10;fight fog};
+#ac {^云里雾对你说：大师果然身手不凡！} {ask cloud about 公主};
+#ac {^雾里云对你说：大师果然身手不凡！} {ask fog about 公主};
+#ac {^%?%s你身上滋滋作响！} {launch;timeout};
+#ac {^%?%s你的头发冒起一股青烟！} {launch;timeout};
+#ac {^%?%s你的脸上膨起几个大水疱！} {launch;timeout};
+#ac {^%?%s你发出一股焦味！} {launch;timeout};
+#ac {^%?%s只见火焰一舔，你的%+顿时化为灰烬！} {launch;timeout};
+#ac {^火，火，火！！！} {#if $v_firemount==0 {launch;#var v_firemount 1;#class idlog write id/$myid's.log}};
+
+#ac {^%?%s兔穴 -}
+{
+#class path_search open;
+#ac {^%s这里明显的出口是%*southeast%*} {#unac {^%s这里明显的出口是%*southeast%*};#unac {^%s这里明显的出口是%*southwest%*};#unac {^%s这里明显的出口是%*northeast%*};
+#if {$v_kangguai_tuxue1==0} {wait e 0.1;#var v_kangguai_tuxue1 1} {wait se 0.1;#var v_kangguai_tuxue2 1}} {1};
+#ac {^%s这里明显的出口是%*southwest%*} {#unac {^%s这里明显的出口是%*southeast%*};#unac {^%s这里明显的出口是%*southwest%*};#unac {^%s这里明显的出口是%*northeast%*};
+#if {$v_kangguai_tuxue1==0} {wait w 0.1;#var v_kangguai_tuxue1 1} {wait sw 0.1;#var v_kangguai_tuxue3 1}} {1};
+#ac {^%s这里明显的出口是%*northeast%*} {#unac {^%s这里明显的出口是%*southeast%*};#unac {^%s这里明显的出口是%*southwest%*};#unac {^%s这里明显的出口是%*northeast%*};
+#if {$v_kangguai_tuxue2==0} {wait nw 0.1;#var v_kangguai_tuxue2 1} {wait ne 0.1;#var v_kangguai_tuxue3 1}} {1};
+#class path_search close;
+};
+
+
+#var v_pathzzl_all {};
+#var v_pathzzl_here {};
+#var v_closeac_zzl_here {#unac {^%s这里%+出口是 %1。}};
+
+#var v_openac_zzl_here {#class path_search open;#ac {^%s这里%+出口是 %1。} {#var v_pathzzl_here %1;v_pathzzl_here_do} {1};#class path_search close};
+
+#al v_pathzzl_here_do {#list v_pathzzl_here creat @replace{@replace{$v_pathzzl_here;{ 和 };{、}};{、};{;}};#var v_pathzzl_all @additem{v_pathzzl_all;@replace{$v_pathzzl_here;{ 和 };{、}}}};
+
+#ac {^设定环境变数：public = "紫竹林原地检查"} {#class path_search open;#ac {^小路 -} {#nop};#class path_search close;$v_closeac_zzl_here;$v_openac_zzl_here;wait {l;set public 紫竹林查看四周} 0.2};
+
+#var v_pathzzl_around_step {0};
+#var v_pathzzl_next_step {0};
+#var v_pathzzl_aroundguai_step {0};
+#var v_pathzzl_around {};
+#var v_closeac_zzl_around {#unac {^%s这里%+出口是 %1。}};
+
+#high {$kangguai_name($kangguai_idupper)} {light cyan};
+
+#al v_openac_zzl_around_do {#var v_pathzzl_around @replace{$v_pathzzl_around;{ 和 };{、}};#if {@ismember{$v_pathzzl_around;v_pathzzl_all}==0} {#var v_pathzzl_next_step {$v_pathzzl_around_step};
+#var v_pathzzl_all @additem{v_pathzzl_all;$v_pathzzl_around}};
+wait {#if {$v_pathzzl_around_step<&v_pathzzl_here[]} {l @item{v_pathzzl_here;@eval{$v_pathzzl_around_step+1}};#math v_pathzzl_around_step {$v_pathzzl_around_step+1}} {set public 紫竹林走一步}} 0.5};
+
+#var v_openac_zzl_around {#class path_search open;#ac {^%s这里%+出口是 %1。} {#var v_pathzzl_around %1;v_openac_zzl_around_do} {1};#class path_search close};
+
+#ac {^设定环境变数：public = "紫竹林查看四周"}
+{
+#var v_pathzzl_next_step {0};#var v_pathzzl_aroundguai_step {0};#var v_pathzzl_around_step {1};$v_openac_zzl_around;
+#class path_search open;
+#ac {^  %*$kangguai_name} {#unac {^  %*$kangguai_name};#var v_pathzzl_aroundguai_step $v_pathzzl_around_step} {1};
+#class path_search close;
+l @item{v_pathzzl_here;$v_pathzzl_around_step}
+};
+
+#ac {^设定环境变数：public = "紫竹林走一步"}
+{
+$v_closeac_zzl_around;#unac {^  %*$kangguai_name};#class path_search open;#ac {^小路 -} {delwait;north;set public 紫竹林原地检查};#class path_search close;
+#al do_next {$v_pathzzl_here[@rnd{1;&v_pathzzl_here[]}];wait {set public 紫竹林原地检查} 0.5};
+#if {$v_pathzzl_next_step!=0} {#al do_next {$v_pathzzl_here[$v_pathzzl_next_step];wait {set public 紫竹林原地检查} 1}};
+#if {$v_pathzzl_aroundguai_step>0} {#sh $v_pathzzl_here[$v_pathzzl_aroundguai_step];#al do_next {$v_pathzzl_here[$v_pathzzl_aroundguai_step];wait {set public 紫竹林原地检查} 1.5}};
+
+wait do_next 0.1
+};
+#ac {^%s这里明显的出口是%*northeast%*} {#nop} {8};
+#ac {^小路 -} {#nop} {8};
+
+#var v_openac_hdml {#class path_search open;#ac {^%s这里明显的出口是%*northeast%*} {wait south 0.1} {1};#ac {^%s这里%+出口是 %1。} {#switch {1d4} {#case 1 {wait e 0.1};#case 2 {wait w 0.1};#case 3 {wait s 0.1};#case 4 {wait n 0.1}}} {2};#class path_search close};
+
+#ac {^设定环境变数：public = "五庄观后院启动"}
+{
+#var path_step 1;#list {path_now} {creat} {l;n;nw;n;ne;se;s;sw;s;n;timeout1};#var path_steps @numitems{path_now};wait kangguai_s 0.1
+};
+
+#ac {^设定环境变数：public = "海底莽林启动"}
+{
+sw;$v_openac_hdml;tick 90;
+};
+
+#var v_pathlostguai_new {};
+#var v_pathlostguai_around_step {0};
+#var v_pathlostguai_aroundguai_step {0};
+#var v_pathlostguai_around_steptmp {0};
+#var v_pathlostguai_around {};
+#var v_openac_lostguai_here {#class path_search open;#ac {^%s这里%+出口是 %1。} {$v_closeac_zzl_here;#var v_pathlostguai_here %1;v_pathlostguai_here_do} {1};#class path_search close};
+
+#al v_pathlostguai_here_do {#list v_pathlostguai_here creat @replace{@replace{$v_pathlostguai_here;{ 和 };{、}};{、};{;}};#sh 原地$v_pathlostguai_here};
+
+#ac {^设定环境变数：public = "丢怪原地检查"}
+{
+$v_openac_lostguai_here;wait {l;set public 丢怪查看四周} 0.1
+};
+
+
+
+#ac {^设定环境变数：public = "丢怪查看四周"}
+{
+#var v_pathlostguai_new {};
+#var v_pathlostguai_around_step {1};$v_openac_lostguai_around;
+#class path_search open;
+#ac {^  %*$kangguai_name} {#unac {^  %*$kangguai_name};#sh 四周第一步$v_pathlostguai_new-$v_pathlostguai_here[$v_pathlostguai_aroundguai_step]-@backpath{$v_pathlostguai_here[$v_pathlostguai_aroundguai_step]};#var v_pathlostguai_aroundguai_step $v_pathlostguai_around_step;
+#list v_pathlostguai_new insert 1 @backpath{$v_pathlostguai_here[$v_pathlostguai_aroundguai_step]};#list v_pathlostguai_new insert 1 $v_pathlostguai_here[$v_pathlostguai_aroundguai_step]} {1};
+#class path_search close;
+l @item{v_pathlostguai_here;$v_pathlostguai_around_step}
+};
+
+#var v_openac_lostguai_around {#class path_search open;#ac {^%s这里%+出口是 %1。} {#var v_pathlostguai_around %1;v_pathlostguai_around_do} {1};#class path_search close};
+
+
+
+
+#al v_pathlostguai_around_do {#list v_pathlostguai_around creat @replace{@replace{$v_pathlostguai_around;{ 和 };{、}};{、};{;}};
+#var v_pathlostguai_new @additem_same{v_pathlostguai_new;$v_pathlostguai_here[$v_pathlostguai_around_step]};
+
+#var v_pathlostguai_around_steptmp {1};
+v_pathlostguai_backpath;
+#var v_pathlostguai_new @additem_same{v_pathlostguai_new;@backpath{$v_pathlostguai_here[$v_pathlostguai_around_step]}};
+#math v_pathlostguai_around_step {$v_pathlostguai_around_step+1};#if {$v_pathlostguai_around_step<=&v_pathlostguai_here[]} {l @item{v_pathlostguai_here;$v_pathlostguai_around_step}} {set public 丢怪后找怪}
+};
+
+#al v_pathlostguai_backpath {
+#if {$v_pathlostguai_around_steptmp<=&v_pathlostguai_around[]} {
+#if {"@backpath{$v_pathlostguai_here[$v_pathlostguai_around_step]}"!="$v_pathlostguai_around[$v_pathlostguai_around_steptmp]"} {
+#var v_pathlostguai_new @additem_same{v_pathlostguai_new;$v_pathlostguai_around[$v_pathlostguai_around_steptmp]};
+#var v_pathlostguai_new @additem_same{v_pathlostguai_new;@backpath{$v_pathlostguai_around[$v_pathlostguai_around_steptmp]}};
+};
+#math v_pathlostguai_around_steptmp {$v_pathlostguai_around_steptmp+1};v_pathlostguai_backpath}};
+
+
+#ac {^设定环境变数：public = "丢怪后找怪"}
+{
+tick 30;
+$v_closeac_zzl_here;
+#var path_now $v_pathlostguai_new;#var path_now @additem{path_now;timeout};
+#var path_step 1;#var path_steps @numitems{path_now};wait {T+ kangguaikill.tin;kangguai_s} 0.5
+};
+
+#nop ac {^你得到了%1点武学经验、%2道行和%3点潜能！} {#var kangguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1}};
+
+#al kangguai_lostguai {#if {&v_extra_trap} {charge $fabao_id2 for extra_catch 5;charge $fabao_id3 for extra_catch 5};#if {$hp_qiper<95 && $hp_qiper>60} {#5 exert heal};#if {"$kangguai_sta"=="没有完成"} {set public 丢怪原地检查};#if {"$kangguai_sta"=="已经完成" && $v_faguan_answer==0} {timeout}};
+
+#ac {^房子里云雾缭绕，什么也看不清楚。} {#sh 这里明显的出口是 south 和 south。};
+#ac {^那里只有巫师才能进去。} {#sh 这里没有任何明显的出路。};
+#ac {^这个%+是开着的。} {#sh 这里明显的出口是 south 和 south。};
+#ac {^望上隐约看到山颠。} {#sh 这里明显的出口是 south 和 south。};
+#ac {^冰谷中雪雾缭绕，什么也看不清。} {#sh 这里明显的出口是 south 和 south。};
+#ac {^对不起，比赛尚未开始，您不能进入场地。} {#math path_step $path_step+1;wait do_s 0.01};
+#ac {^你现在不能移动！} {#math path_step {$path_step-1};wait do_s 1};
+#ac {^你正在战斗，飞不开。} {#math path_step {$path_step-1};wait {touxiang;do_s} 1};
+
+#var v_faguan_answer 0;
+
+#ac {^法官说到：$myname请在99秒内回答} {T+ vip.tin;#if {$v_faguan==1} {delwait;tick 10;#var v_faguan_answer 1;follow judge};#if {$v_faguan==2} {delwait;#var v_faguan_answer 2;tick 100}};
+
+#ac {^这里没有 judge} {timeout};
+#ac {^你决定开始跟随法官一起行动。} {#if {$v_faguan_answer==1} {display;follow 法官结束;#log o box_$myid's.txt}};
+#ac {^这里没有 法官结束} {#if {$v_faguan_answer==1} {#log off;wait {#textin answer_box_$myid's.txt} 3}};
+#ac {^法官说到:答错了，可惜可惜，还有%d次机会，加油啊} {#if {$v_faguan_answer==1} {delwait;retry}};
+#ac {^法官说到:好吧，给你换一道题，下不为例啊} {#if {$v_faguan_answer==1} {tick 10;follow judge}};
+#ac {^你瞎问个什么啊，我又没跟你说} {#if {$v_faguan_answer==1} {timeout}};
+#ac {^换了一道题了还要换，不理你了！} {#if {$v_faguan_answer==1} {timeout}};
+#ac {^法官说到:答对了，恭喜恭喜。} {#if {$v_faguan_answer==1} {dismantle mo he;wait timeout 1};#if {$v_faguan_answer==2} {dismantle mo he;wait timeout 1}};
+
+#ac {^这是你连续完成的第%1个妖} {#var v_lianxu @ctd{%1};#var v_lianxu_open 3};
+
+#nop 以下针对武学较低时地点的处理;
+#ac {^慢慢地你终于又有了知觉} {#if {"$kangguai_where"=="麒麟山" && $path_step>42} {l} {#var v_cure 0;tick 5}} {1};
+#ac {^你勉强走了几步，扑倒在地。} {tick 300};
+
+#ac {^%1 - } {
+#if {$v_quests_open==0} {
+#nop if {"%1"=="茅屋" && "$kangguai_where"=="女儿国"} {buy 5 huasheng from boss};
+#nop if {"%1"=="肉铺" && "$kangguai_where"=="天竺国"} {buy 5 rou from boss};
+};
+} {9};
+#class pathkg_search close;

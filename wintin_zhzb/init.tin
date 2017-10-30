@@ -154,16 +154,20 @@
 #function {date_now} {#format {epoch} {%T};#format {result} {%t} {{%Y-%m-%d}{$epoch}}};
 #nop time_s(ongbao)简写，用作songbao任务间隔时间判断，表示方法@time_s{}；
 #function {time_s} {#math result {@time{}-$time_songbaostart}};
+#nop time_y(uan)简写，用作yuan任务间隔时间判断，表示方法@time_y{}；
+#function {time_y} {#math result {@time{}-$time_yuanguaistart}};
 
 #nop 统一alias
 #al delwait {#undelay {wait}};
 #al wait {delwait;#delay {wait} {%1} {%2}};
 
-#al Treset {#undelay lianwait;$v_closeac_zzl;#unac {^  %*$liguai_name};#unac {^%s这里明显的出口是%*northeast%*};T- award;T- blockguai;T- checkdo;T- checksell;T- checkitem;T- chuqiao;T- cloud;T- Common;T- control;T- ctd;T- dazuomax;T- drop;T- fillsea;T- font;T- guard;T- kgd;T- lian;T- liguaiask;T- liguaikill;T- menpai;T- NextAction;T- path;T- pathwabao;T- pathwabao_search;T- path_search;T- pathrl;T- pathrl_search;T- quests;T- readwords;T- rongqi;T- rulaiask;T- rulaikill;T- sell;T- skills;T- timeout;Treset_quest;RestoreNextAction;#untick leitai};
+#al Treset {#undelay lianwait;$v_closeac_zzl;#unac {^  %*$liguai_name};#unac {^%s这里明显的出口是%*northeast%*};T- award;T- blockguai;T- checkdo;T- checksell;T- checkitem;T- chuqiao;T- cloud;T- Common;T- control;T- ctd;T- dazuomax;T- drop;T- fillsea;T- font;T- guard;T- kgd;T- lian;T- liguaiask;T- liguaikill;T- menpai;T- NextAction;T- path;T- pathwabao;T- pathwabao_search;T- path_search;T- pathrl;T- pathrl_search;T- quests;T- readwords;T- rongqi;T- rulaiask;T- rulaikill;T- sell;T- skills;T- timeout;Treset_quest;RestoreNextAction;#untick leitai;Treset_kangguai};
 
 #al Treset_guard {delwait;$v_closeac_zzl;#unac {^  %*$liguai_name};#unac {^%s这里明显的出口是%*northeast%*};hurt_guard;T- award;T- blockguai;T- checkdo;T- checksell;T- checkitem;T- chuqiao;T- cloud;T- Common;T- control;T- ctd;T- dazuomax;T- drop;T- fillsea;T- font;T- kgd;T- lian;T- liguaiask;T- liguaikill;T- menpai;T- NextAction;T- path;T- pathwabao;T- pathwabao_search;T- path_search;T- pathrl;T- pathrl_search;T- quests;T- readwords;T- rongqi;T- rulaiask;T- rulaikill;T- sell;T- skills;T- timeout;Treset_quest;T+ guard.tin};
 
 #al Treset_quest {T- dangpu;T- Clear;T- cloud;T- submit;T- tmp;T- ItemGet;T- lian;T- questslist;T- QuestKill;T- QuestFood;T- QuestGive;T- QuestArmor;T- QuestWeapon;T- QuestCloth;T- QuestAsk};
+
+#al Treset_kangguai {T- kangguai;T- pathkg;T- pathkg_search;T- kangguaikill};
 
 #al tick {#tick {tick} {timeout} {%1}};
 

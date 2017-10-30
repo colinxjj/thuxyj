@@ -1,0 +1,42 @@
+#class kangguaikill open;
+#ac {^...do...next..}
+{
+tick 8;
+touxiang;
+#class kangguaikill open;
+#ac {^这里没有 $kangguai_id} {#untick get_pet_weapon;T- kangguaikill;#if {$v_nolook_room==1} {timeout} {delwait;#delay 1 {kangguai_lostguai}}};
+#class kangguaikill close;
+wait {cast huimeng on $kangguai_id;exert recover;exert refresh;hp} 4;
+} {1};
+
+#var pet_weapon_gived 0;
+#var timeout_ready 0;
+#math v_pet_jindan_time @time{}-$v_pet_jindan_lasttime;
+
+#ac {^  %*$kangguai_name($kangguai_idupper)} {#class kangguaikill open;#ac {^这里没有 $kangguai_owner's $kangguai_id} {hurt_reset;bian;T- kangguaikill;delwait;#delay 1 {kangguai_lostguai}};#class kangguaikill close;delwait;#if {$kangguai_find>=2} {#var kangguai_find 2} {#var kangguai_find 0};hurt_lijing;follow $kangguai_owner's $kangguai_id;cast huimeng on $kangguai_id;hp};
+#ac {^$kangguai_name就地一躺，不一会便鼾声大作，进入了梦乡。} {surrender;get $kangguai_id;#delay 4 {get all from $kangguai_id;get $kangguai_id}};
+#ac {^$kangguai_name脚下一个不稳，跌在地上一动也不动了。} {surrender;get $kangguai_id;#delay 4 {get all from $kangguai_id;get $kangguai_id}}
+#ac {^你将$kangguai_name扶了起来背在背上。} {get all from $kangguai_id;launch;fly changan;s;drop $kangguai_id;tell $kangguai_owner Found it!;s;timeout}
+#nop #ac {^你将$kangguai_name从背上放了下来，搁在地上。} {timeout}
+
+
+#ac {^看起来$kangguai_name想杀死你！} {unwield $fabao_id1;wield $userweapon_id;surrender;#delay 2 {surrender;#delay 2 {surrender}}};
+
+#ac {^这里没有这个人} {#sh haha};
+
+#ac {^这里不准战斗。} {follow none;#sh 这里没有这个人};
+#nop 在以下两个房间中输入kill后反馈不是上一行;
+#ac {^请不要在麻将室里杀戮，谢谢。} {follow none;#sh 这里没有这个人};
+#ac {^请不要在拱猪房里杀戮，谢谢。} {follow none;#sh 这里没有这个人};
+
+
+#ac {^你急急忙忙跑了过来，四处张望，却什么都没发现。} {#class kangguaikill open;#ac {^这里没有 $kangguai_id} {T- kangguaikill;#delay 1 {kangguai_lostguai}};#class kangguaikill close;delwait;#if {$kangguai_find>=2} {#var kangguai_find 2} {#var kangguai_find 0};hp};
+
+#nop ac {^这里没有 $kangguai_owner's $kangguai_id。} {tick 10;delwait;T- kangguaikill;#if {$path_step<=$path_steps} {wait {T+ kangguaikill.tin;do_s} 3}};
+
+#nop 以下为防止计算错误导致死亡增加;
+#ac {^$fabao_name2的敌人捕获力已耗尽，必须先修练一下。} {#var v_extra_catch 0;eat jin dan};
+#ac {^$fabao_name3的敌人捕获力已耗尽，必须先修练一下。} {#var v_extra_catch 0;eat jin dan};
+
+#ac {^你的真气不够，难以施展「逆袭」。} {eat 5 ren shen};
+#class kangguaikill close;

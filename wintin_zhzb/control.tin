@@ -12,6 +12,8 @@
 #ac {^你现在的任务是%1妖,%2(%3)。} {#var rulai_sta 没有完成;#var v_rulai %1;#var rulai_name %2;#var rulai_id %3;#var rulai_idupper @upper_f{$rulai_id}};
 #ac {^【%1】$myname(@upper_f{$myid})：} {#if {@ismember{%1;v_menpai_list}>0} {T- control;#var v_menpai %1;Tmenpai}};
 
+#nop #if &v_skill_max {#var v_skill_max_limit $v_skill_max} {#var v_skill_max_limit 9999};
+
 #ac {^...do...next..}
 {
 tick 10;
@@ -118,6 +120,31 @@ bian;time;
 #if {$v_upgrade_fabao>0} {#al do_next {fly moon;#3 w}};
 
 #nop if {$n_rulai<31 && $v_rulai_open==1} {#al do_next {gotorulai}};
+
+#unvar kangguai_task;
+#if {$v_kangguai==1 && @numitems{kangguai_tasks}>0} {
+	#var start_time @time{};
+	#if {&kangguai_tasks[$v_kangguai_owner_1st]} {
+		#if {$kangguai_tasks[$v_kangguai_owner_1st][4]<2} {#var kangguai_task $kangguai_tasks[$v_kangguai_owner_1st];#var kangguai_owner $v_kangguai_owner_1st;} {#unvar kangguai_tasks[$v_kangguai_owner_1st]};
+	};
+	#elseif {&kangguai_tasks[$v_kangguai_owner_2nd]} {
+		#if {$kangguai_tasks[$v_kangguai_owner_2nd][4]<2} {#var kangguai_task $kangguai_tasks[$v_kangguai_owner_2nd];#var kangguai_owner $v_kangguai_owner_2nd;} {#unvar kangguai_tasks[$v_kangguai_owner_2nd]};
+	};
+	#else {#nop};
+	#if {&kangguai_task==0} {
+		#foreach $kangguai_tasks[] kangguai_ow {
+			#if {$kangguai_tasks[$kangguai_ow][5]<$start_time} 
+				#if {$kangguai_tasks[$kangguai_ow][4]<1} {
+					#var start_time $kangguai_tasks[$kangguai_ow][5];
+					#var kangguai_task $kangguai_tasks[$kangguai_ow];#var kangguai_owner $kangguai_ow;
+				} {#unvar kangguai_tasks[$kangguai_ow]};
+		};
+	};
+	#if {&kangguai_task} {
+		#var kangguai_name $kangguai_task[1];#var kangguai_idupper $kangguai_task[2];#var kangguai_where $kangguai_task[3];#var kangguai_id @lower{$kangguai_idupper};#var kangguai_find $kangguai_task[4];#var kangguai_liguaistart $kangguai_task[5];
+		#al do_next {#sh 开始扛怪！;T- control;T+ kangguai.tin;find $kangguai_id;fabao_full};
+	};
+};
 
 #if {$robot_stop==1} {#al do_next {tick 9999999;#sh 机器暂停！;T- control;fly changan;s;e}};
 

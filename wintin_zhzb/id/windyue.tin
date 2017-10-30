@@ -1,0 +1,30 @@
+#nop ---炼金大米---;
+
+#class id open;
+#nop ------以下分别为id中文名、英文名------;
+#var {myname} {风月};
+#var {myid} {windyue};
+#var {mynick} {不学有术大师};
+#nop ---下一行设置大米的密码--------;
+#var {mypass} {28338};
+#nop ------李靖杀怪难度kill和kill2------;
+#var {liguai_lv} {kill};
+
+#var v_kangguai_dummy {mian};
+#var v_kangguai_dummy_name {方便面};
+
+#nop ----主控大米id，以下两个千万不能为空，同时一定要改成自己的-----;
+#var v_master_id {windymeb};
+#nop ----主控口令-----;
+#var v_master_passwd {ok};
+#nop ----多个命令发出时用-代替分号,举例 tell shiman 上山打小叶 (summon asme-kill asme-上上下下左右左右AB)----;
+
+#nop --windy公共设置--;
+#re id/common_windy.tin;
+
+#nop ----加载请求抗怪设置--
+#re kangguaiowner_yuan.tin;
+
+
+#class id close;
+

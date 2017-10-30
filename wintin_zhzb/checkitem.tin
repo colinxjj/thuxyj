@@ -65,10 +65,15 @@ tick 20;
 #if {$v_wzgdan==0} {#var v_wzgbug 1};
 #nop if &n_zhuanshi {#if {$n_zhuanshi==0} {#var v_shendagger 1;#var n_shendagger 4;#var v_shenjia 2;#var n_shenjia 1;#var v_goldarmor 0;#var v_deathtouch 0;#if {@ismember{huangjin-zhanjia;safelist}==0} {#list safelist add {huangjin-zhanjia}};#if {@ismember{deathtouch;safelist}==0} {#list safelist add {deathtouch}}} {#var v_deathtouch 1;#var v_goldarmor 1;#var v_shendagger 0;#var n_shendagger 0;#var v_shenjia 0;#var n_shenjia 0}};
 #var v_shendagger 1;#var n_shendagger 4;#var v_shenjia 2;#var n_shenjia 1;#var v_goldarmor 0;#var v_deathtouch 0;#if {@ismember{huangjin-zhanjia;safelist}==0} {#list safelist add {huangjin-zhanjia}};#if {@ismember{deathtouch;safelist}==0} {#list safelist add {deathtouch}};
+#var v_kangguai_drop 0;
 i};
 
 
 #ac {^  %*$rulai_name($rulai_idupper) <»èÃÔ²»ÐÑ>} {#var v_rulai_give 1;#if {"$v_rulai"=="È°" || "$v_rulai"=="½µ"} {#var v_rulai_give 2}};
+
+#ac {^  %*$kangguai_name($kangguai_idupper) <»èÃÔ²»ÐÑ>} {#var v_kangguai_drop 1};
+#ac {^  %*$kangguai_name($kangguai_idupper)<Ë¯ÃÎÖÐ>} {#var v_kangguai_drop 1};
+
 #ac {^±¦ºÐ = treasure box, box} {#var v_songbao_box 1;#if $songbao_find<=2 {#var v_songbao_box 2}};
 #ac {^ÍÚ±¦²ù               = treasure shovel, shovel} {#var v_wabao_shovel 1;#if $wabao_find<2 {#var v_wabao_shovel 2}};
 
@@ -349,6 +354,7 @@ s;wait timeout 1} 2}}};
 #if {$v_needdrop==1} {#al do_next {T- checkitem;fly changan;d;wait {T+ drop.tin;i} 1}};
 #if {$v_rulai_give==1} {#al do_next {T- checkitem;fly changan;s;e;give $rulai_id to rulai;wait timeout 1}};
 #if {$v_rulai_give==2} {#al do_next {fly sky;#6 s;swim}};
+#if {$v_kangguai_drop==1} {#al do_next {T- checkitem;fly changan;s;get all from $kangguai_id;drop $kangguai_id;tell $kangguai_owner Found it!;s;wait timeout 1}};
 
 #if {$robot_stop==1} {#al do_next {T- checkitem;tick 9999999;#sh »úÆ÷ÔÝÍ££¡;fly changan;s;e}};
 #if {$v_cure==1} {#al do_next {T- checkitem;fly changan;#3 e;s;sw;s;se;ne;se;enter;wait {T+ checkitem.tin;cure} 2}};

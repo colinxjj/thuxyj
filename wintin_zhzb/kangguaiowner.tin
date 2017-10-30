@@ -1,0 +1,158 @@
+#class kangguaiowner open;
+
+#al robot_stop {#var v_stop 1};
+#al robot_start {#var v_stop 0;timeout};
+#al timeout {delwait;
+	#if {$v_stop==1} {#sh 机器暂停！} {#sh starting...};
+};
+#al sht {#sh @time_c{}};
+#al shty {#sh @time_y{}};
+
+#ac {^%s西游记欢迎您来访！使用国标码的玩家请键入：gb}
+{
+gb;n;$myid;
+} {1};
+#ac {^请输入相应密码：} {$mypass};
+#ac {^您要将另一个连线中的相同人物赶出去，取而代之吗？(y/n)} {y};
+#ac {^目前权限：(player)} {
+#class idlog open;
+#var liguai_name {0};
+#var liguai_id {0};
+#var liguai_idupper {};
+#var liguai_where {0};
+#nop #var liguai_find {0};
+#var liguai_sta {待检查};
+#var time_liguaistart {0};
+#var yuanguai_name {0};
+#var yuanguai_id {0};
+#var yuanguai_idupper {};
+#var yuanguai_where {0};
+#var time_yuanguaistart {0};
+#var v_liguai_ask_last 0;#var v_liguai_ask 0;#var v_liguai_over_last 0;#var v_liguai_over 0;#var v_liguai_over_zero 0;
+#var v_award_lj_wx 0;#var v_award_lj_dx 0;#var v_award_lj_qn 0;
+#var v_award_lj_wx_last 0;#var v_award_lj_dx_last 0;#var v_award_lj_qn_last 0;
+#var v_award_box_md 0;#var v_award_box_md_last 0;
+#var v_award_fg_wx 0;#var v_award_fg_dx 0;#var v_award_fg_qn 0;
+#var v_award_fg_wx_last 0;#var v_award_fg_dx_last 0;#var v_award_fg_qn_last 0;
+#var v_award_zs_wx 0;#var v_award_zs_dx 0;#var v_award_zs_qn 0;
+#var v_award_zs_wx_last 0;#var v_award_zs_dx_last 0;#var v_award_zs_qn_last 0;
+#var v_faguan_question 0;#var v_faguan_right 0;#var v_faguan_question_last 0;#var v_faguan_right_last 0;
+#class idlog close;
+#re id/$myid's.log;
+w;n;ne;yao sword;yao dagger;yao armor;yao tianyi;yao yupei;yao ring;yao bonnet;yao shoes;yao shield;yao tu;drop linen;drop skirt;drop shoes 2;wear all;wield all;sw;s;e;
+u;w;timeout} {1};
+
+#nop #tick timeout_tick {timeout} 400;
+
+#ac {^starting...} {kquest;hp};
+
+
+#nop #ac {^二楼雅座 -} {#al acc_taibai {d;w;accept tai bai;e;u}};
+#nop #ac {^系统公告室 -} {#al acc_taibai {w;d;w;accept tai bai;e;u}};
+#nop #ac {^南城客栈 -} {#al acc_taibai {w;accept tai bai;e;u}};
+#nop #ac {^朱雀大街 -} {#al acc_taibai {accept tai bai;e;u}};
+#nop #ac {^董记当铺 -} {#al acc_taibai {e;accept tai bai;e;u}};
+#nop #ac {^云楼殿 -} {#al acc_taibai {u;ask li jing about $liguai_lv;#sh 本次时间@time_c{}}};
+#nop #ac {^云楼台 -} {#al acc_taibai {ask li jing about $liguai_lv;#sh 本次时间@time_c{}}};
+#nop 
+#nop #al {已经完成} {tick 15;#if {@time_c{}>=280} {acc_taibai}};
+#nop #al {没有完成} {tick 15;#if {@time_c{}>=880} {acc_taibai}};
+#nop 
+#nop #ac {^……祥云徐徐降落，太白金星和你从里走出。} {u;ask li jing about $liguai_lv;#sh 本次时间@time_c{}};
+#nop 
+#nop #ac {^李靖对手中照妖镜一看，说：这位$mynick,妖魔已除尽,不妨先去歇息。} {wait {ask li jing about $liguai_lv} 1};
+#nop #ac {^李靖对你说道：近有%1(%2)在%3为非作歹，请速去降服！} {
+#nop 	delwait;
+#nop 	#var v_liguai_ask @eval{$v_liguai_ask+1};#var liguai_name %1;#var liguai_idupper %2;#var liguai_where %3;#var liguai_id @lower{$liguai_idupper};#var time_liguaistart @time{};d;back;
+#nop 	tell $v_kangguai_dummy 近有%1(%2)在%3为非作歹，请速去降服！;#var n_tell 1;
+#nop 	#tick tell {#math n_tell $n_tell+1;#if {$n_tell<9} {tell $v_kangguai_dummy 近有$liguai_name($liguai_idupper)在$liguai_where为非作歹，请速去降服！}} 20;
+#nop 	tick 285};
+#nop #ac {^李%s靖：第%1个妖「%+」%2。} {#var liguai_sta %2;$liguai_sta};
+#nop #ac {^李%s靖：第%1个妖「$liguai_name」%2。} {#var liguai_sta %2;$liguai_sta} {1};
+#nop #ac {^李靖说道：老夫不是派你去降服$liguai_name吗？} {d;back};
+#nop #ac {^只见一团祥云飘下，太白金星和你从里面走出。} {e;u};
+#nop #nop #ac {^$v_kangguai_dummy_name现在的状态没法给你任何答复。} {wait {tell $v_kangguai_dummy 近有$liguai_name($liguai_idupper)在$liguai_where为非作歹，请速去降服！} 30};
+#ac {^你告诉$v_kangguai_dummy_name：近有} {#var n_tell 10;#untick tell} {1};
+
+#nop --------袁天罡灭妖--------
+#al {已经完成} {tick 15;#if {$robot_stop!=1 && @time_y{}>=299} {d;w;n;n;w;ask yuan about kill;#sh 本次时间@time_y{}}};
+#al {没有完成} {tick 15;#if {$robot_stop!=1 && @time_y{}>=899} {d;w;n;n;w;ask yuan about kill;#sh 本次时间@time_y{}}};
+#ac {^袁天罡：第%1个妖「%+」%2。} {#var yuanguai_sta %2;$yuanguai_sta}
+#ac {^　　近有%1(%2)在%3出没，为害不小，请速去收服！} {
+  #var yuanguai_name %1;#var yuanguai_idupper %2;#var yuanguai_where %3;#var yuanguai_id @lower{$yuanguai_idupper};#var time_yuanguaistart @time{};e;s;s;e;u;
+  tell $v_kangguai_dummy 近有%1(%2)在%3为非作歹，请速去降服！;
+  #var n_tell 1;
+ 	#tick tell {#math n_tell $n_tell+1;#if {$n_tell<9} {tell $v_kangguai_dummy 近有$yuanguai_name($yuanguai_idupper)在$yuanguai_where为非作歹，请速去降服！}} 20;
+  tick 285};
+
+#ac {^袁天罡将手中桃木剑缓缓放下，说：多谢%*,妖魔已经除尽了。} {e;s;s;e;u;tick 5}
+#ac {^袁天罡对你一拱手：这位%*请速去天廷协助灭妖！} {e;s;s;e;u;robot_stop;#sh -------robot stop--------}
+#ac {^$v_kangguai_dummy_name($v_kangguai_dummy)告诉你：Found it!} {d;w;wield all;kill $yuanguai_id;#ac {^$yuanguai_name惨叫一声，死了。} {delwait;e;u};wait {e;u} 20}
+#ac {^这里没有这个人。} {delwait;e;u}
+#ac {^你灭妖有功，朝廷奖励你%*文铜板，以资鼓励。} {#unac {^$yuanguai_name惨叫一声，死了。}}
+#al retell {tell $v_kangguai_dummy 近有$yuanguai_name($yuanguai_idupper)在$yuanguai_where为非作歹，请速去降服！}
+
+#ac {^你得到了零点武学经验、道行和零点潜能！} {#math v_liguai_over_zero {$v_liguai_over_zero+1};#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}};
+#ac {^你得到了一级%0} {#sh Reward_sk:@addnullr{$myid}      @date_now{} @time_now{}         %0};
+#ac {^Reward_sk:} {#line log Reward.txt};
+
+#ac {^你得到了%1点武学经验、%2时辰道行和%3点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%3};tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}};
+#ac {^你得到了%1点武学经验、%2天道行和%3点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*4;#math v_award_lj_qn $v_award_lj_qn+@ctd{%3};tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}};
+#ac {^你得到了%1点武学经验、%2年道行和%3点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000;#math v_award_lj_qn $v_award_lj_qn+@ctd{%3};tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}};
+#ac {^你得到了%1点武学经验、%2天%3时辰道行和%4点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*4+@ctd{%3}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%4};tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}} {4};
+#ac {^你得到了%1点武学经验、%2年%3天道行和%4点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000+@ctd{%3}*4;#math v_award_lj_qn $v_award_lj_qn+@ctd{%4};tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}} {4};
+#ac {^你得到了%1点武学经验、%2年%3天%4时辰道行和%5点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000+@ctd{%3}*4+@ctd{%4}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%5};tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}} {3};
+#ac {^你得到了%1点武学经验、%2年%3时辰道行和%4点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000+@ctd{%3}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%4};tell $v_kangguai_dummy 好样的！;#if {@time_c{}>300} {#delay 10 timeout}} {4};
+#ac {^你额外获得了%1点武学经验、%2点道行和%3点潜能！} {#math v_award_zs_wx $v_award_zs_wx+@ctd{%1};#math v_award_zs_dx $v_award_zs_dx+@ctd{%2};#math v_award_zs_qn $v_award_zs_qn+@ctd{%3}};
+#ac {^这是你连续完成的第%1个妖} {#var v_lianxu @ctd{%1};#var v_lianxu_open 3};
+
+#ac {^你被奖励了%1点武学经验，%2时辰道行和%3点潜能！}  {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%3}};
+#ac {^你被奖励了%1点武学经验，%2天道行和%3点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*4;#math v_award_fg_qn $v_award_fg_qn+@ctd{%3}};
+#ac {^你被奖励了%1点武学经验，%2年道行和%3点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000;#math v_award_fg_qn $v_award_fg_qn+@ctd{%3}};
+#ac {^你被奖励了%1点武学经验，%2天%3时辰道行和%4点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*4+@ctd{%3}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%4}} {4};
+#ac {^你被奖励了%1点武学经验，%2年%3天道行和%4点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000+@ctd{%3}*4;#math v_award_fg_qn $v_award_fg_qn+@ctd{%4}} {4};
+#ac {^你被奖励了%1点武学经验，%2年%3天%4时辰道行和%5点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000+@ctd{%3}*4+@ctd{%4}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%5}} {3};
+#ac {^你被奖励了%1点武学经验，%2年%3时辰道行和%4点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000+@ctd{%3}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%4}} {4};
+
+#ac {^你成功拆开了魔盒，获得了一些神秘的力量！(%1)} {#math v_award_box_md $v_award_box_md+%1};
+
+#var v_faguan_answer 0;
+
+#ac {^法官说到：$myname请在99秒内回答} {#var v_faguan_question @eval{$v_faguan_question+1};#if {$v_faguan==1} {delwait;#var v_faguan_answer 1;follow judge};#if {$v_faguan==2} {delwait;#var v_faguan_answer 2}};
+#nop #ac {^这里没有 judge} {#nop};
+#ac {^你决定开始跟随法官一起行动。} {#if {$v_faguan_answer==1} {display;say aa;display;follow 法官结束;#log o box_$myid's.txt}};
+#ac {^这里没有 法官结束} {#if {$v_faguan_answer==1} {#delay 4 {#textin answer_box_$myid's.txt}}};
+#ac {^法官说到:答错了，可惜可惜，还有%d次机会，加油啊} {#if {$v_faguan_answer==1} {delwait;retry}};
+#ac {^法官说到:好吧，给你换一道题，下不为例啊} {#var v_faguan_question @eval{$v_faguan_question-1}};
+#nop #ac {^你瞎问个什么啊，我又没跟你说} {#if {$v_faguan_answer==1} {#nop}};
+#nop #ac {^换了一道题了还要换，不理你了！} {#if {$v_faguan_answer==1} {#nop}};
+#ac {^法官说到:答对了，恭喜恭喜。} {#var v_faguan_right @eval{$v_faguan_right+1};#if {$v_faguan_answer==1} {dismantle mo he};#if {$v_faguan_answer==2} {dismantle mo he}};
+
+#gag {^> $};
+#gag {^$};
+
+#ac {^%?%s气血：%s%1/%s%2%s(%3%)%s内力：%s%4/%s%5%s(%6%) (+%7)} {#var hp_qi %1;#var hp_qimax %2;#var hp_qiper %3;#var hp_nl %4;#var hp_nlmax %5;#var hp_nlper %6;#var hp_jiali %7};
+#ac {^%?%s精神：%s%1/%s%2%s(%3%)%s法力：%s%4/%s%5%s(%6%) (+%7)} {#var hp_shen %1;#var hp_shenmax %2;#var hp_shenper %3;#var hp_fl %4;#var hp_flmax %5;#var hp_flper %6;#var hp_jiafl %7};
+#ac {^%?%s食物：%s%1/%s%2%s武学：%s%3} {#var hp_food %1;#var hp_foodmax %2;#format hp_wx {%G} {%3}};
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3} {#var hp_water %1;#var hp_watermax %2;#var hp_dx %3};
+#ac {^%?%s潜能：%s%1%s杀气：%s%2} {#var hp_qn %1;#var hp_sq %2;showhp};
+
+#alias showhp
+{
+	#echo {{<053>$myname($myid):武学$hp_wx 道行$hp_dx 潜能$hp_qn 转世0 黄金0 <099>} {-6}};
+	#echo {{<020>※李靖:<030>$liguai_name<$liguai_id>$liguai_where $liguai_sta <020>※袁天罡:<030>$yuanguai_name<$yuanguai_id>$yuanguai_where $yuanguai_sta} {-5}};
+	#echo {{<020>※昨天:<030>[武@eval{$v_award_lj_wx_last+$v_award_zs_wx_last+$v_award_fg_wx_last+$v_award_guard_wx_last}|道@eval{$v_award_lj_dx_last+$v_award_zs_dx_last+$v_award_fg_dx_last+$v_award_guard_dx_last}|潜@eval{$v_award_lj_qn_last+$v_award_zs_qn_last+$v_award_fg_qn_last+$v_award_guard_qn_last}|魔@eval{$v_award_box_md_last+$v_award_guard_md_last}]<070>李[$v_liguai_ask_last/$v_liguai_over_last|$v_award_lj_wx_last|$v_award_lj_dx_last|$v_award_lj_qn_last]转[$v_award_zs_wx_last|$v_award_zs_dx_last|$v_award_zs_qn_last]法[$v_faguan_question_last/$v_faguan_right_last|$v_award_fg_wx_last|$v_award_fg_dx_last|$v_award_fg_qn_last|$v_award_box_md_last]<099>} {-3}};
+	#echo {{<070>       守[0]连[]如[0]<099>} {-4}};
+	#echo {{<020>※当天:<030>[武@eval{$v_award_lj_wx+$v_award_zs_wx+$v_award_fg_wx+$v_award_guard_wx}|道@eval{$v_award_lj_dx+$v_award_zs_dx+$v_award_fg_dx+$v_award_guard_dx}|潜@eval{$v_award_lj_qn+$v_award_zs_qn+$v_award_fg_qn+$v_award_guard_qn}|魔@eval{$v_award_box_md+$v_award_guard_md}]<070>李[$v_liguai_ask/$v_liguai_over/$v_liguai_over_zero|$v_award_lj_wx|$v_award_lj_dx|$v_award_lj_qn]转[$v_award_zs_wx|$v_award_zs_dx|$v_award_zs_qn]法[$v_faguan_question/$v_faguan_right|$v_award_fg_wx|$v_award_fg_dx|$v_award_fg_qn|$v_award_box_md]<099>} {-1}};
+	#echo {{<070>       守[0]连[$v_lianxu]如[0]<099>} {-2}};
+};
+
+#ac {%+($v_master_id)告诉你：$v_master_passwd (%*)} {@replace{%2;{-};{;}};
+#if {"%2"=="yesterday"} {tell $v_master_id 李[$v_liguai_ask_last/$v_liguai_over_last]};
+#if {"%2"=="today"} {tell $v_master_id 李[$v_liguai_ask/$v_liguai_over]]};
+#if {"%2"=="now"} {tell $v_master_id 武学$hp_wx 道行$hp_dx 潜能$hp_qn 转世$n_zhuanshi 黄金$v_account_gold}};
+
+#event {SESSION DISCONNECTED} {#if {$log==0} {#gts #delay 1 {#ses %0 %2 %3}};#class idlog write id/%0's.log};
+
+#class kangguaiowner close;
+
