@@ -1,0 +1,101 @@
+#class liguaiask open;
+
+#var v_changansouth_name {{1}{弟子训练广场}{2}{茅屋内间}{3}{小茅屋}{4}{石材店}};
+#var v_pet_name {{1}{物品交易中心}{2}{宠物店}{3}{礼品店}{4}{潜能银行}};
+
+#var v_swty_name {{1}{林荫道}{2}{小树林}{3}{世外桃源入口}{4}{世外桃源}};
+#var v_wizroom_name {{1}礼品店{2}{潜能银行}};
+
+#var v_sls_name {{1}{终南山脚}{2}{圭峰山}{3}{山门}{4}{山路}{5}{嵩山}{6}{少林寺}{7}{寺院}};
+
+#var v_wxz_name {{1}{乱葬岗}{2}{荒地}{3}{五行阵·阵门}{4}{五行阵中心·土阵}{5}{五行阵·雷阵}{6}{五行阵·风阵}{7}{五行阵·水阵}{8}{五行阵·火阵}};
+
+#al {已经完成} {wait {tick 15;ask li jing about $liguai_lv} 1};
+
+#al {没有完成} {#if {$n_xinxiang>12} {Treset;T+ path.tin;T+ liguaikill.tin;playnewbie;d;get xin xiang from bag;$pfm_buff;moveto $liguai_id} {playnewbie;#if {$liguai_find>=0} {d;find $liguai_id} {get jin dan from hualan;get hunyuan dan from hualan;get jinchuang yao from hualan;get ren shen from hualan;get ling zhi from hualan;playnewbie;fly guild;wait {w} 1}}};
+
+#ac {^　　近有%1(%2)在%3出没，为害不小，请速去收服！} {delwait;#var v_liguai_ask @eval{$v_liguai_ask+1};#var liguai_name %1;#var liguai_idupper %2;#var liguai_where %3;#var liguai_id @lower{$liguai_idupper};#var liguai_find -1;#var time_liguaistart @time{};playnewbie;exert recover;exert refresh;wait {e;T+ path.tin;liguai_start} 0.5};
+#ac {^袁天罡将手中桃木剑缓缓放下，说：多谢} {wait {ask yuan about kill} 2};
+#ac {^袁天罡说道：在下不是请您去收服$liguai_name吗？} {playnewbie;exert recover;exert refresh;wait {e;T+ path.tin;liguai_start} 0.5};
+
+#ac {^李靖对手中照妖镜一看，说：这位%*,妖魔已除尽,不妨先去歇息。} {delwait;已经完成};
+
+#ac {^李靖对你说道：近有%1(%2)在%3为非作歹，请速去降服！} {#var v_hunyuansan 0;l hunyuan san;#var liguai_sta 没有完成;#if {$v_liguai_ask==9} {backup};delwait;#var v_liguai_ask @eval{$v_liguai_ask+1};#var liguai_name %1;#var liguai_idupper %2;#var liguai_where %3;#var liguai_id @lower{$liguai_idupper};#var liguai_find -1;#var time_liguaistart @time{};#if {$v_songbao_open==1} {Treset;T+ songbao/readwords.tin;gotosongbao} {kquest}};
+
+#ac {^李%s靖：第%1个妖「%+」%2。} {tick 10;#var liguai_sta %2;$liguai_sta};
+
+#ac {^李%s靖：第%1个妖「$liguai_name」%2。} {tick 10;#var liguai_sta %2;$liguai_sta} {1};
+
+#ac {^李靖说道：老夫不是派你去降服$liguai_name吗？} {#if {"$liguai_sta"=="没有完成"} {delwait;kquest}};
+
+#ac {^千里眼告诉你：%1(%+)在%2。}
+{
+tick 10;
+#unac {^  %*$liguai_name};
+#if {"%1"=="$liguai_name"}
+{
+#if {"%2"=="$liguai_where"} {} {#if {$liguai_find>=0} {#var liguai_where %2}};
+#if {@ismember{%2;v_changansouth_name}>0} {#var liguai_where 长安城南};
+#if {@ismember{%2;v_pet_name}>0} {#var liguai_where 宠物店};
+
+#if {"%2"=="地窖口"} {#var liguai_where 长安城};
+
+#if {@ismember{%2;v_wizroom_name}>0} {#var liguai_where 大神领域};
+
+#if {@ismember{%2;v_sls_name}>0} {#var liguai_where 少林寺};
+
+#if {@ismember{%2;v_wxz_name}>0} {#var liguai_where 五行阵};
+#if {"%2"=="%*名人堂%*" || "%2"=="%*展室"} {#var liguai_where 名人堂}};
+get jin dan from hualan;get hunyuan dan from hualan;get jinchuang yao from hualan;get ren shen from hualan;get ling zhi from hualan;playnewbie;u;fly guild;wait {w} 1;
+};
+
+#ac {^...do...next..}
+{tick 10;touxiang;
+   #math hp_flmax {$hp_flmax+200};
+#al do_next {T- liguaiask;e;s;w;neidan use anti_magic;wait {T+ path.tin;liguai_start} 0.5};
+    #if {$hp_qi<@eval{$hp_qimax-50} || $hp_shen<@eval{$hp_shenmax-50}} {#al do_next {exert recover;exert refresh;hp}};
+        
+
+    
+    #if {$v_extra_natural==1} {     
+    #if {$hp_nl<@eval{$hp_nlmax*4/5} && $hp_nl<4500} {#al do_next {tick 15;e;fly changan;e;n;kill shadai;jiali 0;pfm_bang;wait {touxiang;hp} 8}};
+    #if {$hp_fl<@eval{$hp_flmax-400} && $hp_fl<3000} {#al do_next {tick 15;e;fly changan;e;n;kill shadai;jiali 0;pfm_bang;wait {touxiang;hp} 8}}; 
+    };  
+        
+    #if {$v_extra_natural==0} {
+    #if {$hp_nl<@eval{$hp_nlmax*4/5} && $hp_nl<4500} {#al do_next {#if {$v_fillsea==1 && $n_renshen>10} {eat 2 ren shen;hp} {#if {$n_renshen>1000} {eat 2 ren shen;hp} {dazuo max;#if {$v_extra_catch>0} {fabao_full};tick 60;wait {dazuo 0} 30}}}};
+    #if {$hp_fl<@eval{$hp_flmax} && $hp_fl<3000} {#al do_next {#if {$v_fillsea==1 && $n_lingzhi>10} {eat 2 ling zhi;hp} {#if {$n_lingzhi>1000} {eat 2 ling zhi;hp} {mingsi max;#if {$v_extra_catch>0} {fabao_full};tick 60;wait {mingsi 0} 30}}}}; 
+    };
+    #nop if {$v_extra_natural==0 && $hp_fl<=@eval{$hp_flmax*3/2}} {#al do_next {#if {$v_fillsea==1 && $n_lingzhi>10} {eat 2 ling zhi;hp} {mingsi max;#if {$v_extra_catch>0} {fabao_full};tick 60;wait {mingsi 0} 30}}};
+    
+    #if {$hp_qiper<100 && $hp_qiper>60} {#al do_next {#5 exert heal;hp}};
+    #nop if {$hp_qiper<=50} {#al do_next {eat jindan;hp}};
+    #if {$hp_qiper<=60} {#al do_next {#if {@eval{$hp_qimax*(95-$hp_qiper)/$hp_qiper/50}<@eval{$n_jinchuang-10}} {eat @eval{$hp_qimax*(80-$hp_qiper)/$hp_qiper/50} jinchuang yao} {eat @eval{$n_jinchuang-10} jinchuang yao};hp}};
+    #nop if {$hp_shenper<=60} {#al do_next {eat jindan;hp}};
+    #nop if {$hp_shenper<100 && $hp_shenper>60} {#al do_next {eat 5 hunyuan dan;hp}};
+    #if {$hp_shenper<95} {#al do_next {#if {@eval{$hp_shenmax*(100-$hp_shenper)/$hp_shenper/50-1}<@eval{$n_hunyuan-10}} {eat @eval{$hp_shenmax*(100-$hp_shenper)/$hp_shenper/50-1} hunyuan dan} {eat @eval{$n_jinchuang-10} hunyuan dan};hp}};
+wait do_next 0.5
+} {1};
+
+#ac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身} {tick 10;jiali 0;wait {touxiang;hp} 5};
+#ac {^你行功完毕，吸一口气，缓缓站了起来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {exert recover;hp} 3} 1} {wait {exert recover;hp} 1}};
+#ac {^你行功完毕，从冥思中回过神来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {exert refresh;hp} 3} 1} {wait {exert refresh;hp} 1}};
+#ac {^天宫城墙 -} {hp};
+#ac {^静室 -} {hp};
+#ac {^咦？．．．怎么还在原来的地方？} {delwait;gotodazuo};
+#ac {^%1一把抓住了你} {#if {"%1"!="%*【%*" && "%1"!="%*：%*" && "%1"!="%*>%*"} {#nop var liguai_find 0;tick 5}};
+#ac {^千里眼告诉你：奇怪，找不到这个人．．．}
+{
+get jin dan from hualan;get hunyuan dan from hualan;get jinchuang yao from hualan;get ren shen from hualan;get ling zhi from hualan;playnewbie;u;fly guild;wait {w} 1;
+};
+
+#ac {^  三生石(Three lives stone)} {remove three lives stone 3;remove three lives stone 2;remove three lives stone;combine three lives stone with three lives stone 3;combine three lives stone with three lives stone 2;} {1};
+
+#ac {^一只混元珍珠伞。} {#var v_hunyuansan 1};
+
+#ac {^周围没有一片云，没办法腾云驾雾。} {delwait;timeout};
+
+#class liguaiask close;
+
+
+

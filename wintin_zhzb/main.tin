@@ -1,0 +1,198 @@
+#sh
+#sh
+#sh
+#sh
+#sh ******************************************************************
+#sh *                天籁妙，山水雅，醉露为酒玉为花。                *
+#sh *                若人问我归何处，彩云深处是我家。                *
+#sh *                                                                *
+#sh *                                                                *
+#sh *                     <120>欢迎光临西游记-清华站<070>                      *
+#sh *                                                                *
+#sh *                       <410>123.125.116.212  6666<070>                         *
+#sh *                  220.181.69.181   6666 (电信)                  *
+#sh *                  123.125.116.212  6666 (联通)                  *
+#sh *                  115.25.217.20    6666 (教育网)                *
+#sh *                  175.100.207.215  6666 (海外)                  *
+#sh *                                                                *
+#sh *            本游戏终身QQ群<520>34048832<070>,欢迎大家互相交流。           *
+#sh ******************************************************************
+#class login_idlist open;
+#var login_idlist {{1}{try123}};
+#class login_idlist close;
+
+#event {MINUTE} {login_all};
+#gag {^#THERE'S A SESSION WITH THAT NAME ALREADY.};
+
+#alias login_all {#re id/login_idlist.tin;#foreach {$login_idlist[%*]} {login_id} {#if "$login_id"!="try123" {thu_rec $login_id}}};
+#alias thu {#re id/login_idlist.tin;#ses %1 220.181.69.181 6666};
+#nop alias thu_rec {#switch {1d4} {#case 1 {#ses %1 220.181.69.181 6666};#case 2 {#ses %1 220.181.69.181 6666};#case 3 {#ses %1 220.181.69.181 6666};#case 4 {#ses %1 220.181.69.181 6666}}};
+#alias thu_rec {#if {1d10>7} {#ses %1 220.181.69.181 6666} {#ses %1 220.181.69.181 6666}};
+#gag {^THERE'S A SESSION WITH THAT NAME ALREADY.};
+#alias login_addsave {#re id/login_idlist.tin;#var login_idlist @additem{login_idlist;$myid};#class login_idlist write id/login_idlist.tin};
+#alias login_delsave {#re id/login_idlist.tin;#var login_idlist @delitem{login_idlist;$myid};#class login_idlist write id/login_idlist.tin};
+
+
+
+#class tmp open;
+#al {report_all} {#re id/login_idlist.tin;#foreach {$login_idlist[%*]} {login_id} {#$login_id #gts #sh $myid [武@eval{$v_award_lj_wx+$v_award_rl_wx+$v_award_zs_wx+$v_award_fg_wx+$v_award_guard_wx+$v_award_sb_wx}|道@eval{$v_award_lj_dx+$v_award_rl_dx+$v_award_zs_dx+$v_award_fg_dx+$v_award_guard_dx+$v_award_sb_dx}|潜@eval{$v_award_lj_qn+$v_award_rl_qn+$v_award_zs_qn+$v_award_fg_qn+$v_award_guard_qn+$v_award_sb_qn}|魔@eval{$v_award_box_md+$v_award_guard_md+$v_award_sb_mp}]李[$v_liguai_ask/$v_liguai_over|$v_award_lj_wx|$v_award_lj_dx|$v_award_lj_qn]连[$v_lianxu]如[$n_rulai/$v_rulai_over|$v_award_rl_wx|$v_award_rl_dx|$v_award_rl_qn]填[$n_fillsea]宝[$n_songbao/$n_songbao_done|连$v_award_sb_ten|$v_award_sb_wx|$v_award_sb_dx|$v_award_sb_qn|$v_award_sb_mp|$v_award_sb_silver]}};
+#nop 增加一个全天随机关闭解谜以便打开如来的时间;
+#event {DAY} {#all re_day;#all #var v_rulai_time @rnd{1;12}};
+#event {HOUR} {#all localtime};
+#alias start {#re id/login_idlist.tin;#foreach {$login_idlist[%*]} {login_id} {#if "$login_id"!="try123" {thu_rec $login_id}}};
+#class tmp close;
+
+#var v_beta {Wintin++ 2016-10-21 by zhzb};
+
+#show {<fca>机器登陆后启动机器，若想停止或调整机器，请登录后输入：<fac>robot_stop <fca>再次启动机器：<fac>robot_start};
+#show {<afa>版本：$v_beta};
+#show {<afa>批量登陆请输入：<fac>start <afa>单独登陆请输入：thu <fac><Your ID><afa>。};
+
+
+#act {^#SESSION 'gts' ACTIVATED.} {#show {<fca>机器登陆后启动机器，若想停止或调整机器，请登录后输入：<fac>robot_stop <fca>再次启动机器：<fac>robot_start};
+#show {<afa>版本：$v_beta};
+#show {<afa>批量登陆请输入：<fac>start <afa>单独登陆请输入：thu <fac><Your ID><afa>。}};
+
+#nop log标记为是否可自动登录，可在死亡或超ip限制标记log 1，防止反复登入;
+#ac {^%s西游记欢迎您来访！使用国标码的玩家请键入：gb} {#var log 0;T- tmp;
+#delay 1 {#if {&myid} {tick 5;
+#if {"$userweapon"=="stick" || "$busyweapon"=="stick" || "$thirdweapon"=="stick" || "$fourthweapon"=="stick"}
+{#if {@ismember{xiangmo-bang;safelist}==0} {#list safelist add {xiangmo-bang}}};
+
+#if {"$userweapon"=="sword" || "$busyweapon"=="sword" || "$thirdweapon"=="sword" || "$fourthweapon"=="sword"}
+{#if {@ismember{zhenyao-sword;safelist}==0} {#list safelist add {zhenyao-sword}}};
+
+#if {"$userweapon"=="whip" || "$busyweapon"=="whip" || "$thirdweapon"=="whip" || "$fourthweapon"=="whip"}
+{#if {@ismember{damo-bian;safelist}==0} {#list safelist add {damo-bian}}};
+
+#if {"$userweapon"=="blade" || "$busyweapon"=="blade" || "$thirdweapon"=="blade" || "$fourthweapon"=="blade"}
+{#if {@ismember{zhanmo-dao;safelist}==0} {#list safelist add {zhanmo-dao}}};
+
+#if {"$userweapon"=="dagger" || "$busyweapon"=="dagger" || "$thirdweapon"=="dagger" || "$fourthweapon"=="dagger"}
+{#if {@ismember{deathtouch;safelist}==0} {#list safelist add {deathtouch}}};
+
+#if {"$userweapon"=="staff" || "$busyweapon"=="staff" || "$thirdweapon"=="staff" || "$fourthweapon"=="staff"}
+{#if {@ismember{fumo-zhang;safelist}==0} {#list safelist add {fumo-zhang}}};
+
+#if {"$userweapon"=="axe" || "$busyweapon"=="axe" || "$thirdweapon"=="axe" || "$fourthweapon"=="axe"}
+{#if {@ismember{xuanhua-fu;safelist}==0} {#list safelist add {xuanhua-fu}}};
+
+#if {"$userweapon"=="fork" || "$busyweapon"=="fork" || "$thirdweapon"=="fork" || "$fourthweapon"=="fork"}
+{#if {@ismember{chumo-cha;safelist}==0} {#list safelist add {chumo-cha}}};
+
+#if {"$userweapon"=="hammer" || "$busyweapon"=="hammer" || "$thirdweapon"=="hammer" || "$fourthweapon"=="hammer"}
+{#if {@ismember{meihua-hammer;safelist}==0} {#list safelist add {meihua-hammer}}};
+
+#if {"$userweapon"=="spear" || "$busyweapon"=="spear" || "$thirdweapon"=="spear" || "$fourthweapon"=="spear"}
+{#if {@ismember{sanliang-spear;safelist}==0} {#list safelist add {sanliang-spear}}};
+
+#if {"$userweapon"=="qin" || "$busyweapon"=="qin" || "$thirdweapon"=="qin" || "$fourthweapon"=="qin"}
+{#if {@ismember{fenghuang-qin;safelist}==0} {#list safelist add {fenghuang-qin}}};
+
+#if {"$userweapon"=="mace" || "$busyweapon"=="mace" || "$thirdweapon"=="mace" || "$fourthweapon"=="mace"}
+{#if {@ismember{tiger-mace;safelist}==0} {#list safelist add {tiger-mace}}};
+
+#if {"$userweapon"=="di" || "$busyweapon"=="di" || "$thirdweapon"=="di" || "$fourthweapon"=="di"}
+{#if {@ismember{biyu-di;safelist}==0} {#list safelist add {biyu-di}}};
+
+#if {"$userweapon"=="bow" || "$busyweapon"=="bow" || "$thirdweapon"=="bow" || "$fourthweapon"=="bow"}
+{#if {@ismember{tie-gong;safelist}==0} {#list safelist add {tie-gong}}};
+
+#if {"$userweapon"=="quiver" || "$busyweapon"=="quiver" || "$thirdweapon"=="quiver" || "$fourthweapon"=="quiver"}
+{#if {@ismember{gang-nang;safelist}==0} {#list safelist add {gang-nang}};
+#if {@ismember{tie-jian;safelist}==0} {#list safelist add {tie-jian}}};
+
+#if {"$userweapon"=="nang" || "$busyweapon"=="nang" || "$thirdweapon"=="nang" || "$fourthweapon"=="nang"}
+{#if {@ismember{gang-nang;safelist}==0} {#list safelist add {gang-nang}};
+#if {@ismember{tie-jian;safelist}==0} {#list safelist add {tie-jian}}};
+
+#if {"$userweapon"=="fist" || "$busyweapon"=="fist" || "$thirdweapon"=="fist" || "$fourthweapon"=="fist"}
+{#if {@ismember{quan-tao;safelist}==0} {#list safelist add {quan-tao}}};
+
+#if {"$v_tongling"!="none" && &v_tongling} {#if {@ismember{psychic-$v_tongling;safelist}==0} {#list safelist add {psychic-$v_tongling}}};
+
+#if {@ismember{wulei;v_skill_special}>0} {#if {@ismember{tian-shu;safelist}==0} {#list safelist add {tian-shu}}};#if {@ismember{three-lives-stone;safelist}==0} {#list safelist add {three-lives-stone}};
+gb;n;$myid;$mypass;y} {discon}}};
+#ac {^对不起，从你的IP地址不能同时登录} {login_delsave;#var log 1};
+#ac {^密码错误} {login_delsave;#var log 1};
+#ac {^重新连线完毕。} {#if &v_cps {bjtime;robot_start} {#sh 目前权限：(player)}};
+#nop 已知下一句另有两处设置触发优先等级path和fillsea;
+#ac {^慢慢地你终于又有了知觉．．．} {#var v_cure 0;tick 5};
+
+#ac {^目前权限：(player)}
+{bjtime;localtime;
+#class idlog open;
+#var v_rulai_time 48;
+#var v_cps 0;
+#var v_xiuqiu 0;#var v_pig 0;#var v_hulu 0;
+#var v_cure 0;
+#var robot_stop {0};
+#var state {0};
+#var v_guard {0};
+#var n_fillsea {0};#var n_fillsea_last {0};#var path_taibai {};
+#var enable_spells_lv 0;#var enable_spells_lv_last 0;
+#var v_firemount 0;
+#var v_fillsea_accept 0;#var v_room_taibai 0;
+#var time_songbaostart 0;
+
+#var liguai_name {0};
+#var liguai_id {0};
+#var liguai_idupper {};
+#var liguai_where {0};
+#var liguai_find {0};
+#var time_liguaistart {0};
+#var liguai_sta {待检查};
+#var n_shikuai 0;
+#var v_mingsi 1;
+#var v_dazuo 1;
+#var v_lianxu 1;
+
+#var v_beiming_force 0;
+#var n_rsg 0;#var n_rsg1 0;
+
+#var songbao_find {0};#var wabao_find {0};#var songbao_sta {待检查};#var songbao_searchname 0;#var songbao_do 0;
+#var n_songbao {0};#var n_songbao_done {0};#var songbao_giveid {0};#var wabao_room 0;#var wabao_where 0;
+
+#var rulai_name {0};
+#var rulai_id {0};
+#var rulai_idupper {0};
+#var rulai_where {0};
+#var rulai_find {0};
+#var v_rulai {0};
+#var v_rulai_num {0};
+#var rulai_sta {待检查};
+
+#var quests_sta {待检查};#var v_checkitem 0;#var v_sell 1;
+#var ColorList 0;
+#var PriorityList1 0;#var PriorityList 0;#var SubmitDone 0;#var QuestStep 0;#math QuestStep 0;#var QuestNext 0;#var QuestType 0;#var UnDone 0;
+#var QuestsSearchStep 0;#var QuestsNowID 0;#var QuestsNowName 0;#var QuestsNowDo 0;#var QuestsNowMemo 0;#var QuestsNowBuyID 0;#var QuestsNowExtra 0;#var QuestsNowDoExtra 0;#var QuestsNowExtraID 0;
+#var QuestsTime_Ask 1;#var QuestsTime_Give 1;#var QuestsTime_Weapon 1;#var QuestsTime_Armor 1;#var QuestsTime_Kill 1;#var QuestsTime_Food 1;#var QuestsTime_Cloth 1;
+
+#var v_award_sb_silver 0;#var v_award_sb_dx 0;#var v_award_sb_wx 0;#var v_award_sb_qn 0;#var v_award_sb_mp 0;#var v_award_sb_ten 0;#var v_award_sb_ten_last 0;
+#var v_award_sb_silver_last 0;#var v_award_sb_dx_last 0;#var v_award_sb_wx_last 0;#var v_award_sb_qn_last 0;#var v_award_sb_mp_last 0;
+#var n_songbao_last 0;#var n_songbao_done_last 0;
+#var v_award_lj_wx 0;#var v_award_lj_dx 0;#var v_award_lj_qn 0;
+#var v_award_rl_wx 0;#var v_award_rl_dx 0;#var v_award_rl_qn 0;
+#var v_award_zs_wx 0;#var v_award_zs_dx 0;#var v_award_zs_qn 0;
+#var v_award_fg_wx 0;#var v_award_fg_dx 0;#var v_award_fg_qn 0;#var v_award_box_md 0;
+#var v_award_guard_wx 0;#var v_award_guard_dx 0;#var v_award_guard_qn 0;#var v_award_guard_md 0;
+#var v_award_lj_wx_last 0;#var v_award_lj_dx_last 0;#var v_award_lj_qn_last 0;
+#var v_award_rl_wx_last 0;#var v_award_rl_dx_last 0;#var v_award_rl_qn_last 0;
+#var v_award_zs_wx_last 0;#var v_award_zs_dx_last 0;#var v_award_zs_qn_last 0;
+#var v_award_fg_wx_last 0;#var v_award_fg_dx_last 0;#var v_award_fg_qn_last 0;#var v_award_box_md_last 0;
+#var v_award_guard_wx_last 0;#var v_award_guard_dx_last 0;#var v_award_guard_qn_last 0;#var v_award_guard_md_last 0;
+#var v_liguai_ask_last 0;#var v_liguai_ask 0;#var v_liguai_over_last 0;#var v_liguai_over 0;#var v_account_gold_last1 0;#var v_account_gold_last 0;
+#var n_rulai 0;#var n_rulai_last 0;#var v_rulai_over 0;#var v_rulai_over_last 0;
+#var v_award_quest_dx 0;#var v_award_quest_wx 0;#var v_award_quest_qn 0;#var v_award_quest_cloud 0;#var v_award_quest_seven 0;
+#var v_award_quest_dx_last 0;#var v_award_quest_wx_last 0;#var v_award_quest_qn_last 0;#var v_award_quest_cloud_last 0;#var v_award_quest_seven_last 0;
+#class idlog close;
+tick 10;robot_start};
+
+
+#al {quit} {login_delsave;#var log 1;\quit};#nop 重新定义quit，避免人工quit后自动重连;
+#al {discon} {login_delsave;#var log 1;wait {#zap} 0.5};
+#tick {time} {time};
+
+
+#event {SESSION CONNECTED} {#re init.tin;#re id/%0.tin;#re id/%0's.log;login_addsave};
+

@@ -1,0 +1,226 @@
+#class id open;
+#nop ****************************ID及控制设置区***************************************;
+
+#nop ------以下分别为id中文名、英文名、别人对自己的尊称（国子监apply设置）------;
+#var {myname} {至尊宝};
+#var {myid} {zhzb};
+#var {mynick} {月光宝盒的主人};
+
+#nop -----id的密码自己填写------;
+#var {mypass} {};
+
+#nop ------李靖杀怪难度kill和kill2------;
+#var {liguai_lv} {kill};
+
+#nop ------如来杀怪难度1、2、3、4------;
+#nop --1指仅做难度1、2指仅做难度2、3指做除了降三以外所有、4或其它指全做---;
+#nop ---默认仅做明王宗难度1任务----;
+#var {rulai_lv} {4};
+
+#nop ----主控大米id，以下两个千万不能为空，同时一定要改成自己的-----;
+#var v_master_id {wangp};
+#nop ----主控口令-----;
+#nop ----多个命令发出时用-代替分号,举例 tell shiman 上山打小叶 (summon asme-kill asme-上上下下左右左右AB)----;
+#var v_master_passwd {上山打小叶};
+
+#nop ----日常状态需要enable的攻击和轻功技能命令（内功和法术千万不能填写 parry dodge 主武器和拳法 轻功必须填写）-----；
+#al {enable_base} {enchant max;enforce max;enable parry bolang-qisha;enable mace bolang-qisha;enable unarmed beiming-shengong;enable dodge kunpeng-move;enable dagger jueyun-zhua};
+
+#nop ****************************大米设置区*****************************************;
+#var v_anhao {xxxxx};
+#var v_xs_dummy {xyjh};
+#nop ------提供鲜花的大米ID------;
+#var dummy_flower_id {huajiang};
+
+#nop ****************************各类功能开关区***************************************;
+
+#nop ---------自动学习控制1为学习，0为不学习----------;
+#var v_autolearn {1};
+#nop ---------设置身上最多保持多少潜能，多余部分自动储存，若不想储存请设置足够大比如99999999999----------------;
+#nop ---------开学习的话建议设置成200000，一定不要设置成20000及以下----------;
+#nop ---------如果存了很多潜能需要学的时候，手动取出潜能，将这个值设置大于要学掉的潜能----------;
+#var v_qn_dep {200000};
+#nop ---------是否有帮派，1有，0无，填错会导致错误----------;
+#var v_guild {1};
+#nop ---------是否开启法官，0无，1自动，2手动---------;
+#var v_faguan {0};
+#nop ------连续杀怪大于以下值的情况下不守城，设置99999表示仅守城、设置0表示日常一直不守城---------;
+#var v_lianxu_max {2};
+#nop ---------是否开启如来，0无，1开---------;
+#var v_rulai_open {1};
+#nop ---------是否开启填海，0无，1开---------;
+#var v_fillsea_open {1};
+#nop ---------是否开启送宝，0无，1开---------;
+#var v_songbao_open {1};
+#nop ---------是否开启开封解谜，0无，1开--------;
+#var v_quests_open {1};
+#nop ---------是否开启修道，0无，1开-------;
+#var v_xiudao {0};
+#nop ---------使用wzgdan,0无，1wzgdan，2nowzgdan-------;
+#var v_wzgdan {0};
+#nop ---------控制杀气,两种方式：max(与定力顶格),具体数字(自行考虑 比如普陀的不能超过100，hell的自求多福)-------;
+#var v_shaqi {max};
+
+#nop ****************************武器设置区***************************************;
+
+#nop -------以下分别为法宝武器和法宝装备英文及中文名----------;
+#var {fabao_id1} {wujian};
+#var {fabao_name1} {无间};
+#var {fabao_id2} {tianxia};
+#var {fabao_name2} {天下};
+#var {fabao_id3} {shuiling};
+#var {fabao_name3} {水灵};
+#nop ----这个为第二法宝武器----;
+#var {fabao_id4} {zhizun};
+#var {fabao_name4} {至尊};
+#nop -----以下为主武器及busy技能武器，输入基本武器类型即可(两个可以一样)，不需要手动添加到safelist-------;
+#nop !!!!!!如果有弓和箭囊，弓必须写进thirdweapon，箭囊必须写进fourthweapon(且弓和箭囊必须同时填写)，同时1、2类武器不能为空或0!!!!!;
+#var {userweapon} {mace};
+#var {busyweapon} {mace};
+#nop ----以下是第三、四类武器，特殊门派及id使用，如果不需要请填写none，需要则输入类型-----;
+#var {thirdweapon} {none};
+#var {fourthweapon} {none};
+#nop 以上武器部分经常容易填错，解释下何为基本武器类型，+ ne那list显示的免费武器id即是，如弓bow，箭囊nang等;
+#nop ---通灵武器类型，不需要则填写none，其余等同于武器类型----;
+#var v_tongling {none};
+
+#nop ****************************物品白名单设置区***************************************;
+
+#nop ----以下为不能丢弃的物品id，若有空格一定要用-代替，除非是黑丝系列和item，其余基本不要添加了----；
+#list safelist creat {guyuan-gao;yunnan-baiyao;shi-kuai;wuzi-jing;kevlar-vest;hair-band;black-knickers;three-lives-stone;gang-nang;xin-xiang;xiang;gold;silver;coin;tenthousand-goldcash;thousand-goldcash;jinchuang-yao;hunyuan-dan;jin-dan;yao-pai;chuansuo-qi;hua-lan;bishui-zhou;bag;huangliang-zhen;shoupi-pifeng;tian-yi;huang-qian;cloudy-shoes;ziluo-dun;eastsea-map;xueshan-map;tian-shu;ren-shen;ling-zhi;teleport-scroll;token;$fabao_id1;$fabao_id2;$fabao_id3;$fabao_id4;shenzhi-bishou;shenzhi-zhanjia};
+
+
+#nop ****************************自动学习技能设置区***************************************;
+
+#nop ------只要一倍研习的基础技能，比如法术、轻功、刀法、剑法等，支持force用两仪剑法升级--------;
+#var v_skill_research_base {mace;dodge;spells};
+#nop ------若一倍中升级force，则下面填写对应enable的特殊内功-----;
+#var v_skill_enable_force {tonsillit};
+#nop -------特殊武技，需要能激发练习的，如筋斗云、千钧棒法等-------;
+#var v_skill_lian {kunpeng-move;bolang-qisha;jueyun-zhua};
+#nop -----对应上一行特殊武技的基础技能，比如筋斗云对应dodge，千钧棒法对应stick，不能填错------;
+#var v_skill_lian_base {dodge;mace;dagger};
+#nop -----需要双倍研习的技能，比如基本内功、特殊内功、特殊法术-------;
+#var v_skill_research_double {force;beiming-shengong;xiaoyao-dafa};
+#nop -----需要特殊处理的技能，目前仅支持密宗、五雷，若不需要填0-------;
+#var v_skill_special {0};
+
+
+#nop ****************************个性化命令设置区***************************************;
+
+#nop -----去地府的方法，地府弟子请填写法术回城，百姓可填写jump bridge，因为地点设置在桥上------;
+#nop ------用出窍方式的必须填写T+ chuqiao.tin;cast chuqiao--------;
+#al {chuqiao} {T+ chuqiao.tin;cast chuqiao};
+
+#nop -----个性化设置法宝充能，不需要则填none-----;
+#al {charge_fabao} {charge $fabao_id1 for attack_qi 20;charge $fabao_id1 for damage_qi 20;charge $fabao_id1 for damage_shen 20;charge $fabao_id4 for attack_qi 20;charge $fabao_id4 for damage_qi 20;charge $fabao_id4 for damage_shen 20};
+
+#nop -----设置基础pfm命令同时作为如来怪的轻攻击(命中要高，最好是主武器的pfm，不要加on $怪id)------;
+#al {pfm_kill} {wield $userweapon;wield all;jiali max;perform mace.leidian with mace;perform mace.leidian with mace 2;perform mace.leidian with mace 3};
+
+#nop -----设置重击pfm命令同时作为清除高级拦路怪及九转神魔恢复内力法力(连击要多，不要加on $怪id，因为要补充内力所以不要****加力****)------;
+#al {pfm_bang} {wield $userweapon;wield all;perform mace.qisheng with mace;perform mace.qisheng with mace 2;perform mace.qisheng with mace 3};
+
+#nop -----设置基础busy命令，注意加上enable 同上，如果跟主武器一样，请修改$busyweapon为$userweapon----------;
+#al {pfm_busy} {jiali max;perform dodge.fuhai};
+
+#nop ------遇到怪后，需要使用的护法类技能，无则填写none--------;
+#var {pfm_hufa} {none};
+
+#nop ------能使用的加攻击、加防御、加buff等比如exert shield，无则填写none--------;
+#var {pfm_buff} {enable parry bolang-qisha;enable mace bolang-qisha};
+
+#nop -------李靖怪每次pfm组合间隔时间--------;
+#var liguai_pfm_time {1};
+#nop ------杀怪技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
+#nop ------如来未完成前，不用如来法宝杀李靖------;
+#al {pfm_liguai}
+{
+
+};
+
+#nop ------杀怪时busy技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
+#nop 目前未使用,请全部填写在pfm_liguai;
+#al {pfm_liguaibusy} {pfm_busy};
+
+#nop ------如来怪时你想间隔固定描述设置的命令，可以将重复的一个且一定要放最前面的命令单独再写一遍，比如busy技-----;
+#nop --格式举例:#al {rulai_tick} {perform dodge.fuhai on $myid's $rulai_id;#tick {rulai_tick} {perform dodge.fuhai on $myid's $rulai_id;cast houyi} {1}}-----;
+#al {rulai_tick} {perform dodge.fuhai on $myid's $rulai_id;#tick {rulai_tick} {perform dodge.fuhai on $myid's $rulai_id;cast houyi} {1}};
+
+#nop -------如来怪每次pfm组合间隔时间--------;
+#var rulai_pfm_time {1.8};
+
+#nop ------如来杀怪技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
+#al {pfm_rl} {};
+
+#nop ------如来杀怪时busy技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
+#nop 目前未使用,请全部填写在pfm_rl;
+#al {pfm_rlbusy} {pfm_busy};
+
+#nop ------守城杀怪时技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
+#al {pfm_guard} {pfm_liguai};
+
+#nop --------解谜中清除强力npc用，尽量不要连太多pfm-----------;
+#al {pfm_npc} {pfm_bang};
+
+#nop --------解谜中清除同id指定npc用，需要用%1，-----------;
+#al {pfm_npc_on} {};
+
+#nop ----------备用可不管------------;
+#var v_vip {1};
+
+#var v_super_vip {1};
+
+#nop ****************************快捷键设置区***************************************;
+
+#nop ---以下为可自定义快捷键F1-F12，直接填写在后一个{}中，比如#macro {\eOP} {exert recover}，按下F1直接吸气---;
+#nop ---快捷键F1---;
+#macro {\eOP} {#sh F1};
+#nop ---快捷键F2---;
+#macro {\eOQ} {#sh F2};
+#nop ---快捷键F3---;
+#macro {\eOR} {#sh F3};
+#nop ---快捷键F4---;
+#macro {\eOS} {#sh F4};
+#nop ---快捷键F5---;
+#macro {\e[15~} {#sh F5};
+#nop ---快捷键F6---;
+#macro {\e[17~} {#sh F6};
+#nop ---快捷键F7---;
+#macro {\e[18~} {#sh F7};
+#nop ---快捷键F8---;
+#macro {\e[19~} {#sh F8};
+#nop ---快捷键F9---;
+#macro {\e[20~} {#sh F9};
+#nop ---快捷键F10---;
+#macro {\e[21~} {#sh F10};
+#nop ---快捷键F11---;
+#macro {\e[23~} {#sh F11};
+#nop ---快捷键F12---;
+#macro {\e[24~} {#sh F12};
+
+
+#nop ****************************以下部分不能修改***************************************;
+
+#list v_skill_research_all add $v_skill_research_base;
+#nop list v_skill_research_all add $v_skill_lian;
+#list v_skill_research_all add $v_skill_research_double;
+#nop list v_skill_research_all add $v_skill_special;
+
+#list v_skill_research_base creat $v_skill_research_base;
+#list v_skill_lian creat $v_skill_lian;
+#list v_skill_lian_base creat $v_skill_lian_base;
+#list v_skill_research_double creat $v_skill_research_double;
+#list v_skill_special creat $v_skill_special;
+
+#list v_guard_day creat $v_guard_day;
+
+#event {SESSION DISCONNECTED} {#if {$log==0} {#gts #delay 1 {#ses %0 %2 %3}};#class idlog write id/%0's.log};
+
+#ac {%+($v_master_id)告诉你：$v_master_passwd (%*)} {@replace{%2;{-};{;}};
+#if {"%2"=="yesterday"} {tell $v_master_id [武@eval{$v_award_lj_wx_last+$v_award_rl_wx_last+$v_award_zs_wx_last+$v_award_fg_wx_last+$v_award_guard_wx_last+$v_award_sb_wx_last+$v_award_quest_wx_last}|道@eval{$v_award_lj_dx_last+$v_award_rl_dx_last+$v_award_zs_dx_last+$v_award_fg_dx_last+$v_award_guard_dx_last+$v_award_sb_dx_last+$v_award_quest_dx_last}|潜@eval{$v_award_lj_qn_last+$v_award_rl_qn_last+$v_award_zs_qn_last+$v_award_fg_qn_last+$v_award_guard_qn_last+$v_award_sb_qn_last+$v_award_quest_qn_last+$enable_spells_lv_last*$n_fillsea_last}|魔@eval{$v_award_box_md_last+$v_award_guard_md_last+$v_award_sb_mp_last}]李[$v_liguai_ask_last/$v_liguai_over_last|$v_award_lj_wx_last|$v_award_lj_dx_last|$v_award_lj_qn_last]转[$v_award_zs_wx_last|$v_award_zs_dx_last|$v_award_zs_qn_last]谜[七$v_award_quest_seven_last/$v_award_quest_cloud_last|$v_award_quest_wx_last|$v_award_quest_dx_last|$v_award_quest_qn_last]如[$n_rulai_last/$v_rulai_over_last|$v_award_rl_wx_last|$v_award_rl_dx_last|$v_award_rl_qn_last]填[$n_fillsea_last|@eval{$enable_spells_lv_last*$n_fillsea_last}]宝[$n_songbao_last/$n_songbao_done_last|连$v_award_sb_ten_last|$v_award_sb_wx_last|$v_award_sb_dx_last|$v_award_sb_qn_last|$v_award_sb_mp_last|$v_award_sb_silver_last]};
+#if {"%2"=="today"} {tell $v_master_id [武@eval{$v_award_lj_wx+$v_award_rl_wx+$v_award_zs_wx+$v_award_fg_wx+$v_award_guard_wx+$v_award_sb_wx+$v_award_quest_wx}|道@eval{$v_award_lj_dx+$v_award_rl_dx+$v_award_zs_dx+$v_award_fg_dx+$v_award_guard_dx+$v_award_sb_dx+$v_award_quest_dx}|潜@eval{$v_award_lj_qn+$v_award_rl_qn+$v_award_zs_qn+$v_award_fg_qn+$v_award_guard_qn+$v_award_sb_qn+$v_award_quest_qn+$enable_spells_lv*$n_fillsea}|魔@eval{$v_award_box_md+$v_award_guard_md+$v_award_sb_mp}]李[$v_liguai_ask/$v_liguai_over|$v_award_lj_wx|$v_award_lj_dx|$v_award_lj_qn]转[$v_award_zs_wx|$v_award_zs_dx|$v_award_zs_qn]谜[七$v_award_quest_seven/$v_award_quest_cloud|$v_award_quest_wx|$v_award_quest_dx|$v_award_quest_qn]连[$v_lianxu]如[$n_rulai/$v_rulai_over|$v_award_rl_wx|$v_award_rl_dx|$v_award_rl_qn]填[$n_fillsea|@eval{$enable_spells_lv*$n_fillsea}]宝[$n_songbao/$n_songbao_done|连$v_award_sb_ten|$v_award_sb_wx|$v_award_sb_dx|$v_award_sb_qn|$v_award_sb_mp|$v_award_sb_silver]};
+#if {"%2"=="now"} {tell $v_master_id 武学$hp_wx 道行$hp_dx 潜能$hp_qn 转世$n_zhuanshi 黄金$v_account_gold}};
+
+#class id close;
+

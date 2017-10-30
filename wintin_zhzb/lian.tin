@@ -1,0 +1,154 @@
+#class lian open;
+#var v_lian_weapon {};
+#var v_lian_weapon_parry {};
+#var v_enableforce {0};
+
+#ac {^...do...next..}
+{
+tick 10;
+delwait;time;
+#var v_checktime_lijing 240;
+#if {"$liguai_sta"=="没有完成" && $liguai_find>=2} {#var v_checktime_lijing 840};
+
+#al do_next {wait {T- lian;T+ control.tin;hp} 1;#sh 出现问题！！！！};
+
+#if {@ismember{wulei;v_skill_special}>0 && @ismember{wulei;skill_idlist}>0 && $skill_numlist[@ismember{wulei;skill_idlist}]<$skill_numlist[@ismember{spells;skill_idlist}]} {#al do_next {l tian shu;wait {cast heaven on $myid;enter;u;set no_accept 0;ask xian guan about 法典;d;out;s;w;#7 s;w;timeout} 5}};
+
+#if {@ismember{mizong-buddhism;v_skill_special}>0 && @ismember{mizong-buddhism;skill_idlist}>0 && $skill_numlist[@ismember{mizong-buddhism;skill_idlist}]<$skill_numlist[@ismember{spells;skill_idlist}]} {#al do_next {fly changan;#12 s;nw;wait {w;w;sw;w;wu;sw;nu;nu;n;knock door;songjing} 2}};
+
+#if {@ismember{dragonforce;v_skill_special}>0 && @ismember{dragonforce;skill_idlist}>0 && $skill_numlist[@ismember{dragonforce;skill_idlist}]<200 && $skill_numlist[@ismember{dragonforce;skill_idlist}]<$skill_numlist[@ismember{force;skill_idlist}]} {#al do_next {fly changan;#16 s;#3 e;dive;wait {#2 e;#if $v_train>10 {ne;e;e;eu;e;n;n;nw} {sw;s}} 4}};
+
+
+#if {@ismember{$lian_idnow;v_skill_lian}>0}
+{
+#var v_lian_weapon {$v_skill_lian_base[@ismember{$lian_idnow;v_skill_lian}]};
+#var v_lian_weapon_parry $v_lian_weapon;
+#if {"$lian_idnow"=="luori-archery" || "$lian_idnow"=="miemo-archery"} {#var v_lian_weapon {bow}};
+#if {"$v_lian_weapon"=="dodge" || "$v_lian_weapon"=="unarmed"} {#if {"$lian_idnow"=="rulai-zhang"} {enable unarmed rulai-zhang;unwield all;#var v_lian_weapon_parry {unarmed};#if {$lian_skill_num<=$skill_num_parry} {enable parry rulai-zhang;#var v_lian_weapon_parry {parry}}} {enable $v_lian_weapon_parry $lian_idnow;unwield all}} {unwield all;
+#if {"$v_lian_weapon"=="force" || "$v_lian_weapon"=="spells"} {} {enable $v_lian_weapon_parry $lian_idnow;wield $v_lian_weapon};
+#if {"$lian_idnow"=="miemo-archery"} {wield quiver} {
+#if {$lian_skill_num<=${skill_num_@item{v_skill_lian_base;@ismember{$lian_idnow;v_skill_lian}}}} {enable $v_lian_weapon $lian_idnow;#var v_lian_weapon_parry {$v_lian_weapon}};
+#if {$lian_skill_num<=$skill_num_parry} {#if $skill_num_parry>${skill_num_@item{v_skill_lian_base;@ismember{$lian_idnow;v_skill_lian}}} {enable parry $lian_idnow;#var v_lian_weapon_parry {parry}}};
+}};
+
+#al do_next {#3 {lian $v_lian_weapon_parry 50;placenewbie;playnewbie;exert refresh;exert recover};skills;placenewbie;playnewbie;hp};
+#if {"$lian_idnow"=="luori-archery"} {#al do_next {tick 10;jiali max;fly moon;sd;#2 ed;#2 nd;ed;e;n;n;answer 1;nw;n}};
+#if {"$lian_idnow"=="yueya-chan"} {#al do_next {wield fork;wait {fly jingjiling;e;s;sw;su;wd;sd;se;ed;se;e;get bishui zhou from hua lan;dive;n;n;nu;n;nu;w} 2}};
+};
+
+#if {"$lian_idnow"=="0"} {#al do_next {wait {T- lian;T+ control.tin;hp} 1}};
+
+#if {$v_extra_natural==1} {
+#if {$hp_nl<@eval{$hp_nlmax*2/3} || $hp_fl<@eval{$hp_flmax-400}}
+{
+#al do_next {
+#class lian open;
+#ac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身} {tick 10;jiali 0;wait {#unac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身};touxiang;s;fly guild;wait hp 1} 5};
+#class lian close;
+tick 15;fly changan;e;n;kill shadai;jiali 0;pfm_bang;wait {#unac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身};touxiang;s;fly guild;wait hp 1} 8}
+}};  
+
+#nop 法力过低;
+#if {$v_extra_natural==0 && $hp_fl<@eval{$hp_flmax-400}}
+{
+#if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {
+#al do_next {#if {$v_quests_open==1 && $n_lingzhi>=1000} {eat 5 ling zhi;hp} {tick 40;fly guild;wait {w;mingsi max;#if {$v_extra_catch>0} {fabao_full};wait {mingsi 0} 30} 1}};
+#al do_next1 {mingsi max;#if {$v_extra_catch>0} {fabao_full};tick 40;wait {mingsi 0} 30}};
+};
+
+#nop 内力过低;
+#if {$v_extra_natural==0 && $hp_nl<@eval{$hp_nlmax/5*4}}
+{
+#if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {
+#al do_next {#if {$v_quests_open==1 && $n_renshen>=1000} {eat 5 ren shen;hp} {tick 40;fly guild;wait {w;dazuo max;#if {$v_extra_catch>0} {fabao_full};wait {dazuo 0} 30} 1}};
+#al do_next1 {dazuo max;#if {$v_extra_catch>0} {fabao_full};tick 40;wait {dazuo 0} 30}};
+};
+
+#nop 填海时间;
+#if {@time_c{}<@eval{$v_checktime_lijing+30} && $v_fillsea==1}
+{
+#al do_next {gotofillsea}
+};
+
+#nop 针对于送宝给练功师傅从擂台下来后的判断;
+#if {"$liguai_sta"=="没有完成" && $liguai_find<2}
+{
+#al do_next {gotolijing}
+};
+
+#nop 时间不够;
+#if {@time_c{}>=@eval{$v_checktime_lijing+30}}
+{
+#al do_next {gotolijing}
+};
+
+wait do_next 0.5
+} {4};
+
+#ac {^咦？．．．怎么还在原来的地方？} {#var v_guild 0;delwait;gotodazuo;do_next1};
+
+#ac {^你行功完毕，吸一口气，缓缓站了起来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch} 1} {wait {e;s;exert recover;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}}};hp} 1}};
+
+#ac {^你行功完毕，从冥思中回过神来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch} 1} {wait {e;s;exert refresh;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}}};hp} 1}};
+
+
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {e;s;exert recover;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;w;hp}};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {e;s;exert recover;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;w;hp}};
+
+#ac {^你身上没有这样东西。} {tick 10;delwait;touxiang;fly changan;ne;yao $v_lian_weapon;sw;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;w;hp}};
+
+
+#ac {^你的「龙神心法」进步了！} {wait timeout 2} {1};
+
+#ac {^你的「月牙铲」进步了！} {wait timeout 2} {1};
+
+
+#ac {^你向毗卢遮那佛拜求经文念诵。} {tick 20};
+#ac {^你缓缓睁眼，灵台一片清明。} {#if {@time_c{}>@eval{$v_checktime_lijing+30}} {out;s;sd;sd;gotolijing} {songjing}};
+#ac {^毗卢遮那佛微微摇头：你法术修为不够，无法领悟更深的佛法。} {out;s;sd;sd;skills;fly guild;wait hp 1};
+
+#ac {^一册天书，看不出什么材料制成，上面是密密麻麻的蝌蚪文字。} {tick 20;delwait;du tian shu;wait {hp} 8};
+#nop ac {^你手捧一册〖天书〗，正专心研读。} {};
+#ac {^修习「五雷仙法」不宜操之过急，休息一下吧！} {wait {hp} 1};
+#ac {^你的法力不足以驾驭雷电，还是先休息休息吧。} {T- lian;timeout};
+
+#ac {^你刚射猎完，休息一下吧！} {tick 10;w;e;perform archery.shelie on monster};
+#ac {^雪山妖一声狂啸，现了原形，原来是} {tick 10;jiali 1;w;e;perform archery.shelie on monster};
+#ac {^你弯弓搭箭，一箭向} {tick 10;wait {#switch {1d4} {#case 1 {s};#case 2 {w};#case 3 {e};#case 4 {n}};perform archery.shelie on monster} 1};
+#ac {^这里没有 monster。} {#if {@time_c{}>@eval{$v_checktime_lijing+30}} {gotolijing} {tick 10;wait {#switch {1d4} {#case 1 {s};#case 2 {w};#case 3 {e};#case 4 {n}};perform archery.shelie on monster} 1}};
+#ac {^看起来雪山妖想杀死你！} {delwait;tick 30;jiali max};
+#ac {^你要攻击谁？} {#if {@time_c{}>@eval{$v_checktime_lijing+30}} {gotolijing} {tick 10;wait {#switch {1d4} {#case 1 {s};#case 2 {w};#case 3 {e};#case 4 {n}};perform archery.shelie on monster} 1}};
+#ac {^雪海孤旅 -} {#unac {^雪海孤旅 -};tick 10;wear jian nang;input tie jian in jian nang;perform archery.shelie on monster};
+#ac {^你的基础箭术不够，没法练习射猎！} {timeout};
+
+#ac {^海底莽林 -} {#ac {^海底 -} {s};
+#if {@time_c{}>@eval{$v_checktime_lijing+30}} {timeout} {tick 30;touxiang;train;train 2;wait {#switch {1d4} {#case 1 {s};#case 2 {w};#case 3 {e};#case 4 {n}}} 1}};
+#ac {^海底 -} {#nop};
+#ac {^你对%+大喊一声：孽畜，看你猖狂到几时！} {delwait};
+#ac {^%.%.%.%.%.%.低头缩尾，以示降服。} {#math v_train {$v_train+1};train;wait {#switch {1d4} {#case 1 {s};#case 2 {w};#case 3 {e};#case 4 {n}}} 1};
+#ac {^这只海兽正在战斗。} {delwait};
+#ac {^散华台 -} {#if {@time_c{}>@eval{$v_checktime_lijing+30}} {se;s;s;w;wd;se;se;gotolijing} {
+#class lian open;
+#ac {^你的内力不够} {T- lian;cast transfer;exert recover;se;s;s;w;wd;se;se;Tmenpai};
+#class lian close;
+tick 10;burstpractice force;#5 {lian force 50;exert refresh;exert recover};fabao_full;wait l 1}};
+
+#ac {^你试着练功，可毫无进展，需要驯服更多的海兽以增进龙神心法。} {#var v_train 0;wait {se;s;s;w;wd;se;se;hp} 1};
+
+#ac {^冷香殿 -} {#if {@time_c{}>@eval{$v_checktime_lijing+30}} {e;s;sd;s;sd;s;s;u;gotolijing} {
+#class lian open;
+#ac {^你的内力不够} {T- lian;cast transfer;exert recover;e;sd;s;sd;s;s;u;Tmenpai};
+#class lian close;
+tick 10;#3 {lian $v_lian_weapon_parry 50;exert recover};fabao_full;wait l 1}};
+#ac {^%?%s西波儿古嚷道：宫中有贵客，闲人免进！} {delwait;tick 30;jiali max;kill xiboer gu};
+#ac {^%?%s古波儿西嚷道：宫中有贵客，闲人免进！} {delwait;tick 30;jiali max;kill guboer xi};
+#ac {^古波儿西死了。} {delwait;tick 10;nu;w;unwield all;wield fork};
+#ac {^西波儿古死了。} {delwait;tick 10;nu;w;unwield all;wield fork};
+
+#gag {什么？};
+
+#ac {^周围没有一片云，没办法腾云驾雾。} {delwait;timeout};
+#class lian close;
+
+
+

@@ -1,0 +1,44 @@
+#class sell open;
+tick 10;#unvar v_rulai_item;#unvar v_put_rongqi;
+
+#ac {^  %1(%2)} {#if {@ismember{@replace{@lower{%2};{ };{-}};safelist}==0} {sell @lower{%2}}};
+#ac {^□%1(%2)} {#if {@ismember{@replace{@lower{%2};{ };{-}};safelist}==0} {sell @lower{%2}}};
+#ac {粒} {#nop} {2};
+#ac {^%s%1粒金丹(Jin dan)} {#var n_jindan @ctd{%1}} {1};
+#ac {把} {#nop} {2};
+#ac {枚} {#nop} {1};
+#ac {人参果} {#nop} {1};
+#ac {两黄金} {#nop} {1};
+#ac {两银子} {#nop} {1};
+#ac {文钱} {#nop} {1};
+#ac {包金创药} {#nop} {1};
+#ac {颗混元丹} {#nop} {1};
+#ac {棵人参} {#nop} {1};
+#ac {棵灵芝} {#nop} {1};
+#ac {颗跌打丸} {#nop} {1};
+#ac {包筋骨粉} {#nop} {1};
+#ac {^  灰羽鹤氅(Leather coat)} {#nop} {1};
+#ac {^%s%1架时空穿梭器(Chuansuo qi)} {#var n_ufo @ctd{%1}} {1};
+#ac {张一千两金票} {#nop} {1};
+#ac {张一万两金票} {#nop} {1};
+#ac {枝铁箭}  {#nop} {1};
+#ac {^%s断掉的%+(%1)} {drop %1} {1};
+#ac {^  通灵武器(Axe)} {#nop} {1};
+#ac {^  宝盒(Treasure box)} {#nop} {1};
+#ac {^  挖宝铲(Treasure shovel)} {#nop} {1};
+#ac {^□三生石(Three lives stone)} {#nop} {1};
+#ac {^  三生石(Three lives stone)} {#nop} {1};
+#ac {^  五彩天衣(Tian yi)} {sell tian yi} {1};
+
+
+#ac {^总计%+种} {wait {l} 1};
+#ac {^你把%*卖掉。} {tick 10;wait i 0.5} {1};
+#ac {^你现在正忙着呢。} {wait i 0.5} {1};
+#ac {^这样东西不值钱。} {#var v_put_rongqi 1};
+#ac {^这样东西不能买卖。} {#var v_put_rongqi 1};
+#ac {^你一次输入太多命令了。} {tick 20;wait {l} 10};
+
+#ac {^匾%*西边是尧王大街。} {#var v_sell 1;T- sell;#if $v_put_rongqi==1 {w;fly changan;ne;enter;set public 填充容器} {w;fly changan;d;set public 检查垃圾}};
+#ac {^气地和你寒暄，但眼睛里却没有什么笑意，很审慎地打量着你。} {#var v_sell 1;T- sell;#if $v_put_rongqi==1 {e;n;ne;enter;set public 填充容器} {e;n;d;set public 检查垃圾}};
+#ac {^沿街的铺面挑着当字招牌，当铺里有一个大半人高的柜台，柜} {#var v_sell 1;T- sell;#if $v_put_rongqi==1 {n;fly changan;ne;enter;set public 填充容器} {n;fly changan;d;set public 检查垃圾}};
+#class sell close;

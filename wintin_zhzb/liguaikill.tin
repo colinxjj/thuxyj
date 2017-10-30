@@ -1,0 +1,43 @@
+#class liguaikill open;
+#ac {^...do...next..}
+{
+tick 20;
+#if $v_extra_balance==1 {} {touxiang};
+#class liguaikill open;
+#ac {^这里没有这个人} {T- liguaikill;#if {$v_nolook_room==1} {timeout} {delwait;#delay 1 {liguai_lostguai}}};
+#class liguaikill close;
+#if {$hp_qiper<95 && $hp_qiper>60} {eat @eval{$hp_qimax*(95-$hp_qiper)/$hp_qiper/50} jinchuang yao;#5 exert heal};
+#if {$hp_qiper<=60} {eat_jindan;#if {@eval{$hp_qimax*(95-$hp_qiper)/$hp_qiper/50}<@eval{$n_jinchuang-10}} {eat @eval{$hp_qimax*(80-$hp_qiper)/$hp_qiper/50} jinchuang yao} {eat @eval{$n_jinchuang-10} jinchuang yao}};
+#if {$hp_shenper<95} {eat_jindan;#if {@eval{$hp_shenmax*(100-$hp_shenper)/$hp_shenper/50-1}<@eval{$n_hunyuan-10}} {eat @eval{$hp_shenmax*(100-$hp_shenper)/$hp_shenper/50-1} hunyuan dan} {eat @eval{$n_jinchuang-10} hunyuan dan}};
+#if {$hp_nl<=1000 && $hp_nl<=$hp_nlmax} {#if {$v_extra_catch>0} {fabao_full} {get ren shen from hualan;eat ren shen}};
+#if {$hp_fl<=1000 && $hp_fl<=$hp_flmax} {#if {$v_extra_catch>0} {fabao_full} {get ling zhi from hualan;eat ling zhi}};
+#if {$v_weapon_dest>=3} {T- path;T- liguaikill;launch};
+#if {$n_jinchuang<10 || $n_hunyuan<10} {T- path;T- liguaikill;launch};
+#if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {#if {$n_renshen==0 || $n_lingzhi==0} {T- path;T- liguaikill;launch}};
+exert recover;
+exert refresh;
+wait {placenewbie;playnewbie;exert recover;
+exert refresh;kill $myid's $liguai_id;#if {$v_rulai_open==1 && $n_rulai>30} {#if $v_extra_natural==1 {neidan use extra_natural};#if $v_extra_anger==1 {neidan use extra_anger}};#if {$v_rulai_open==0} {#if $v_extra_natural==1 {neidan use extra_natural};#if $v_extra_anger==1 {neidan use extra_anger}};pfm_liguai;
+hp} $liguai_pfm_time;
+} {1};
+
+#ac {^  %*$liguai_name($liguai_idupper)} {#class liguaikill open;#ac {^这里没有这个人} {hurt_reset;bian;T- liguaikill;delwait;#delay 1 {liguai_lostguai}};#class liguaikill close;delwait;#if {$liguai_find>=2} {#var liguai_find 1} {#var liguai_find 0};hurt_lijing;T+ award.tin;follow $myid's $liguai_id;jiali max;kill $myid's $liguai_id;#if {"$pfm_hufa"=="none"} {} {$pfm_hufa};pfm_liguai;hp};
+
+#ac {^这里没有这个人} {#sh haha};
+
+#ac {^这里不准战斗。} {follow none;#sh 这里没有这个人};
+#nop 在以下两个房间中输入kill后反馈不是上一行;
+#ac {^请不要在麻将室里杀戮，谢谢。} {follow none;#sh 这里没有这个人};
+#ac {^请不要在拱猪房里杀戮，谢谢。} {follow none;#sh 这里没有这个人};
+
+
+#ac {^你急急忙忙跑了过来，四处张望，却什么都没发现。} {#class liguaikill open;#ac {^这里没有这个人} {T- liguaikill;#delay 1 {liguai_lostguai}};#class liguaikill close;delwait;#if {$liguai_find>=2} {#var liguai_find 1} {#var liguai_find 0};kill $myid's $liguai_id;pfm_liguai;hp};
+
+#nop ac {^这里没有 $myid's $liguai_id。} {tick 10;delwait;T- liguaikill;#if {$path_step<=$path_steps} {wait {T+ liguaikill.tin;do_s} 3}};
+
+#nop 以下为防止计算错误导致死亡增加;
+#ac {^$fabao_name2的敌人捕获力已耗尽，必须先修练一下。} {#var v_extra_catch 0;eat jin dan};
+#ac {^$fabao_name3的敌人捕获力已耗尽，必须先修练一下。} {#var v_extra_catch 0;eat jin dan};
+
+#ac {^你的真气不够，难以施展「逆袭」。} {eat 5 ren shen};
+#class liguaikill close;

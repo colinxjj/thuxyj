@@ -1,0 +1,133 @@
+#class fillsea open;
+tick 15;#var path_step 1;#var path_steps 0;
+#ac {^千里眼告诉你：太白金星(tai bai)在%1。} {#var v_room_taibai %1;T+ path.tin;#var path_step 1;#list {path_now} {creat} {${$v_room_taibai}};#var path_steps @numitems{path_now};wait {#al timeout1 {#var v_fillsea_accept 0;#var path_taibai {};timeout};fillsea_s} 0.5;#if {$path_steps>0} {} {delwait;gotofillsea}};
+
+#var v_checktime_lijing 290;#if {"$liguai_sta"=="没有完成" && $liguai_find>=2} {#var v_checktime_lijing 890};
+#var v_nowroom {};
+#var path_fillsea {fly jiangzhou;{exert recover;exert refresh;e};e;e;e;e;e;e};
+#al {do_s} {@item{path_now;$path_step};#math path_step $path_step+1};
+#al {fillsea_s} {#if {$path_step<=$path_steps} {wait do_s 0.005}};
+#nop 根据太白记录决定是否先搜索到太白;
+#al {fillsea_start}
+{exert recover;exert refresh;#if {$v_fillsea==0} {timeout};
+#if {$v_fillsea_accept==0} {tick @eval{$v_checktime_lijing-@time_c{}};#var path_step 1;#list {path_now} {creat} {$path_fillsea};#var path_steps @numitems{path_now};wait fillsea_s 0.5};
+   #if {$v_fillsea_accept==1}
+    {#al timeout1 {#var v_fillsea_accept 0;timeout};
+     #if @numitems{path_taibai}>0 {tick 10;
+     Fast_Taibai     
+     } {fly sky;find tai bai;tick 15;
+     #class fillsea open;
+     #ac {^  长庚 太白金星(Tai bai)} {delwait;time;ask tai bai about all};
+     #class fillsea close;
+      }
+      };
+};
+
+#nop 增加一个智能快速找太白功能;
+#al Fast_Taibai {#var n 1;List_T_Var};
+#al List_T_Var {#if $n<=@numitems{path_taibai} {#sh @item{path_taibai;$n};#if "@item{path_taibai;$n}"=="fly" {@item{path_taibai;$n} @item{path_taibai;@eval{$n+1}};#math n $n+1} {@item{path_taibai;$n}};wait {#math n $n+1;List_T_Var} 0.05} {hug tai bai}};
+
+#ac {^你轻轻地拥着太白金星。} {delwait;time;ask tai bai about all};
+#ac {^你要对谁做这个动作？} {#class idlog open;#var path_taibai {};#class idlog close;tick 5};
+
+#ac {^你向太白金星问道：敢问这位老爷子都能告诉我些什么信息啊？} {wait do_s 2};
+#ac {^你摆了个不丁不卯步，运足了气嚷到：俺胡汉三又回来了！} {wait {timeout} 2};
+#nop 以此来判断真假太白;
+#ac {^太白金星神秘兮兮地对你说道：我所知不多，只能告诉你这些信息：} {exert recover;exert refresh;T- path;T- path_search;#unac {^  长庚 太白金星(Tai bai)};delwait;tick 10;#var v_fillsea_accept 1;#if {@ismember{$v_day_time;time_fillsea}>0} {tick 10;#var path_steps 0;areatalk 定位T@time{};back} {#if {$v_fillsea==1 && @time_c{}<@eval{$v_checktime_lijing-20}} {tick @eval{$v_checktime_lijing-@time_c{}};wait {time;ask tai bai about all} 5} {#if @time_c{}>@eval{$v_checktime_lijing-20} {gotolijing} {delwait;fly guild;T+ control.tin;wait {hp} 1}}}};
+
+
+#ac {^%1一把抓住了你！} {#if {"%1"!="%*【%*" && "%1"!="%*：%*" && "%1"!="%*>%*"} {#var blockguai_name %1;T+ blockguai.tin;id here;#math path_step $path_step-1}};
+#ac {^%s这里%+的出口是} {tick 10;#if {$path_step<=$path_steps} {wait do_s 0.01;#if $v_fillsea_accept==1 {#class idlog open;#var path_taibai @additem_same{path_taibai;@item{path_now;@eval{$path_step-1}}};#class idlog close}}} {2};
+#ac {^%s这里没有任何明显的出路。} {#if {$path_step<=$path_steps} {wait do_s 0.005}};
+#ac {^%?%s这个方向没有出路} {#al do_next {wait do_s 0.001};#if {$path_step<=$path_steps} {do_next}};
+#ac {^你正忙着呢，没工夫腾云驾雾。} {#math path_step {$path_step-1};wait do_s 1};
+#ac {^你的动作还没有完成，不能移动。} {#math path_step {$path_step-1};wait do_s 1};
+#ac {^你要对谁耳语些什么？} {tick 5};
+#ac {^你的法力不足！} {#if {$v_extra_catch>0} {feel $fabao_id2 for extra_catch;charge $fabao_id2 for extra_catch $v_extra_catch_charge} {get ling zhi from hualan;eat ling zhi};#math path_step {$path_step-1};wait do_s 1};
+
+#ac {^%?%s东海之滨 -}
+{
+tick 5;
+#nop 这个可以判断的更为详细区别timeout和gotolijing;
+#if {@time_c{}>=@eval{$v_checktime_lijing-20}}
+{gotolijing} {#if {$v_fillsea==0} {Treset;w;timeout} {
+i;time;set public 检查石头
+}}
+};
+
+
+#al fillsea_tick {tick @eval{$v_checktime_lijing-@time_c{}}};
+
+#ac {^  %1块石材(Shi kuai)} {#var n_shikuai @ctd{%1}};
+#ac {^你身上带着下列这些东西(负重 %1%)：} {#var v_weight @ctd{%1}};
+#ac {^设定环境变数：public = "检查石头"} {
+delwait;
+#if $v_weight>=80 {
+#if {$v_fillsea_accept==0} {#var v_nowroom {东海之滨};fillsea_tick;ask jing wei about 填海;sui jing wei} {fillsea_start}
+} {
+tick 5;
+#if $n_shikuai<50 {
+n;#if $v_weight>=70 {#math n_shikuai $n_shikuai+5;buy 5 stone from boss} {#math n_shikuai $n_shikuai+10;buy 10 stone from boss};s
+} {
+#if {$v_fillsea_accept==0} {#var v_nowroom {东海之滨};fillsea_tick;ask jing wei about 填海;sui jing wei} {fillsea_start}}
+}
+};
+
+#ac {^  法术 (spells)       ： %+%s%+等级：%3} {#var enable_spells_lv @eval{%3/20}};
+
+#ac {^%?%s精卫飞了过来。} {#if {"$v_nowroom"=="东海之滨"} {ask jing wei about 填海;sui jing wei}};
+
+#ac {^%?%s你决定跟随精卫一起去填海！} {#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {gotolijing} {tick @eval{$v_checktime_lijing-@time_c{}}}};
+#ac {^%?%s你已经在跟着精卫了。} {#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {gotolijing} {tick @eval{$v_checktime_lijing-@time_c{}}}};
+
+
+#ac {^%?%s你的眼前一黑，接着什么也不知道了．．．} {#var v_nowroom {东海之滨过渡};tick 300};
+#nop 下句有优先等级考虑;
+#ac {^%?%s慢慢地你终于又有了知觉．．} {tick 10;w;exert recover;exert refresh;#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {gotolijing} {time;e}} {1};
+
+#nop ac {^%?%s东方的天空中开始出现一丝微曦。} {#var v_fillsea 0;timeout};
+#nop ac {^%?%s太阳从东方的地平线升起了。} {#var v_fillsea 0;timeout};
+#ac {^这里没有这个人。} {#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {gotolijing} {wait {time;l} 2}};
+#ac {^精卫对你说：“白天天气太热了，晚上我再带你去吧。”} {#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {gotolijing} {wait {time;l} 2}};
+
+#nop 防止重启后太白不工作;
+#ac {^没有这个人。} {tick 10;unwield all;wield $userweapon;wield deathtouch;remove tian yi;wear leather coat;fill sea};
+
+#nop 里面也得判断填海时间是否是太白进去的;
+#ac {^%?%s东海海滩 - }
+{delwait;id;#var v_leathercoat 0;follow none;
+#var v_nowroom {东海海滩};
+#if {@time_c{}>=@eval{$v_checktime_lijing-20}}
+{wait {gotolijing} 1} {#nop 等于0包含没有这个函数及等于0的情况;
+        #if {$v_fillsea_accept==0} {#delay 1 {tick @eval{270-@time_c{}}};accept tai bai} {tick 15;unwield $fabao_id1;unwield $userweapon;wield shenzhi bishou 2;wield shenzhi bishou;wield $userweapon;wield deathtouch;wield all;remove tian yi;wear leather coat;fill sea;enable;wait {set public 填海否} 2}
+            }
+ };
+ 
+#ac {^设定环境变数：public = "填海否"} {fillsea_start};
+#ac {^%?%s你正忙着呢。} {delwait;#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {Treset;launch;wait timeout 3} {wait {fill sea} 0.2}};
+#ac {^%?%s你累得腰酸背痛，连手臂都抬不起来。} {delwait;#math n_fillsea $n_fillsea+1;#math n_shikuai $n_shikuai-1;#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {Treset;launch;wait timeout 3} {tick 20;wait {fill sea} 1.5}};
+
+#ac {^%?%s你拿什么来填海啊？} {delwait;time;#var n_shikuai 0;#if {@time_c{}>=@eval{$v_checktime_lijing-20}} {gotolijing} {tick 5;w}};
+
+#ac {^太白金星现在并没有公开邀请别人。} {#var v_fillsea_accept 0;fill sea};
+
+#ac {^太白金星对你说道：老夫奉旨迎接你赴会！} {#unac {^  长庚 太白金星(Tai bai)};delwait;tick 10;wait {#if {"$v_nowroom"=="东海海滩"} {#var v_fillsea_accept 1};areatalk 定位T@time{};back} 1};
+#ac {^……祥云徐徐降落，太白金星和你从里走出。} {delwait;tick 10;#if {"$v_nowroom"=="东海海滩"} {#var v_fillsea_accept 1};areatalk 定位T@time{};back};
+#ac {^【%1】$myname(@upper_f{$myid})：定位T} {#if "%1"=="区域" {#var v_fillsea_accept 0} {#var v_room_taibai %1}};
+#ac {^只见一团祥云飘下，太白金星和你从里面走出。} {#if {"$v_nowroom"=="东海海滩"} {#var v_fillsea_accept 1} {#var v_fillsea_accept 0}};
+
+#ac {^你太累了，还是歇会儿吧。} {eat ren shen;eat ling zhi;wait {fill sea} 0.5};
+
+#ac {^周围没有一片云，没办法腾云驾雾。} {delwait;timeout};
+
+#ac {^灰羽鹤氅             = leather coat, coat} {#var v_leathercoat 1};
+#gag {%*从怀里掏出一块石头投入海中，石块迅速沉入水中，连水花都没激起半点。};
+#gag {%*我找主人去了。说罢，只见%*将身一扭，消失了。};
+#gag {%*一提气，轻轻一跃，落在礁石上，海水呼啸着从%*脚下漫过，好险！};
+#gag {只见一团祥云飘下，太白金星和%*从里面走出。};
+#gag {太白金星复又纵起祥云缓缓飞离。};
+#gag {%*突然出现，紧紧跟在%*身边。};
+#gag {长舒一口气};
+#gag {%*脚下一个不稳，跌在地上一动也不动了。};
+#gag {被潮水冲走了。};
+#class fillsea close;

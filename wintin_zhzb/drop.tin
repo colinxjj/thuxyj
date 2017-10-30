@@ -1,0 +1,49 @@
+#class drop open;
+tick 10;#unvar v_rulai_item;
+
+#ac {^  %1(%2)} {#if {@ismember{@replace{@lower{%2};{ };{-}};safelist}==0} {drop @lower{%2}}};
+#ac {^□%1(%2)} {#if {@ismember{@replace{@lower{%2};{ };{-}};safelist}==0} {drop @lower{%2}}};
+#ac {粒} {#nop} {2};
+#ac {^%s%1粒金丹(Jin dan)} {#var n_jindan @ctd{%1}} {1};
+#ac {把} {#nop} {1};
+#ac {枚} {#nop} {1};
+#ac {人参果} {#nop} {1};
+#ac {两黄金} {#nop} {1};
+#ac {两银子} {#nop} {1};
+#ac {文钱} {#nop} {1};
+#ac {包金创药} {#nop} {1};
+#ac {颗混元丹} {#nop} {1};
+#ac {棵人参} {#nop} {1};
+#ac {棵灵芝} {#nop} {1};
+#ac {颗跌打丸} {#nop} {1};
+#ac {包筋骨粉} {#nop} {1};
+#ac {^  灰羽鹤氅(Leather coat)} {drop leather coat 2} {1};
+#ac {^%s%1架时空穿梭器(Chuansuo qi)} {#var n_ufo @ctd{%1}} {1};
+#ac {张一千两金票} {#nop} {1};
+#ac {张一万两金票} {#nop} {1};
+#ac {枝铁箭}  {#nop} {1};
+#ac {^%s断掉的%+(%1)} {drop %1} {1};
+#ac {^  通灵武器(Axe)} {#nop} {1};
+#ac {^  宝盒(Treasure box)} {#if $v_songbao_box==1 {drop treasure box}} {1};
+#ac {^  挖宝铲(Treasure shovel)} {#if $v_wabao_shovel==1 {drop treasure shovel}} {1};
+#ac {^□三生石(Three lives stone)} {#nop} {1};
+#ac {^  三生石(Three lives stone)} {remove three lives stone 2;remove three lives stone 3;combine three lives stone with three lives stone 3;combine three lives stone with three lives stone 2;wear three lives stone 2;wear three lives stone} {1};
+
+
+#ac {^总计%+种}
+{
+delwait;
+drop @item{v_weaponID;@ismember{$userweapon;v_weaponid}} 4;
+#if "$busyweapon"=="$userweapon" {#nop} {drop @item{v_weaponID;@ismember{$busyweapon;v_weaponid}} 2};
+drop @item{v_weaponID;@ismember{$thirdweapon;v_weaponid}} 3;
+drop @item{v_weaponID;@ismember{$fourthweapon;v_weaponid}} 3;
+drop pillow 2;drop token 2;
+input tie jian in jian nang;
+#var skill_namelist {};#var skill_idlist {};#var skill_numlist {};#var skill_nummaxlist {};
+T- checkitem;T- drop;
+wait {tick 10;#if $v_quests_open==1 {T+ quests/NextAction.tin;skills;kquest;rltask;u;fly guild} {T+ control.tin;skills;kquest;rltask;u;fly guild;wait {hp} 1}} 1
+};
+
+
+
+#class drop close;

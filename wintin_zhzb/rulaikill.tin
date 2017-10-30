@@ -1,0 +1,144 @@
+#class rulaikill open;
+#var rulai_weak 0;
+#ac {^你顺着宽广的河水飘了过来。} {#var path_move {swim 和 swim};#list path_now creat {swim;{#5 exert heal;exert recover;exert refresh;swim};{tick 5;l}}};
+#al {pfm_rulai} {pfm_rl};
+#al {rulai_move} {#class rulaikill open;#ac {^你现在不能移动！} {wait hp 1} {1};#class rulaikill close;
+#if {$v_maze_room==1} {T- rulaikill;delwait;#delay 1 {rulai_lostguai}} {#if {$v_nolook_room==1} {#class rulaikill open;#ac {^%+不明白了？} {touxiang;fly sky;timeout};#class rulaikill close;follow $myid's;whisper $myid's nw;whisper $myid's se;hp} {#var path_step 1;#var path_steps @numitems{path_now};rulai_s;tick 10}}};
+#al {rulai_move_here} {#list v_rulai_move creat @replace{@replace{$path_move;{ 和 };{、}};{、};{;}};
+#if {"$rulai_where"=="龙宫" && "$path_move"=="up 和 east"} {#list v_rulai_move creat east};
+#if {"$rulai_where"=="龙宫" && "$path_move"=="north、northwest、south 和 east"} {#list v_rulai_move creat east};
+#if {"$rulai_where"=="碧波潭" && "$path_move"=="up 和 north"} {#list v_rulai_move creat north};
+#if {"$rulai_where"=="无底洞" && "$path_move"=="up 和 north"} {#list v_rulai_move creat north};
+#if {"$rulai_where"=="无底洞" && "$path_move"=="up 和 east"} {#list v_rulai_move creat east};
+#if {"$rulai_where"=="无底洞" && "$path_move"=="north 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="无底洞" && "$path_move"=="up 和 southwest"} {#list v_rulai_move creat southwest};
+#if {"$rulai_where"=="普陀山" && "$path_move"=="north、southwest 和 southeast"} {#list v_rulai_move creat southeast};
+#if {"$rulai_where"=="隐雾山" && "$path_move"=="northwest 和 east"} {#list v_rulai_move creat east};
+#if {"$rulai_where"=="隐雾山" && "$path_move"=="west、northwest、northeast、southeast 和 southwest"} {#list v_rulai_move creat southeast};
+#if {"$rulai_where"=="隐雾山" && "$path_move"=="west、north、southeast 和 east"} {#list v_rulai_move creat east};
+#if {"$rulai_where"=="祭赛国" && "$path_move"=="enter 和 southdown"} {#list v_rulai_move creat southdown};
+#if {"$rulai_where"=="女儿国" && "$path_move"=="north 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="火焰山" && "$path_move"=="southeast 和 northdown"} {#list v_rulai_move creat northdown};
+#if {"$rulai_where"=="荆棘岭" && "$path_move"=="southup 和 north"} {#list v_rulai_move creat north};
+#if {"$rulai_where"=="金兜山" && "$path_move"=="northeast 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="毒敌山" && "$path_move"=="northwest 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="豹头山" && "$path_move"=="northeast 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="开封城" && "$path_move"=="north 和 southdown"} {#list v_rulai_move creat southdown};
+#if {"$rulai_where"=="乌鸡国" && "$path_move"=="enter、south 和 southeast"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="乌鸡国" && "$path_move"=="west 和 east"} {#list v_rulai_move creat east};
+#if {"$rulai_where"=="乌鸡国" && "$path_move"=="north 和 east"} {#list v_rulai_move creat east};
+#if {"$rulai_where"=="宝象国" && "$path_move"=="northwest 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="宝象国" && "$path_move"=="north 和 southeast"} {#list v_rulai_move creat southeast};
+#if {"$rulai_where"=="车迟国" && "$path_move"=="north 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="长安城" && "$path_move"=="northwest、north、northeast 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="长安城" && "$path_move"=="up 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="长安城" && "$path_move"=="up、north 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="大唐皇宫" && "$path_move"=="northwest、north、northeast 和 south"} {#list v_rulai_move creat south};
+#if {"$rulai_where"=="毛颖山" && "$path_move"=="northwest 和 southeast"} {#list v_rulai_move creat southeast};
+#if {"$rulai_where"=="五庄观" && "$path_move"=="bridge"} {#list v_rulai_move creat {u;n;{jump bridge};l;timeout}};
+#if {"$rulai_where"=="长安城南" && "$path_move"=="bridge"} {#list v_rulai_move creat {n;w;s;{jump bridge};l;timeout}};
+#if {"$rulai_where"=="月宫" && "$path_move"=="up"} {#list v_rulai_move creat {u;{cai lian};l;timeout}};
+#list path_now creat {{@item{v_rulai_move;1};#if {$hp_qiper<100} {#5 exert heal};exert recover;exert refresh}};#list path_now add {{@backpath{@item{v_rulai_move;1}};wait {tick 10;#sh 这里没有这个人} 1}};#list path_now add {l};#list path_now add {{tick 10;#sh 这里没有这个人}}
+};
+
+#ac {^...do...next..}
+{
+tick 20;
+#if {"$liguai_sta"=="已经完成" && @time_c{}>=290 && $rulai_weak==0} {launch};
+#if {"$liguai_sta"=="没有完成" && @time_c{}>=890 && $rulai_weak==0} {launch};
+#class rulaikill open;
+#ac {^这里没有这个人} {T- rulaikill;#if {$v_nolook_room==1} {timeout} {delwait;#delay 1 {rulai_lostguai}}};
+#class rulaikill close;
+#nop if {$hp_qiper<95 && $hp_qiper>90} {#5 exert heal};
+#if {$hp_qiper<=95} {#if {@eval{($hp_qimax*100/$hp_qiper-$hp_qimax)/250}>@eval{$n_baiyao-2}} {eat @eval{$n_baiyao-2} yunnan baiyao} {eat @eval{($hp_qimax*100/$hp_qiper-$hp_qimax)/250} yunnan baiyao}};
+#if {$hp_shenper<95} {#if {@eval{($hp_shenmax*100/$hp_shenper-$hp_shenmax)/250}>@eval{$n_gao-2}} {eat @eval{$n_gao-2} guyuan gao} {eat @eval{($hp_shenmax*100/$hp_shenper-$hp_shenmax)/250} guyuan gao}};
+#if {$hp_nl<=1500 && $hp_nl<=$hp_nlmax} {eat_jindan;eat 5 ren shen};
+#if {$hp_fl<=1000 && $hp_fl<=$hp_flmax} {eat_jindan;eat 5 ling zhi};
+#if {$n_renshen==0 || $n_lingzhi==0} {T- path;T- liguaikill;launch}
+#if {$v_weapon_dest>=3} {T- pathrl;T- rulaikill;launch};
+#if {$n_baiyao<2 || $n_gao<2} {T- path;T- liguaikill;launch};
+exert recover;
+exert refresh;
+#nop if {"$v_rulai"=="劝"} {persuade $rulai_id};
+wait {exert recover;
+exert refresh;#if {$v_rulai_persuade==2} {persuade $rulai_id;rulai_hurt_reset;#al {pfm_rulai} {pfm_kill}};#if {$v_rulai_persuade==1} {#var v_rulai_persuade 2;persuade $rulai_id};
+#if {$v_rulai_needmove==1} {rulai_move} {#if {"$v_rulai"=="降"} {fight $myid's $rulai_id} {kill $myid's $rulai_id};#if $v_extra_natural==1 {neidan use extra_natural};pfm_rulai;exert recover;exert refresh;hp;#if {"$v_rulai"=="降"} {} {#nop touxiang}}} $rulai_pfm_time;
+} {1};
+
+#ac {^这里没有这个人} {#sh haha};
+
+#ac {^这里不准战斗。} {follow none;#sh 这里没有这个人};
+#nop 在以下两个房间中输入kill后反馈不是上一行;
+#ac {^请不要在麻将室里杀戮，谢谢。} {follow none;#sh 这里没有这个人};
+#ac {^请不要在拱猪房里杀戮，谢谢。} {follow none;#sh 这里没有这个人};
+
+#ac {^你想攻击谁？} {#sh 这里没有这个人};
+
+#ac {^你急急忙忙跑了过来，四处张望，却什么都没发现。} {#class rulaikill open;#ac {^这里没有这个人} {T- rulaikill;#delay 1 {rulai_lostguai}};#class rulaikill close;delwait;#var rulai_find 0;kill $myid's $rulai_id;pfm_rulai;hp};
+
+#nop ac {^这里没有 $myid's $rulai_id。} {tick 10;delwait;T- rulaikill;#if {$path_step<=$path_steps} {wait {T+ rulaikill.tin;do_s} 3}};
+
+#ac {^  %*$rulai_name($rulai_idupper) <昏迷不醒>} {disarm_rulai;get zhan pao from $rulai_id;get golden armor from $rulai_id;#class rulaikill open;#ac {^这里没有这个人} {hurt_reset;bian;T- rulaikill;delwait;#delay 1 {rulai_lostguai}};#class rulaikill close;#if {"$v_rulai"=="擒"} {delwait;wait {get $rulai_id;timeout} 1} {rulai_move_here;rulai_hurt_reset;delwait;#var rulai_find 0;hurt_rltask;T+ award.tin;follow $myid's $rulai_id;ask $rulai_id about family;#if {"$v_rulai"=="劝"} {tick 120} {hp}}} {1};
+
+#ac {^  %*$rulai_name($rulai_idupper)} {#class rulaikill open;#ac {^这里没有这个人} {hurt_reset;bian;T- rulaikill;delwait;#delay 1 {rulai_lostguai}};#class rulaikill close;rulai_move_here;#nop sh $path_now;delwait;#var rulai_find 0;hurt_rltask;T+ award.tin;rulai_hurt_reset;follow $myid's $rulai_id;ask $rulai_id about family;#if {"$v_rulai"=="降"} {fight $myid's $rulai_id} {kill $myid's $rulai_id};#if {"$pfm_hufa"=="none"} {} {$pfm_hufa};rulai_tick;pfm_rulai;exert recover;exert refresh;hp};
+
+
+#var v_rulai_family {{1}{月宫}{2}{火云洞}{3}{大雪山}{4}{方寸山三星洞}{5}{陷空山无底洞}{6}{东海龙宫}{7}{将军府}{8}{北冥妖府}{9}{梅山}{10}{孔雀明王宗}{11}{盘丝洞}};
+#var v_rulai_weapon {{1}{all}{2}{fork}{3}{pei jian}{4}{all}{5}{all}{6}{all}{7}{all}{8}{all}{9}{all}{10}{all}{11}{all}};
+
+#ac {^$rulai_name说道：我可是出自名门：%1} {#al disarm_rulai {get @item{v_rulai_weapon;@ismember{%1;v_rulai_family}} from $rulai_id};#if {"%1"=="孔雀明王宗" && "$v_rulai_num"!="一"} {delwait;#var rulai_find 4;launch};#if {"%1"=="南海普陀山"} {#al disarm_rulai {get gold armor from $rulai_id;get zhan pao from $rulai_id}}};
+#ac {^$rulai_name脚下一个不稳，跌在地上一动也不动了。} {#untick rulai_tick;#if {"$v_rulai"=="杀"} {disarm_rulai;#delay 2 {disarm_rulai;get zhan pao from $rulai_id;get golden armor from $rulai_id}} {touxiang;delwait;wait {get $rulai_id} 3}};
+#ac {^你将$rulai_name扶了起来背在背上。} {disarm_rulai;get zhan pao from $rulai_id;get golden armor from $rulai_id;drop zhan pao;drop golden armor;timeout};
+#ac {^$rulai_name对你而言太重了} {get golden armor from $rulai_id;drop golden armor;get $rulai_id;timeout};
+#ac {^你的怪逃跑了，快去追！} {timeout};
+#ac {^但是很显然的，$rulai_name现在的状况没有办法给你任何答覆。} {};
+#ac {^$rulai_name慢慢睁开眼睛，清醒了过来。} {rulai_tick;#if {"$v_rulai"=="劝"} {persuade $rulai_id;jiali 0;hp;#al {pfm_rulai} {pfm_kill};#var v_rulai_persuade 1};#if {"$v_rulai"=="降"} {l}};
+#ac {^$rulai_name说道：你说的有道理，我这就回山去。} {timeout};
+#ac {^$rulai_name说道：我现在方知天外有天} {timeout};
+#ac {^$rulai_name说道：我受伤了，这样打不公平吧。} {rulai_hurt_reset} ;
+#ac {^$rulai_name死了。} {timeout};
+#ac {^$rulai_name说道：你看我现在，不比做佛快乐吗。} {rulai_hurt_reset;#al {pfm_rulai} {pfm_kill}} ;
+#ac {^$rulai_name说道：哈哈，你输了，我天下无敌。} {rulai_hurt_reset};
+#ac {^$rulai_name向后退了几步，说道：这场比试算我输了，佩服，佩服！} {#if {"$v_rulai"=="降"} {#var v_rulai_needmove 1}};
+#ac {^$rulai_name向后一纵，躬身做揖说道：阁下武艺不凡，果然高明！} {#if {"$v_rulai"=="降"} {#var v_rulai_needmove 1}};
+#ac {^$rulai_name脸色微变，说道：佩服，佩服！} {#if {"$v_rulai"=="降"} {#var v_rulai_needmove 1}};
+#ac {^你胜了这招，向后跃开三尺，笑道：承让！} {#if {"$v_rulai"=="降"} {#var v_rulai_needmove 1}};
+#ac {^你哈哈大笑，说道：承让了！} {#if {"$v_rulai"=="降"} {#var v_rulai_needmove 1}};
+#ac {^你双手一拱，笑着说道：承让！} {#if {"$v_rulai"=="降"} {#var v_rulai_needmove 1}};
+#nop ac {^( $rulai_name已经伤痕累累，正在勉力支撑着不倒下去。} {rulai_hurt_change};
+#ac {^( $rulai_name受了相当重的伤，只怕会有生命危险。} {rulai_hurt_change};
+#ac {^( $rulai_name伤重之下已经难以支撑，眼看就要倒在地上。} {rulai_hurt_change}; 
+#ac {^( $rulai_name受伤过重，已经奄奄一息，命在旦夕了。} {rulai_hurt_change};
+#ac {^( $rulai_name受伤过重，已经有如风中残烛，随时都可能断气。} {rulai_hurt_change};
+#nop ac {^( $rulai_name已经一副头重脚轻的模样，正在勉力支撑着不倒下去。} {rulai_hurt_change};
+#nop ac {^( $rulai_name看起来已经力不从心了。} {rulai_hurt_change};
+#ac {^( $rulai_name摇头晃脑、歪歪斜斜地站都站不稳，眼看就要倒在地上。} {rulai_hurt_change};
+#ac {^( $rulai_name已经陷入半昏迷状态，随时都可能摔倒晕去。} {rulai_hurt_change};
+#ac {^( $rulai_name神智已经处在极度混乱中。} {rulai_hurt_change}; 
+#ac {^( $rulai_name心智已经完全迷失，随时都有可能背过气去。} {rulai_hurt_change};
+
+#ac {^看起来$rulai_name想杀死你！} {#if {"$v_rulai"=="降"} {touxiang}};
+#ac {^$rulai_name身子一晃，变成一股青烟散去了。} {timeout};
+#ac {^$rulai_name正专心致志战斗，懒得理你。} {#if {"$v_rulai"=="劝"} {rulai_hurt_reset}};
+#nop ac {^你正忙着呢。} {#if {"$v_rulai"=="劝"} {rulai_hurt_reset;persuade $rulai_id}} {1};
+#nop 设置专门的alias针对怪受重伤后的不同处理；
+#al {rulai_hurt_change}
+{#var rulai_weak 1;
+#if {"$v_rulai"=="杀" || "$v_rulai"=="擒"} {} {jiali 0;#al {pfm_rulai} {#nop}};
+#if {"$v_rulai"=="劝"} {#var v_rulai_persuade 1};
+#if {"$v_rulai"=="降"} {#var v_rulai_needmove 1}
+};
+#al {rulai_hurt_reset}
+{#var rulai_weak 0;
+#var v_rulai_needmove 0;#var v_rulai_persuade 0;jiali max;
+#if {"$v_rulai_num"=="一" && "$rulai_where"=="天宫"} {#al {pfm_rulai} {pfm_kill}} {#al {pfm_rulai} {pfm_rl}}
+};
+
+#ac {^$rulai_name已经无法战斗了。} {#if {"$v_rulai"=="降"} {#nop 可以用来去做李静任务}};
+#ac {^你一次输入太多命令了。} {tick 10;delwait;wait {hp} 2};
+
+#nop 以下为防止计算错误导致死亡增加;
+#ac {^$fabao_name2的敌人捕获力已耗尽，必须先修练一下。} {#var v_extra_catch 0;eat jin dan};
+#ac {^$fabao_name3的敌人捕获力已耗尽，必须先修练一下。} {#var v_extra_catch 0;eat jin dan};
+
+#class rulaikill close;

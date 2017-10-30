@@ -1,0 +1,21 @@
+#class kgd open;
+
+#var v_pathkgd_here {};
+#var v_pathkgd_next {};
+
+#ac {^%s这里%+出口是 %1。}
+{
+#list v_pathkgd_here creat @replace{@replace{%1;{ 和 };{、}};{、};{;}};
+#if {&v_pathkgd_here[]>1} {#var v_pathkgd_here @delitem{v_pathkgd_here;@backpath{$v_pathkgd_next}}};
+   #if {@ismember{out;v_pathkgd_here}>0}
+   {
+    #al do_next {T- kgd;out;wd;timeout}
+   } {
+      #var v_pathkgd_next {$v_pathkgd_here[@rnd{1;&v_pathkgd_here[]}]};
+      #al do_next {$v_pathkgd_next}
+      };
+wait {do_next} 0.1
+} {3};
+
+
+#class kgd close;

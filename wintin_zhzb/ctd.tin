@@ -1,0 +1,58 @@
+#class ctd open;
+#var v_ctd_cha 1;
+#var name_id {};
+#ac {^初始中文名%.%.%.%.%.%.} {#var name_ctd {%1%2 %3%4 %5%6};#delay 0.1 {T+ font.tin}} {4};
+#ac {^初始中文名%.%.%.%.%.%.%.%.} {#var name_ctd {%1%2 %3%4 %5%6 %7%8};#delay 0.1 {T+ font.tin}} {3};
+#ac {^初始中文名%.%.%.%.%.%.%.%.%.%.} {#var name_ctd {%1%2 %3%4 %5%6 %7%8 %9%10};#delay 0.1 {T+ font.tin}} {2};
+#ac {^初始中文名%.%.%.%.%.%.%.%.%.%.%.%.} {#var name_ctd {%1%2 %3%4 %5%6 %7%8 %9%10 %11%12};#delay 0.1 {T+ font.tin}} {1};
+
+#ac {^初步分析%S %S %S。}
+{
+tick 10;
+T- font;
+#if $v_ctd_cha==1 {#var name_id {%1 %2 %3}};
+#if $v_ctd_cha==2 {#var name_id {%1%2 %3};#var v_ctd_cha 6};
+wait {cha $name_id} 0.1;
+};
+
+#ac {^初步分析%S %S %S %S。}
+{
+tick 10;
+T- font;
+#if $v_ctd_cha==1 {#var name_id {%1 %2 %3 %4}};
+#if $v_ctd_cha==2 {#var name_id {%1%2 %3 %4}};
+#if $v_ctd_cha==3 {#var name_id {%1%2%3 %4}};
+#if $v_ctd_cha==4 {#var name_id {%1%2 %3%4;#var v_ctd_cha 6}};
+wait {cha $name_id} 0.1;
+};
+
+#ac {^初步分析%S %S %S %S %S。}
+{
+tick 10;
+T- font;
+#if $v_ctd_cha==1 {#var name_id {%1%2%3 %4 %5}};
+#if $v_ctd_cha==2 {#var name_id {%1%2 %3%4%5}};
+#if $v_ctd_cha==3 {#var name_id {%1%2 %3 %4 %5}};
+#if $v_ctd_cha==4 {#var name_id {%1 %2 %3 %4 %5}};
+#if $v_ctd_cha==5 {#var name_id {%1%2%3%4 %5;#var v_ctd_cha 6}};
+wait {cha $name_id} 0.1;
+};
+
+#ac {^初步分析%S %S %S %S %S %S。}
+{
+tick 10;
+T- font;
+#if $v_ctd_cha==1 {#var name_id {%1%2 %3 %4 %5 %6}};
+#if $v_ctd_cha==2 {#var name_id {%1%2 %3%4 %5 %6}};
+#if $v_ctd_cha==3 {#var name_id {%1%2 %3%4%5 %6}};
+#if $v_ctd_cha==4 {#var name_id {%1%2 %3%4 %5%6}};
+#if $v_ctd_cha==5 {#var name_id {%1%2%3 %4%5 %6}};
+#if $v_ctd_cha==6 {#var name_id {%1%2%3 %4 %5 %6}};
+wait {cha $name_id} 0.1;
+};
+
+#ac {^顺风耳告诉你：奇怪，找不到} {#var v_ctd_cha @eval{$v_ctd_cha+1};#if $v_ctd_cha<7 {#sh 初步分析$name_ctd。} {#sh 找不到对应ID;#var name_id {none}}};
+
+#ac {^顺风耳告诉你：%+的道行} {#if "%1"=="$name_ctd_old" {#sh 本次中英文转换成功！} {#sh 顺风耳告诉你：奇怪，找不到}};
+
+#class ctd close;

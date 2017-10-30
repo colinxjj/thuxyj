@@ -1,0 +1,70 @@
+#class dazuomax open;
+#var v_dazuomax 0;
+#var v_mingsimax 0;
+tick 10;
+
+
+#ac {^天宫城墙 -}
+{
+#var v_checktime_lijing 270;
+#if {"$liguai_sta"=="没有完成" && $liguai_find>=2} {#var v_checktime_lijing 870};
+#al do_next {e;s;timeout};
+#if {$v_mingsimax==0 && $v_mingsi==1} {#al do_next {tick @eval{$v_checktime_lijing-@time_c{}+10};#math v_mingsimax {$v_mingsimax+1};placenewbie;playnewbie;mingsi max;#if {$v_extra_catch>0} {fabao_full};#if {$n_lingzhi>1000 && $v_vip==2} {eat ling zhi};wait {#var v_mingsimax 2;mingsi 0} @eval{$v_checktime_lijing-@time_c{}}}};
+#if {$v_dazuomax==0 && $v_dazuo==1 } {#al do_next {tick @eval{$v_checktime_lijing-@time_c{}+10};#math v_dazuomax {$v_dazuomax+1};placenewbie;playnewbie;dazuo max;#if {$v_extra_catch>0} {fabao_full};#if {$n_renshen>1000 && $v_vip==2} {eat ren shen};wait {#var v_dazuomax 2;dazuo 0} @eval{$v_checktime_lijing-@time_c{}}}};
+#if {@time_c{}>=$v_checktime_lijing} {#al do_next {e;s;gotolijing}};
+#nop 填海时间;
+#if {@time_c{}<@eval{$v_checktime_lijing+10} && $v_fillsea==1}
+{
+#al do_next {gotofillsea}
+};
+#if {$v_mingsimax==1 && $v_mingsi==1} {#al do_next {tick 10;#var v_mingsimax 0;mingsi 200}};
+#if {$v_dazuomax==1 && $v_dazuo==1} {#al do_next {tick 10;#var v_dazuomax 0;dazuo 200}};
+wait do_next 0.5;
+};
+
+
+#ac {^静室 -}
+{
+#var v_checktime_lijing 270;#sh $v_mingsimax $v_mingsi;
+#if {"$liguai_sta"=="没有完成" && $liguai_find>=2} {#var v_checktime_lijing 870};
+#al do_next {e;s;timeout};
+#if {$v_mingsimax==0 && $v_mingsi==1} {#al do_next {tick @eval{$v_checktime_lijing-@time_c{}+10};#math v_mingsimax {$v_mingsimax+1};placenewbie;playnewbie;mingsi max;#if {$v_extra_catch>0} {fabao_full};#if {$n_lingzhi>1000 && $v_vip==2} {eat ling zhi};wait {#var v_mingsimax 2;mingsi 0} @eval{$v_checktime_lijing-@time_c{}}}};
+#if {$v_dazuomax==0 && $v_dazuo==1 } {#al do_next {tick @eval{$v_checktime_lijing-@time_c{}+10};#math v_dazuomax {$v_dazuomax+1};placenewbie;playnewbie;dazuo max;#if {$v_extra_catch>0} {fabao_full};#if {$n_renshen>1000 && $v_vip==2} {eat ren shen};wait {#var v_dazuomax 2;dazuo 0} @eval{$v_checktime_lijing-@time_c{}}}};
+#if {@time_c{}>=$v_checktime_lijing} {#al do_next {e;s;gotolijing}};
+#nop 填海时间;
+#if {@time_c{}<@eval{$v_checktime_lijing+10} && $v_fillsea==1}
+{
+#al do_next {e;gotofillsea}
+};
+#if {$v_mingsimax==1 && $v_mingsi==1} {#al do_next {tick 10;#var v_mingsimax 0;mingsi 200}};
+#if {$v_dazuomax==1 && $v_dazuo==1} {#al do_next {tick 10;#var v_dazuomax 0;dazuo 200}};
+
+wait do_next 0.5;
+};
+
+
+#ac {^你只觉满口生津，丹田之气顿时大盛。} {#if {$v_vip==2} {wait {eat 50 ren shen;wait {#var v_mingsimax 2;mingsi 0} @eval{$v_checktime_lijing+30-@time_c{}}} 1}};
+#ac {^你只觉满口生津，顿时神清气爽。} {#if {$v_vip==2} {wait {eat 50 ling zhi;wait {#var v_mingsimax 2;mingsi 0} @eval{$v_checktime_lijing+30-@time_c{}}} 1}};
+#ac {^你行功完毕，吸一口气，缓缓站了起来。} {time;tick 10;#if {&v_extra_catch && $v_dazuomax==1} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch} 1} {wait {exert recover;l} 1}};
+#ac {^你行功完毕，从冥思中回过神来。} {time;tick 10;#if {&v_extra_catch && $v_mingsimax==1} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch} 1} {wait {exert refresh;l} 1}};
+
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {exert recover;exert refresh;l};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {exert recover;exert refresh;l};
+
+#ac {^当你的内息遍布全身经脉时却没有功力提升的迹象，似乎内力修为已经遇到了瓶颈。} {#var v_dazuo 0;#var v_dazuomax 2};
+#ac {^当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎法力的提升已经到了瓶颈。} {#var v_mingsi 0;#var v_mingsimax 2};
+#ac {^咦？．．．怎么还在原来的地方？} {delwait;gotodazuo};
+
+#ac {^周围没有一片云，没办法腾云驾雾。} {delwait;timeout};
+
+#nop -----------北冥擂台吸内力----------;
+#ac {^〖擂台〗练功师傅同你开始比武！} {tick @eval{$v_checktime_lijing-@time_c{}+20};#delay @eval{$v_checktime_lijing-@time_c{}+10} faint};
+#ac {^练功师傅和你比武开始！限时五分钟！} {unwield all;wait {exert absorb} 3};
+#ac {^你暗运北冥神功，练功师傅只觉内力不受控制地奔涌泄出！} {wait {exert absorb} 2};
+#ac {^你刚刚吸取过别人的内力，小心丹田爆了！} {wait {exert absorb} 1};
+#ac {^你趁练功师傅不注意，轻轻将右手搭在练功师傅的手臂上。} {wield $userweapon;jiali 0;wait {unwield all;exert absorb} 10};
+#ac {^欢迎来此比武交友。} {wait {#3 {s;open door};timeout} 1};
+#ac {^你的内功水平有限，再吸取也是徒劳。} {#var v_beiming_force 1;wait faint 2};
+
+
+#class dazuomax close;

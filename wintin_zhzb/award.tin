@@ -1,0 +1,51 @@
+#class award open;
+#ac {^你得到了一级%0} {#sh Reward_sk:@addnullr{$myid}      @date_now{} @time_now{}         %0};
+#ac {^Reward_sk:} {#line log Reward.txt};
+
+#ac {^你获得了%1两银子，系统已帮你存入银行！} {#math v_award_sb_silver $v_award_sb_silver+%1};
+#ac {^你获得了%1点潜能！} {#math v_award_sb_qn $v_award_sb_qn+%1};
+#ac {^你获得了%1点道行！} {#math v_award_sb_dx $v_award_sb_dx+%1};
+#ac {^你获得了%1点武学经验！} {#math v_award_sb_wx $v_award_sb_wx+%1};
+#ac {^你获得了%1点魔盒点！} {#math v_award_sb_mp $v_award_sb_mp+%1};
+#ac {^你获得了%1点道行，%2点武学经验，%3点潜能,%4点魔盒点和%5两黄金！} {#math v_award_sb_ten $v_award_sb_ten+1;#math v_award_sb_dx $v_award_sb_dx+%1;#math v_award_sb_wx $v_award_sb_wx+%2;#math v_award_sb_qn $v_award_sb_qn+%3;#math v_award_sb_mp $v_award_sb_mp+%4;#math v_award_sb_silver $v_award_sb_silver+200};
+
+#ac {^你得到了%1点武学经验、%2时辰道行和%3点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%3}};
+#ac {^你得到了%1点武学经验、%2天道行和%3点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*4;#math v_award_lj_qn $v_award_lj_qn+@ctd{%3}};
+#ac {^你得到了%1点武学经验、%2年道行和%3点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000;#math v_award_lj_qn $v_award_lj_qn+@ctd{%3}};
+#ac {^你得到了%1点武学经验、%2天%3时辰道行和%4点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*4+@ctd{%3}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%4}} {4};
+#ac {^你得到了%1点武学经验、%2年%3天道行和%4点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000+@ctd{%3}*4;#math v_award_lj_qn $v_award_lj_qn+@ctd{%4}} {4};
+#ac {^你得到了%1点武学经验、%2年%3天%4时辰道行和%5点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000+@ctd{%3}*4+@ctd{%4}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%5}} {3};
+#ac {^你得到了%1点武学经验、%2年%3时辰道行和%4点潜能！} {#var v_liguai_over @eval{$v_liguai_over+1};#var liguai_sta 已经完成;#if {$v_lianxu_open==0} {#var v_lianxu 0};#if {$v_lianxu_open>0} {#math v_lianxu_open $v_lianxu_open-1};#math v_award_lj_wx $v_award_lj_wx+@ctd{%1};#math v_award_lj_dx $v_award_lj_dx+@ctd{%2}*1000+@ctd{%3}/3;#math v_award_lj_qn $v_award_lj_qn+@ctd{%4}} {4};
+
+#ac {^你额外获得了%1点武学经验、%2点道行和%3点潜能！} {#math v_award_zs_wx $v_award_zs_wx+@ctd{%1};#math v_award_zs_dx $v_award_zs_dx+@ctd{%2};#math v_award_zs_qn $v_award_zs_qn+@ctd{%3}};
+
+#ac {^你得到了%1点潜能，%2武学经验，%3时辰道行。} {#var v_rulai_over @eval{$v_rulai_over+1};#math v_award_rl_wx $v_award_rl_wx+@ctd{%2};#math v_award_rl_dx $v_award_rl_dx+@ctd{%3}/3;#math v_award_rl_qn $v_award_rl_qn+@ctd{%1}};
+#ac {^你得到了%1点潜能，%2武学经验，%3天道行。} {#var v_rulai_over @eval{$v_rulai_over+1};#math v_award_rl_wx $v_award_rl_wx+@ctd{%2};#math v_award_rl_dx $v_award_rl_dx+@ctd{%3}*4;#math v_award_rl_qn $v_award_rl_qn+@ctd{%1}};
+#ac {^你得到了%1点潜能，%2武学经验，%3年道行。} {#var v_rulai_over @eval{$v_rulai_over+1};#math v_award_rl_wx $v_award_rl_wx+@ctd{%2};#math v_award_rl_dx $v_award_rl_dx+@ctd{%3}*1000;#math v_award_rl_qn $v_award_rl_qn+@ctd{%1}};
+#ac {^你得到了%1点潜能，%2武学经验，%3天%4时辰道行。} {#var v_rulai_over @eval{$v_rulai_over+1};#math v_award_rl_wx $v_award_rl_wx+@ctd{%2};#math v_award_rl_dx $v_award_rl_dx+@ctd{%3}*4+@ctd{%4}/3;#math v_award_rl_qn $v_award_rl_qn+@ctd{%1}} {4};
+#ac {^你得到了%1点潜能，%2武学经验，%3年%4天道行。} {#var v_rulai_over @eval{$v_rulai_over+1};#math v_award_rl_wx $v_award_rl_wx+@ctd{%2};#math v_award_rl_dx $v_award_rl_dx+@ctd{%3}*1000+@ctd{%4}*4;#math v_award_rl_qn $v_award_rl_qn+@ctd{%1}} {4};
+#ac {^你得到了%1点潜能，%2武学经验，%3年%4天%5时辰道行。} {#var v_rulai_over @eval{$v_rulai_over+1};#math v_award_rl_wx $v_award_rl_wx+@ctd{%2};#math v_award_rl_dx $v_award_rl_dx+@ctd{%3}*1000+@ctd{%4}*4+@ctd{%5}/3;#math v_award_rl_qn $v_award_rl_qn+@ctd{%1}} {3};
+#ac {^你得到了%1点潜能，%2武学经验，%3年%4时辰道行。} {#var v_rulai_over @eval{$v_rulai_over+1};#math v_award_rl_wx $v_award_rl_wx+@ctd{%2};#math v_award_rl_dx $v_award_rl_dx+@ctd{%3}*1000+@ctd{%4}/3;#math v_award_rl_qn $v_award_rl_qn+@ctd{%1}} {4};
+
+
+#ac {^你被奖励了%1点武学经验，%2时辰道行和%3点潜能！}  {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%3}};
+#ac {^你被奖励了%1点武学经验，%2天道行和%3点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*4;#math v_award_fg_qn $v_award_fg_qn+@ctd{%3}};
+#ac {^你被奖励了%1点武学经验，%2年道行和%3点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000;#math v_award_fg_qn $v_award_fg_qn+@ctd{%3}};
+#ac {^你被奖励了%1点武学经验，%2天%3时辰道行和%4点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*4+@ctd{%3}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%4}} {4};
+#ac {^你被奖励了%1点武学经验，%2年%3天道行和%4点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000+@ctd{%3}*4;#math v_award_fg_qn $v_award_fg_qn+@ctd{%4}} {4};
+#ac {^你被奖励了%1点武学经验，%2年%3天%4时辰道行和%5点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000+@ctd{%3}*4+@ctd{%4}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%5}} {3};
+#ac {^你被奖励了%1点武学经验，%2年%3时辰道行和%4点潜能！} {#math v_award_fg_wx $v_award_fg_wx+@ctd{%1};#math v_award_fg_dx $v_award_fg_dx+@ctd{%2}*1000+@ctd{%3}/3;#math v_award_fg_qn $v_award_fg_qn+@ctd{%4}} {4};
+
+#ac {^你成功拆开了魔盒，获得了一些神秘的力量！(%1)} {#math v_award_box_md $v_award_box_md+%1};
+#ac {^你额外得到了%1点魔法点！} {#math v_award_box_md $v_award_box_md+@ctd{%1}};
+
+#nop ----以下为守城奖励，需要打开后即刻关闭-----;
+#ac {^奖励$myname武学%1点，道行%2时辰 ，潜能%3点。额外奖励魔法点%4。} {T- award;#math v_award_guard_wx $v_award_guard_wx+@ctd{%1};#math v_award_guard_dx $v_award_guard_dx+@ctd{%2}/3;#math v_award_guard_qn $v_award_guard_qn+@ctd{%3};#math v_award_guard_md $v_award_guard_md+@ctd{%4};#delay 0.1 {#sh 奖励$myname武学}};
+#ac {^奖励$myname武学%1点，道行%2天 ，潜能%3点。额外奖励魔法点%4。} {T- award;#math v_award_guard_wx $v_award_guard_wx+@ctd{%1};#math v_award_guard_dx $v_award_guard_dx+@ctd{%2}*4;#math v_award_guard_qn $v_award_guard_qn+@ctd{%3};#math v_award_guard_md $v_award_guard_md+@ctd{%4};#delay 0.1 {#sh 奖励$myname武学}};
+#ac {^奖励$myname武学%1点，道行%2年 ，潜能%3点。额外奖励魔法点%4。} {T- award;#math v_award_guard_wx $v_award_guard_wx+@ctd{%1};#math v_award_guard_dx $v_award_guard_dx+@ctd{%2}*1000;#math v_award_guard_qn $v_award_guard_qn+@ctd{%3};#math v_award_guard_md $v_award_guard_md+@ctd{%4};#delay 0.1 {#sh 奖励$myname武学}};
+#ac {^奖励$myname武学%1点，道行%2天%3时辰 ，潜能%4点。额外奖励魔法点%5。} {T- award;#math v_award_guard_wx $v_award_guard_wx+@ctd{%1};#math v_award_guard_dx $v_award_guard_dx+@ctd{%2}*4+@ctd{%3}/3;#math v_award_guard_qn $v_award_guard_qn+@ctd{%4};#math v_award_guard_md $v_award_guard_md+@ctd{%5};#delay 0.1 {#sh 奖励$myname武学}} {4};
+#ac {^奖励$myname武学%1点，道行%2年%3时辰 ，潜能%4点。额外奖励魔法点%5。} {T- award;#math v_award_guard_wx $v_award_guard_wx+@ctd{%1};#math v_award_guard_dx $v_award_guard_dx+@ctd{%2}*1000+@ctd{%3}/3;#math v_award_guard_qn $v_award_guard_qn+@ctd{%4};#math v_award_guard_md $v_award_guard_md+@ctd{%5};#delay 0.1 {#sh 奖励$myname武学}} {4};
+#ac {^奖励$myname武学%1点，道行%2年%3天 ，潜能%4点。额外奖励魔法点%5。} {T- award;#math v_award_guard_wx $v_award_guard_wx+@ctd{%1};#math v_award_guard_dx $v_award_guard_dx+@ctd{%2}*1000+@ctd{%3}*4;#math v_award_guard_qn $v_award_guard_qn+@ctd{%4};#math v_award_guard_md $v_award_guard_md+@ctd{%5};#delay 0.1 {#sh 奖励$myname武学}} {4};
+#ac {^奖励$myname武学%1点，道行%2年%3天%4时辰 ，潜能%5点。额外奖励魔法点%6。} {T- award;#math v_award_guard_wx $v_award_guard_wx+@ctd{%1};#math v_award_guard_dx $v_award_guard_dx+@ctd{%2}*1000+@ctd{%3}*4+@ctd{%4}/3;#math v_award_guard_qn $v_award_guard_qn+@ctd{%5};#math v_award_guard_md $v_award_guard_md+@ctd{%6};#delay 0.1 {#sh 奖励$myname武学}} {3};
+
+#class award close;

@@ -1,0 +1,254 @@
+#CONFIG           {256 COLORS}  {OFF}
+#CONFIG           {AUTO TAB}  {5000}
+#CONFIG           {BUFFER SIZE}  {20000}
+#CONFIG           {CHARSET}  {ASCII}
+#CONFIG           {COMMAND COLOR}  {<078>}
+#CONFIG           {COMMAND ECHO}  {ON}
+#CONFIG           {CONNECT RETRY}  {15}
+#CONFIG           {HISTORY SIZE}  {1000}
+#CONFIG           {LOG}  {RAW}
+#CONFIG           {PACKET PATCH}  {0.5}
+#CONFIG           {REPEAT CHAR}  {!}
+#CONFIG           {REPEAT ENTER}  {ON}
+#CONFIG           {SCROLL LOCK}  {ON}
+#CONFIG           {SPEEDWALK}  {OFF}
+#CONFIG           {TINTIN CHAR}  {#}
+#CONFIG           {VERBATIM}  {OFF}
+#CONFIG           {VERBATIM CHAR}  {\}
+#CONFIG           {VERBOSE}  {OFF}
+#CONFIG           {WORDWRAP}  {ON}
+
+#split 8 0;
+
+#pathdir {eu} {wd} {18};
+#pathdir {wd} {eu} {40};
+#pathdir {wu} {ed} {24};
+#pathdir {ed} {wu} {34};
+#pathdir {su} {nd} {20};
+#pathdir {nd} {su} {33};
+#pathdir {nu} {sd} {17};
+#pathdir {sd} {nu} {36};
+#pathdir {enter} {out} {41};
+#pathdir {out} {enter} {50};
+
+#nop ----以下为小键盘方向键，必须关闭Num Lock方能使用---;
+#macro {\eOp} {d};
+#macro {\eOq} {sw};
+#macro {\eOr} {s};
+#macro {\eOs} {se};
+#macro {\eOt} {w};
+#macro {\eOu} {l};
+#macro {\eOv} {e};
+#macro {\eOw} {nw};
+#macro {\eOx} {n};
+#macro {\eOy} {ne};
+
+#nop ----自定义函数----;
+#function {additem} {#if {@ismember{%2;%1}==0} {#list %1 add %2};#var result $%1};
+#function {additem_same} {#list %1 add %2;#var result $%1};
+#function {delitem} {#list %1 delete @ismember{%2;%1};#var result $%1};
+#function {backpath}
+{
+#list tmp creat {up;down;east;west;south;north;eastup;eastdown;westup;westdown;southup;southdown;northup;northdown;southwest;southeast;northwest;northeast;enter;out;backyard;frontyard;right;left;swim};
+#list tmp1 creat {down;up;west;east;north;south;westdown;westup;eastdown;eastup;northdown;northup;southdown;southup;northeast;northwest;southeast;southwest;out;enter;frontyard;backyard;left;right;swim};
+#var result {@item{tmp1;@ismember{%1;tmp}}}
+};
+
+#function {numitems} {#list %1 size result};
+#function {ismember} {#list %2 find %1 result};
+#function {item} {#list %1 get %2 result};
+#function {eval} {#math result {%1}};
+#function {lower} {#format result {%l} {%1}};
+#function {upper_f} {#format result {%n} {%1}};
+#function {upper} {#format result {%u} {%1}};
+#function {len} {#format result {%L} {%1}};
+#function {trim} {#format result {%p} {%1}};
+#function {screenw} {#format result {%C}};
+#function {screenh} {#format result {%R}};
+#function {replace} {#var result %1;#replace result {%2} {%3}};
+
+#function {ctd} {
+#var tmp {};
+#nop var result {@replace{@replace{{0+@replace{@replace{@replace{@replace{@replace{@replace{@replace{@replace{@replace{@replace{@replace{@replace{@replace{%1;{零};{*0+}};{十};{*10+}};{百};{*100+}};{千};{*1000+}};{六};{6}};{一};{1}};{二};{2}};{三};{3}};{四};{4}};{五};{5}};{七};{7}};{八};{8}};{九};{9}}+0};{++};{+}};{+*};{+}}};
+#var result @replace{%1;{零};{*0+}};
+#var result @replace{$result;{十};{*10+}};
+#var result @replace{$result;{百};{*100+}};
+#var result @replace{$result;{千};{*1000+}};
+#var result @replace{$result;{一};{1}};
+#var result @replace{$result;{二};{2}};
+#var result @replace{$result;{三};{3}};
+#var result @replace{$result;{四};{4}};
+#var result @replace{$result;{五};{5}};
+#var result @replace{$result;{六};{6}};
+#var result @replace{$result;{七};{7}};
+#var result @replace{$result;{八};{8}};
+#var result @replace{$result;{九};{9}};
+#var result @replace{{0+$result+0};{++};{+}};
+#var result @replace{$result;{+*};{+}};
+
+#var result @replace{$result;{+万};{万}};
+#var result @replace{$result;{万};{;0+}};
+#list tmp creat $result;
+#if {@numitems{tmp}>1} {#math result {(@item{tmp;1})*10000+(@item{tmp;2})}} {#math result {(@item{tmp;1})}};
+};
+
+
+#function {space} {#var result {};#loop 1 %1 tmp {#var result {$result }}};
+#function {copy}
+{
+	#var tmp {};
+	#parse {%1} {tmpa} {#list tmp add $tmpa};
+	#var result {};
+	#loop 1 %3 tmpa {#var result $result@item{tmp;@eval{%2+$tmpa-1}}};
+};
+#function {pos}
+{
+	#var result 0;
+	#var tmpa 1;
+	#parse {%1} {tmp} {#if {"$tmp"=="%2"} {#return $tmpa} {#math tmpa {$tmpa+1}}};
+};
+#function {int} {#format result {%d} {%1}};
+#function {rnd} {#math {result} {1 d (%2 - %1 + 1) + %1 - 1}};
+#function {hpdraw}
+{
+	#var tmp @eval{%1*7/%2};
+	#if {$tmp<0} {#var tmp 0};
+	#elseif {$tmp==0 & %1>0} {#var tmp 1};
+	#elseif {$tmp==7 & %1>%2} {#var tmp 8};
+	#elseif {$tmp>14} {#var tmp 14};
+	#switch {$tmp}
+	{
+		#case 0  {#var result {<074>       }};
+		#case 1  {#var result {<DAA> <074>      }};
+		#case 2  {#var result {<DBA>  <074>     }};
+		#case 3  {#var result {<DCA>   <074>    }};
+		#case 4  {#var result {<DDA>    <074>   }};
+		#case 5  {#var result {<CDA>     <074>  }};
+		#case 6  {#var result {<BDA>      <074> }};
+		#case 7  {#var result {<ADA>       <074>}};
+		#case 8  {#var result {<AEE> <ADA>      <074>}};
+		#case 9  {#var result {<AEE>  <ADA>     <074>}};
+		#case 10 {#var result {<AEE>   <ADA>    <074>}};
+		#case 11 {#var result {<AEE>    <ADA>   <074>}};
+		#case 12 {#var result {<AEE>     <ADA>  <074>}};
+		#case 13 {#var result {<AEE>      <ADA> <074>}};
+		#case 14 {#var result {<AEE>       <074>}};
+	};
+};
+#function {hpcolor}
+{
+	#if {%2<=0} {#var result <014>%1<074>} {#var result <074>%1};
+};
+#function {addnullr}
+{
+#format result {%-9s} {%1};
+};
+
+#nop 用@time{}抓取秒数;
+#function {time} {#format {result} {%T}};
+#nop time_c(heck)简写，用作lijing任务间隔时间判断，表示方法@time_c{}；
+#function {time_c} {#math result {@time{}-$time_liguaistart}};
+#nop 用@time_now{}抓取当前时间;
+#function {time_now} {#format {epoch} {%T};#format {result} {%t} {{%T}{$epoch}}};
+#nop 用@date_now{}抓取当前日期;
+#function {date_now} {#format {epoch} {%T};#format {result} {%t} {{%Y-%m-%d}{$epoch}}};
+#nop time_s(ongbao)简写，用作songbao任务间隔时间判断，表示方法@time_s{}；
+#function {time_s} {#math result {@time{}-$time_songbaostart}};
+
+#nop 统一alias
+#al delwait {#undelay {wait}};
+#al wait {delwait;#delay {wait} {%1} {%2}};
+
+#al Treset {#undelay lianwait;$v_closeac_zzl;#unac {^  %*$liguai_name};#unac {^%s这里明显的出口是%*northeast%*};T- award;T- blockguai;T- checkdo;T- checksell;T- checkitem;T- chuqiao;T- cloud;T- Common;T- control;T- ctd;T- dazuomax;T- drop;T- fillsea;T- font;T- guard;T- kgd;T- lian;T- liguaiask;T- liguaikill;T- menpai;T- NextAction;T- path;T- pathwabao;T- pathwabao_search;T- path_search;T- pathrl;T- pathrl_search;T- quests;T- readwords;T- rongqi;T- rulaiask;T- rulaikill;T- sell;T- skills;T- timeout;Treset_quest;RestoreNextAction;#untick leitai};
+
+#al Treset_guard {delwait;$v_closeac_zzl;#unac {^  %*$liguai_name};#unac {^%s这里明显的出口是%*northeast%*};hurt_guard;T- award;T- blockguai;T- checkdo;T- checksell;T- checkitem;T- chuqiao;T- cloud;T- Common;T- control;T- ctd;T- dazuomax;T- drop;T- fillsea;T- font;T- kgd;T- lian;T- liguaiask;T- liguaikill;T- menpai;T- NextAction;T- path;T- pathwabao;T- pathwabao_search;T- path_search;T- pathrl;T- pathrl_search;T- quests;T- readwords;T- rongqi;T- rulaiask;T- rulaikill;T- sell;T- skills;T- timeout;Treset_quest;T+ guard.tin};
+
+#al Treset_quest {T- dangpu;T- Clear;T- cloud;T- submit;T- tmp;T- ItemGet;T- lian;T- questslist;T- QuestKill;T- QuestFood;T- QuestGive;T- QuestArmor;T- QuestWeapon;T- QuestCloth;T- QuestAsk};
+
+#al tick {#tick {tick} {timeout} {%1}};
+
+#var v_closeac_zzl {#unac {^%s这里%+出口是 %1。}};
+
+#al timeout {#log off;enable_base;bian;#untick rulai_tick;set no_accept;delwait;Treset;T+ hp.tin;T+ timeout.tin;#if {$v_nolook_room==1} {#unvar v_nolook_room;surrender;fly stone} {#unvar v_maze_room;
+#if &fabao_id2 {l $fabao_id2};
+#if &fabao_id3 {l $fabao_id3};
+#if &fabao_id1 {#var v_fabao_ji 0;l $fabao_id1};
+l;areatalk @time{} [$v_beta];score;neidan;buff}};
+
+#al {T-} {#class %1 kill};
+#al {T+} {#re %1};
+
+#al {robot_stop} {#var robot_stop 1};
+
+#al {robot_start} {westwar;unset report_message_status;set brief 1;#var robot_stop 0;#class idlog write id/$myid's.log;timeout};
+
+#al {randomfly} {#switch {1d2} {#case 1 {fly qinglong;jump};#case 2 {fly guild}}};
+#al {playnewbie} {#if {$v_age<18 && @eval{$hp_wx+$hp_dx_ctd}<1000000} {play newbie gift;exert recover;exert refresh}};
+#al {placenewbie} {#if {$v_age<18 && @eval{$hp_wx+$hp_dx_ctd}<1000000} {place newbie gift}};
+#al gotodazuo {tick 10;fly sky;w};
+#al gotolijing {drop yu pei;#if {$v_fillsea_open==1} {remove leather coat;wear tian yi;unwield shenzhi bishou 2;wield $userweapon};Treset;tick 20;#if {@eval{$hp_wx+$hp_dx_ctd}<500000} {fly changan;n;w;wait {T+ control.tin;placenewbie;ask yuan tiangang about kill} 0.5} {#if {@time_c{}<287 && @time_c{}>=270} {delwait;fly guild;T+ control.tin;wait {hp} 1} {fly sky;e;e;e;e;n;n;n;n;n;open west;w;w;s;s;e;open east;e;n;u;wait {T+ control.tin;#var v_checkitem 0;placenewbie;ask li jing about $liguai_lv} 0.5}}};
+#al gotoguard {Treset;fly changan;s;e;burn scroll;wait {buy scroll from er;burn scroll} 3};
+#al gotorulai {#if {$v_fillsea_open==1} {remove leather coat;wear tian yi};Treset;T+ rulai.tin;tick 10;fei lingshan;w;w;w;s;wu;sw;nu;wu;nw;n;nw;wu;s;s;s;s;s;task;#var v_checkitem 0};
+#al gotofillsea {Treset;fly changan;ne;ask wiz rjdwmbtq about tianfu;drop yu pei;yao yupei;wear yu pei;sw;wait {T+ fillsea.tin;fillsea_start} 1};
+#al gotobanghui {tick 10;};
+#nop al gotosongbao {Treset;tick 10;fly changan;u;wait {ask jin buhuan about bao;T+ songbao/readwords.tin} 1};
+#al gotoquests {Treset;tick 10;T+ quests/quests.tin;T+ quests/Common.tin;quests_start;#var quests_sta 解谜初始};
+#al NextAction {tick 10;Treset_quest;T+ quests/Nextaction.tin;touxiang;fly guild};
+#al RestoreNextAction {#al NextAction {tick 10;Treset_quest;T+ quests/Nextaction.tin;touxiang;fly guild}};
+#al ReQuestsTime {#var QuestsTime_Ask 1;#var QuestsTime_Give 1;#var QuestsTime_Weapon 1;#var QuestsTime_Armor 1;#var QuestsTime_Kill 1;#var QuestsTime_Food 1;#var QuestsTime_Cloth 1};
+#al checksell {T+ checksell.tin;i};
+
+#al {re_day} {#unvar data;#var v_dazuo 1;#var v_mingsi 1;#class idlog write id/$myid's.log;
+#var v_award_lj_wx_last $v_award_lj_wx;#var v_award_lj_dx_last $v_award_lj_dx;#var v_award_lj_qn_last $v_award_lj_qn;
+#var v_award_rl_wx_last $v_award_rl_wx;#var v_award_rl_dx_last $v_award_rl_dx;#var v_award_rl_qn_last $v_award_rl_qn;
+#var v_award_zs_wx_last $v_award_zs_wx;#var v_award_zs_dx_last $v_award_zs_dx;#var v_award_zs_qn_last $v_award_zs_qn;
+#var v_award_fg_wx_last $v_award_fg_wx;#var v_award_fg_dx_last $v_award_fg_dx;#var v_award_fg_qn_last $v_award_fg_qn;#var v_award_box_md_last $v_award_box_md;#var v_liguai_ask_last $v_liguai_ask;#var v_liguai_over_last $v_liguai_over;#var n_rulai_last $n_rulai;#var v_rulai_over_last $v_rulai_over;#var v_account_gold_last1 $v_account_gold_last;#var v_account_gold_last $v_account_gold;
+#var v_award_guard_wx_last $v_award_guard_wx;#var v_award_guard_dx_last $v_award_guard_dx;#var v_award_guard_qn_last $v_award_guard_qn;#var v_award_guard_md_last $v_award_guard_md;
+#var v_award_quest_dx_last $v_award_quest_dx;#var v_award_quest_wx_last $v_award_quest_wx;#var v_award_quest_qn_last $v_award_quest_qn;#var v_award_quest_cloud_last $v_award_quest_cloud;#var v_award_quest_seven_last $v_award_quest_seven;
+#var n_fillsea_last $n_fillsea;#var enable_spells_lv_last $enable_spells_lv;#var v_award_sb_ten_last $v_award_sb_ten;
+#var n_songbao_last $n_songbao;#var n_songbao_done_last $n_songbao_done;
+#var v_award_sb_silver_last $v_award_sb_silver;#var v_award_sb_dx_last $v_award_sb_dx;#var v_award_sb_wx_last $v_award_sb_wx;#var v_award_sb_qn_last $v_award_sb_qn;#var v_award_sb_mp_last $v_award_sb_mp;
+#var v_award_lj_wx 0;#var v_award_lj_dx 0;#var v_award_lj_qn 0;
+#var v_award_rl_wx 0;#var v_award_rl_dx 0;#var v_award_rl_qn 0;
+#var v_award_zs_wx 0;#var v_award_zs_dx 0;#var v_award_zs_qn 0;
+#var v_award_fg_wx 0;#var v_award_fg_dx 0;#var v_award_fg_qn 0;#var v_award_box_md 0;
+#var v_award_guard_wx 0;#var v_award_guard_dx 0;#var v_award_guard_qn 0;#var v_award_guard_md 0;#var v_liguai_ask 0;#var v_liguai_over 0;#var v_rulai_over 0;
+#var v_award_sb_silver 0;#var v_award_sb_dx 0;#var v_award_sb_wx 0;#var v_award_sb_qn 0;#var v_award_sb_mp 0;
+#var n_fillsea 0;#var n_songbao {0};#var n_songbao_done {0};#var v_award_sb_ten 0;
+#var v_award_quest_dx 0;#var v_award_quest_wx 0;#var v_award_quest_qn 0;#var v_award_quest_cloud 0;#var v_award_quest_seven 0;
+#nop 每天打开一次北冥吸内力;
+#var v_beiming_force 0;
+#buff clear;
+bjtime};
+
+#al {Tmenpai}
+{#nop 调用menpai文件前先使用menpai频道，说完关闭;
+#if {"$v_menpai"=="北冥妖府"} {T+ menpai/beiming.tin};
+#if {"$v_menpai"=="月宫"} {T+ menpai/moon.tin};
+#if {"$v_menpai"=="方寸山三星洞"} {T+ menpai/lingtai.tin};
+#if {"$v_menpai"=="大雪山"} {T+ menpai/xueshan.tin};
+#if {"$v_menpai"=="南海普陀山"} {T+ menpai/putuo.tin};
+#if {"$v_menpai"=="阎罗地府"} {T+ menpai/hell.tin};
+#if {"$v_menpai"=="陷空山无底洞"} {T+ menpai/wdd.tin};
+#if {"$v_menpai"=="五庄观"} {T+ menpai/wzg.tin};
+#if {"$v_menpai"=="将军府"} {T+ menpai/jjf.tin};
+#if {"$v_menpai"=="火云洞"} {T+ menpai/huoyun.tin};
+#if {"$v_menpai"=="孔雀明王宗"} {T+ menpai/mingwang.tin};
+#if {"$v_menpai"=="东海龙宫"} {T+ menpai/lg.tin};
+#if {"$v_menpai"=="盘丝洞"} {T+ menpai/pansi.tin};
+#if {"$v_menpai"=="梅山"} {T+ menpai/meishan.tin};
+#if {"$v_menpai"=="普通百姓"} {T+ menpai/baixing.tin};
+};
+
+#var v_menpai_list {普通百姓;北冥妖府;月宫;大雪山;南海普陀山;阎罗地府;陷空山无底洞;五庄观;将军府;火云洞;孔雀明王宗;东海龙宫;盘丝洞;梅山;方寸山三星洞};
+
+#list v_menpai_list creat $v_menpai_list;
+
+#nop 为区别mud中命令使用首字母大写;
+#al Schat {#grep 【闲聊】};
+#al Srumor {#grep 【谣言】};
+#al Stell {#grep 你回答;#grep 回答你：;#grep )告诉你：};
+
+
+#gag {^Ok.};
+

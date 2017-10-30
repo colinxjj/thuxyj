@@ -1,0 +1,110 @@
+#class menpai open;
+tick 10;perform dodge.huntian;;n;n;hp;
+
+#var menpai_skill_id {dagger;dodge;force;mace;parry;spells;unarmed;beiming-shengong;xiaoyao-dafa};
+#var menpai_skill_max {180;200;200;180;150;200;180;180;160};
+#var menpai_skill_master {peng;peng;jiao;jiao;peng;peng;peng;jiao;peng};
+
+#list menpai_skill_id creat $menpai_skill_id;
+#list menpai_skill_max creat $menpai_skill_max;
+#list menpai_skill_master creat $menpai_skill_master;
+
+#ac {^混天大圣宫 -} {#var {v_nowroom} 混天大圣宫};
+#ac {^覆海大圣宫 -} {#var {v_nowroom} 覆海大圣宫};
+#ac {^设定环境变数：public = "开始学习%*!"} {hp};
+
+#ac {^...do...next..}
+{
+tick 5;time;#var v_checktime_lijing 240;exert recover;exert refresh;#var master @item{menpai_skill_master;@ismember{$skill_idnow;menpai_skill_id}};
+#if {"$liguai_sta"=="没有完成"} {#var v_checktime_lijing 840};#al do_next {T- menpai;#2 w;wu;u;w;s;s;d;#2 sw;sd;se;#3 s;wait {T+ control.tin;hp} 2};
+
+   #if {"$master"=="peng" && $hp_qn>0}
+   {
+      #if {"$v_nowroom"=="混天大圣宫"}
+      {bai peng mowang;
+      #al do_next {placenewbie;playnewbie;exert recover;exert refresh;
+      #if @ismember{$skill_idnow;v_skill_research_double}>0 {#3 learn $skill_idnow from peng mowang for 50} {
+      #if {$skill_nummin_max<@eval{($skill_nummin+1)*($skill_nummin+1)-5000}} {#3 learn $skill_idnow from peng mowang for 50} {learn $skill_idnow from peng mowang for 10}};
+      exert recover;exert refresh;placenewbie;playnewbie;skills;hp}
+            }
+      #if {"$v_nowroom"=="覆海大圣宫"}
+      {
+      #al do_next {#2 w;wu;u;w;#2 sw;nw;nu;u;n;n;set public 开始学习$skill_idnow!};      
+           }
+       };
+    
+   #if {"$master"=="jiao" && $hp_qn>0}
+   {
+      #if {"$v_nowroom"=="混天大圣宫"}
+      {
+      #al do_next {s;s;d;sd;se;#2 ne;e;dive;wait {ed;#2 e;set public 开始学习$skill_idnow!} 2};   
+            }
+      #if {"$v_nowroom"=="覆海大圣宫"}
+      {bai jiao mowang;
+      #al do_next {placenewbie;playnewbie;exert recover;exert refresh;
+      #if @ismember{$skill_idnow;v_skill_research_double}>0 {#3 learn $skill_idnow from jiao mowang for 50} {
+      #if {$skill_nummin_max<@eval{($skill_nummin+1)*($skill_nummin+1)-5000}} {#3 learn $skill_idnow from jiao mowang for 50} {learn $skill_idnow from jiao mowang for 10}};
+      exert recover;exert refresh;placenewbie;playnewbie;skills;hp}
+           }
+       };
+       
+    #if {$hp_qn==0}
+    {#nop 此处设置的2000数值兼顾id文件中的潜能存储值设置，防止取的过多导致再次存储;
+     #al do_next {#2 w;wu;u;w;s;s;d;#2 sw;sd;se;#3 s;
+      #if {$v_qn_depmax>=2000} {#5 w;ne;enter;withdraw 2000;wait {out;sw;e;perform dodge.huntian;n;n;hp} 2} {timeout}};  
+        };
+
+    #if {@ismember{$skill_idnow;v_skill_research_base}>0 && $skill_nummin_max>@eval{($skill_nummin+1)*($skill_nummin+1)}}
+    {#nop 此处判断能一倍（即红了）通过战斗或两仪剑升级的技能;
+     #al do_next {#2 w;wu;u;w;s;s;T- menpai;wait {skills;T+ skills.tin;hp} 1};
+       };    
+        
+    #if {@ismember{$skill_idnow;v_skill_research_base}>0 && $hp_qn>0 && $skill_nummin>=250}
+    {
+    #al do_next {#2 w;wu;u;w;s;s;T- menpai;wait {skills;T+ skills.tin;hp} 1};
+    };
+    
+    #if {@ismember{$skill_idnow;v_skill_research_double}>0 && $hp_qn>0 && $skill_nummin>=250}
+    {
+    #al do_next {#2 w;wu;u;w;s;s;T- menpai;wait {skills;T+ skills.tin;hp} 1};
+    };
+    #nop 增加无字经部分，目前仅支持zhzb，考虑增加设置无字经skill开关通用;
+    #if {"$myid"=="zhzb" && "$skill_idnow"=="force" && $skill_nummin<251}
+    {
+    #al do_next {#15 du wuzi jing;hp};
+    };    
+    #if {@ismember{$skill_idnow;v_skill_lian}>0}
+    {
+    #al do_next {#2 w;wu;u;w;s;s;T- menpai;wait {skills;T+ skills.tin;hp} 1};
+    };
+    #nop 法力过低;
+    #if {$hp_fl<$hp_flmax}
+    {
+    #if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {
+    #al do_next {tick 40;exert recover;exert refresh;mingsi max;#if {$v_extra_catch>0} {fabao_full};wait {mingsi 0} 30}};
+    };
+
+    #nop 内力过低;
+    #if {$hp_nl<$hp_nlmax}
+    {
+    #if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {
+    #al do_next {tick 40;exert recover;exert refresh;dazuo max;#if {$v_extra_catch>0} {fabao_full};wait {dazuo 0} 30}};
+    };
+    
+    #nop 填海时间;
+    #if {@time_c{}<=$v_checktime_lijing && $v_fillsea==1}
+    {
+    #al do_next {#2 w;wu;u;w;s;s;gotofillsea}
+    };
+    
+    #nop 时间不够;
+    #if {@time_c{}>@eval{$v_checktime_lijing+20}}
+    {
+    #al do_next {#2 w;wu;u;w;s;s;timeout}
+    };
+    wait do_next 0.5       
+   };
+
+#ac {^你行功完毕，吸一口气，缓缓站了起来。} {tick 5;wait {exert recover;exert refresh;hp} 1};
+#ac {^你行功完毕，从冥思中回过神来。} {tick 5;wait {exert recover;exert refresh;hp} 1};
+#class menpai close;

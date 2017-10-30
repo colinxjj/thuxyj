@@ -1,0 +1,4 @@
+#class chuqiao open;
+#ac {^一股灵气从你脑门上钻出，随风飘去，转眼} {T- chuqiao} {1};
+#ac {^你的法力不} {tick 10;#if $n_lingzhi>5 {eat ling zhi;cast chuqiao} {timeout}} {1};
+#class chuqiao close;

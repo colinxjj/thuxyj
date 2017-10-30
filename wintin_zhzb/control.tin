@@ -1,0 +1,264 @@
+#class control open;
+#unvar name_ctd;#unvar name_ctd_old;#unvar v_rulai_done;
+#ac {^袁天罡：第%1个妖「$liguai_name」%2。} {#if {@eval{$hp_wx+$hp_dx_ctd}<500000} {#var liguai_sta %2}} {1};
+#ac {^袁天罡：第%+个妖「%+」%+。} {#if {@eval{$hp_wx+$hp_dx_ctd}<500000} {#if {"%3"!="$liguai_name" && "%4"=="没有完成"} {#var name_ctd %3;#var name_ctd_old %3;#var liguai_name %3};#if &v_debug {} {#delay 30 {#buff write 54321.txt;#var v_debug 1}}}};
+#ac {^李%s靖：第%1个妖「$liguai_name」%2。} {#if {@eval{$hp_wx+$hp_dx_ctd}>=500000} {#var liguai_sta %2}} {1};
+#ac {^李%s靖：第%+个妖「%+」%+。} {#if {@eval{$hp_wx+$hp_dx_ctd}>=500000} {#if {"%3"!="$liguai_name" && "%4"=="没有完成"} {#var name_ctd %3;#var name_ctd_old %3;#var liguai_name %3};#if &v_debug {} {#delay 30 {#buff write 54321.txt;#var v_debug 1}}}};
+#ac {^你当前的灭妖任务：} {#if {&fabao_id1 || &fabao_id2 || &fabao_id3} {#var v_chargefabao 1}};
+#ac {^你现在没有灭妖任务。} {#var liguai_sta {已经完成};#if {&fabao_id1 || &fabao_id2 || &fabao_id3} {#var v_chargefabao 1}};
+#ac {^你今天已经拿了%1个任务。} {#if {$n_rulai<31} {#var n_rulai @ctd{%1};#if {$n_rulai==30 && "$rulai_sta"=="已经完成" && $rulai_find>3} {#var n_rulai 31;#sh 记录问题 $myid的如来完成时间为@time_now{}}} {#if @ctd{%1}<30 {#var n_rulai @ctd{%1};#sh 记录问题 $myid的如来$n_rulai开始时间为@time_now{}}}};
+#ac {^你刚刚完成了一个%+妖任务。} {#var v_rulai_done 1;#var rulai_sta 已经完成};
+#ac {^你没有任务在身。} {#var v_rulai_done 2;#var rulai_sta 已经完成;#var rulai_find 0};
+#ac {^你现在的任务是%1妖,%2(%3)。} {#var rulai_sta 没有完成;#var v_rulai %1;#var rulai_name %2;#var rulai_id %3;#var rulai_idupper @upper_f{$rulai_id}};
+#ac {^【%1】$myname(@upper_f{$myid})：} {#if {@ismember{%1;v_menpai_list}>0} {T- control;#var v_menpai %1;Tmenpai}};
+
+#ac {^...do...next..}
+{
+tick 10;
+#nop 增加一个模式一情况下，学习完切换成解谜的开关(模式二在如来全部完成时有开关);
+#if {$v_fillsea_open==1 && $v_questsopen==1 && $v_autolearn==1} {#if {$v_mingsi==0 && $v_dazuo==0} {#class idlog open;#var v_quests_open 1;#class idlog close}};
+delwait;#undelay fillsea;
+bian;time;
+#var v_checktime_lijing 240;
+#if {"$liguai_sta"=="没有完成" && $liguai_find>=2} {#var v_checktime_lijing 840};
+#nop if &v_lianxu_open {} {#var v_lianxu 0};
+#al do_next {touxiang;
+#if $v_xiudao>0 {#if {$n_rulai>=30 && $v_rulai_open==1} {fly changan;s;e;task;w};fly guild;n;w} {fly changan;s;#switch {1d2} {#case 1 {e;#if {$n_rulai>=30 && $v_rulai_open==1} {task}};#case 2 {e;#if {$n_rulai>=30 && $v_rulai_open==1} {task};pat qianli yan;u}}};
+#if {@time_c{}<270 && $v_checktime_lijing==240} {#math tick_time {270-@time_c{}}};
+#if {@time_c{}<870 && $v_checktime_lijing==840} {#math tick_time {870-@time_c{}}}};
+
+#if {$v_autolearn==1 && $skill_nummin<=@eval{$skill_nummin_limit-5} && $hp_qn>0 && $v_int>=40}
+{#if $skill_nummin>=250 
+{#al do_next {T- control;T+ skills.tin;#if $v_guild==1 {fly guild;wait {skills;hp} 1} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}};skills;hp}}} 
+{#al do_next {#if {&v_menpai} {T- control;Tmenpai} {menpai @time{}}}}
+};
+
+#if {"$lian_idnow"=="0"} {} {#al do_next {T- control;T+ lian.tin;#if $v_guild==1 {fly guild;wait {skills;hp} 1} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}};skills;hp}}};
+
+#if {"$liguai_sta"=="已经完成" && @time_c{}<=260 && $v_fabao_ji==0 && $v_fabaoid1_attackqi>=50 && $v_fabaoid1_attackqi<100} {#if {$v_advanced_force==0 || $v_advanced_mana==0} {#al do_next {fly changan;e;n;#var v_fabao_ji 1;unwield all;wield $fabao_id1;fight shadai;ji $fabao_id1 on shadai;wait {touxiang;s;hp} 5}}};
+
+#if {$v_extra_natural==1} {#if {$hp_nl<@eval{$hp_nlmax*2/3} || $hp_fl<@eval{$hp_flmax-400}} {#al do_next {tick 15;fly changan;e;n;kill shadai;jiali 0;pfm_bang;#if $v_chargefabao==3 {#var v_chargefabao 1};wait {touxiang;s;hp} 8}}};  
+
+#if {$v_extra_natural==0 && $hp_fl<@eval{$hp_flmax*3/2}} {#al do_next {#math tick_time {295-@time_c{}};w;#if $v_chargefabao==3 {#var v_chargefabao 1}}};
+
+#if {$v_extra_natural==0 && $hp_nl<@evla{$hp_nlmax*2-200}} {#al do_next {#math tick_time {295-@time_c{}};w;#if $v_chargefabao==3 {#var v_chargefabao 1}}};
+
+#if {$v_autolearn==1 && $skill_nummin<=@eval{$skill_nummin_limit-5} && $hp_qn>10000 && $v_int>=40}
+{#if $skill_nummin>=250 
+{#al do_next {T- control;T+ skills.tin;#if $v_guild==1 {fly guild;wait {skills;hp} 1} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}};skills;hp}}} 
+{#al do_next {#if {&v_menpai} {T- control;Tmenpai} {menpai @time{}}}}
+};
+
+#if {$v_mingsi==1 && @time_c{}<$v_checktime_lijing && $hp_flmax<$flmax} {#al do_next {T- control;T+ dazuomax.tin;w}};
+
+#if {$v_dazuo==1 && @time_c{}<$v_checktime_lijing && $hp_nlmax<$nlmax}
+{
+ #al do_next 
+  {
+  T- control;T+ dazuomax.tin;
+  #if {@item{skill_numlist;@ismember{北冥神功;skill_namelist}}>100 && $hp_nlmax>100 && $v_beiming_force<1} {fly changan;e;#3 {n;open north};bihua} {w}  
+  }
+};
+
+#nop if {$v_quests_open==1} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {$v_quests_open==1} {#nop 此处谜跟迷 笔误，不再统一;
+#if {"$quests_sta"=="解谜初始" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="解谜排序" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="解谜进行" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="解谜准备" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="解谜送达" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="检查清迷" && @time_c{}<@eval{$v_checktime_lijing-30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="清迷开始" && @time_c{}<@eval{$v_checktime_lijing-30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="清迷清宫" && @time_c{}<@eval{$v_checktime_lijing-30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="清迷宁宫" && @time_c{}<@eval{$v_checktime_lijing-30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="清迷静宫" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="清迷完成" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+#if {"$quests_sta"=="待检查" && @time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {T- control;T+ quests/NextAction.tin;fly guild}};
+};
+
+#nop if {@time_c{}<200 && $v_teach==0} {#al do_next {fly changan;exert recover;exert refresh;s;e;#unac {^南城客栈 -};#if {$n_rulai>=30 && $v_rulai_open==1} {task};w;#5 s;w;s;teach}};
+
+#if {@time_c{}>860} {#al do_next {#if {@time_c{}>870} {delwait;tick 20;gotolijing} {#math tick_time {900-@time_c{}};w}}};
+
+#if {"$liguai_sta"=="已经完成" && @time_c{}<=260 && $v_chargefabao==1 && $v_quests_open==0} {#if {$v_advanced_force==0 || $v_advanced_mana==0} {#al do_next {#math tick_time {295-@time_c{}};charge_fabao;wait {#var v_chargefabao 2;hp} 2}}};
+
+#if {"$liguai_sta"=="已经完成" && @time_c{}<=100 && $n_rulai<31 && $v_rulai_open==1} {#al do_next {gotorulai}};
+
+#if {"$liguai_sta"=="已经完成" && @time_c{}<=260 && $v_rulai_done==1} {#al do_next {gotorulai}};
+#nop if {"$liguai_sta"=="已经完成" && @time_c{}<=200 && $v_rulai_open==1} {#if {$v_rulai_find<4 && "$rulai_sta"=="没有完成"} {#if {"$v_rulai"=="降"} {} {#al do_next {gotorulai}};};};
+#if {"$liguai_sta"=="已经完成" && @time_c{}>=270} {#al do_next {#if {@time_c{}>290} {delwait;tick 20;gotolijing} {#math tick_time {295-@time_c{}};
+#if {$v_fabao_ji==0 && $v_fabaoid1_attackqi>=50 && $v_fabaoid1_attackqi<100} {fly changan;e;n;#var v_fabao_ji 1;unwield all;wield $fabao_id1;fight shadai;ji $fabao_id1 on shadai;wait {touxiang;s;fly guild;wait {w} 0.5} 5} {w};
+
+}}};
+
+#nop if {$hp_sq>90} {#al do_next {touxiang;fly changan;#4 s;e;se;s;enter;s;grovel;n;fly guild;wait hp 1}};
+#if {"$v_shaqi"=="max"} {#if $hp_sq>=@eval{$v_cps*39} {#al do_next {touxiang;fly changan;#4 s;e;se;s;enter;s;grovel;n;fly guild;wait hp 1}}} {#if {&v_shaqi && $hp_sq>=$v_shaqi} {#al do_next {touxiang;fly changan;#4 s;e;se;s;enter;s;grovel;n;fly guild;wait hp 1}}};
+
+#if {$v_cps==0} {#al do_next {fly changan;ne;ask wiz rjdwmbtq about tianfu;sw;fly guild;wait hp 1}};
+
+#if {"$liguai_sta"=="没有完成" && $liguai_find>=2 && $n_rulai<31 && $v_rulai_open==1 && @time_c{}<700} {#al do_next {gotorulai}};
+
+#if {$v_guard==1 && $v_lianxu<$v_lianxu_max && $v_rulai_open==0} {#al do_next {gotoguard}};
+#if {$v_guard==1 && $v_lianxu<$v_lianxu_max && $v_rulai_open==1 && $v_rulai_done==2} {#al do_next {gotoguard}};
+#if {$v_guard==1 && $v_lianxu<$v_lianxu_max && $v_rulai_open==1 && $v_rulai_find>3} {#al do_next {gotoguard}};
+
+#if {@time_c{}<@eval{$v_checktime_lijing+20} && $v_fillsea==1} {#al do_next {gotofillsea}};
+
+#nop 考虑到目前李靖怪不容易丢失,送宝不完全作为优先考虑;
+#if {$v_songbao_open==1 && "$liguai_sta"=="没有完成"} {#if {"$songbao_sta"=="送宝完成" && @time_s>290} {#al do_next {Treset;T+ songbao/readwords.tin;gotosongbao}};#if {"$songbao_sta"=="送宝失败" && @time_s>590} {#al do_next {Treset;T+ songbao/readwords.tin;gotosongbao}}};
+
+#if {"$liguai_sta"=="没有完成" && $liguai_find==2 && $v_lianxu>0} {#al do_next {Treset;T+ path.tin;T+ liguaikill.tin;get xin xiang from bag;#var liguai_find 3;moveto $liguai_id}};
+
+#nop if {"$liguai_sta"=="没有完成" && $liguai_find==2 && "$myid"=="zhzb"} {#al do_next {Treset;T+ path.tin;T+ liguaikill.tin;#var liguai_find 3;#log a lostguai.log;get xin xiang from bag;moveto $liguai_id;#sh $liguai_where;#delay 2 {#log off}}};
+
+#if {"$liguai_sta"=="没有完成" && $liguai_find<2} {#al do_next {gotolijing}};
+
+#if &name_ctd {#al do_next {T+ ctd.tin;#delay 0.1 {#sh 初始中文名$name_ctd}}};
+
+#if {$v_upgrade_fabao>0} {#al do_next {fly moon;#3 w}};
+
+#nop if {$n_rulai<31 && $v_rulai_open==1} {#al do_next {gotorulai}};
+
+#if {$robot_stop==1} {#al do_next {tick 9999999;#sh 机器暂停！;T- control;fly changan;s;e}};
+
+
+wait {do_next} 0.5;
+} {4};
+
+
+#ac {^你轻轻地拍拍千里眼的头。} {tick @eval{$tick_time+10};wait {T- control;wait {#undelay fillsea;d;wait {w;gotolijing} 1} $tick_time;#if {$v_fillsea_open==1} {#delay {fillsea} {time;set public 检查填海时间} 60}} 1};
+#ac {^厢房 -} {tick @eval{$tick_time+10};wait {T- control;wait {#undelay fillsea;e;s;w;gotolijing} $tick_time;#if {$v_fillsea_open==1} {#delay {fillsea} {time;set public 检查填海时间} 60}} 1};
+
+
+
+
+#ac {^天宫城墙 -}
+{
+tick 10;
+#al do_next {tick 200;dazuo max;wait {dazuo 0} $tick_time};
+#if {$v_extra_natural==0 && $hp_fl<@eval{$hp_flmax*3/2}} {#al do_next {tick 200;mingsi max;wait {mingsi 0} $tick_time}};
+#if {$v_extra_natural==0 && $hp_nl<@eval{$hp_nlmax*2-200}} {#al do_next {tick 200;dazuo max;wait {dazuo 0} $tick_time}};
+#if {$v_advanced_force==1 && $v_advanced_mana==1 && $n_rulai>30 && $v_rulai_open==1} {#al do_next {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2;
+#class control open;
+#ac {^你目前的法力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^你目前的内力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^只见$fabao_name1突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name4突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#class control close;}};
+#if {$v_advanced_force==1 && $v_advanced_mana==1 && $v_rulai_open==0} {#al do_next {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2;
+#class control open;
+#ac {^你目前的法力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^你目前的内力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^只见$fabao_name1突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name4突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#class control close;}};
+wait do_next 0.1
+};
+
+#ac {^静室 -}
+{
+tick 10;
+#al do_next {tick 200;dazuo max;wait {dazuo 0} $tick_time};
+
+#if {$v_extra_natural==0 && $hp_fl<@eval{$hp_flmax*3/2}} {#al do_next {tick 200;mingsi max;wait {mingsi 0} $tick_time}};
+#if {$v_extra_natural==0 && $hp_nl<@eval{$hp_nlmax*2-200}} {#al do_next {tick 200;dazuo max;wait {dazuo 0} $tick_time}};
+#nop if {$v_advanced_force==1 && $v_advanced_mana==1 && $n_rulai>30 && $v_rulai_open==1} {#al do_next {tick 10;neidan use advanced_force;wait hp 2}};
+#nop if {$v_advanced_force==1 && $v_advanced_mana==1 && $v_rulai_open==0} {#al do_next {tick 10;neidan use advanced_force;wait hp 2}};
+#if {$v_advanced_force==1 && $v_advanced_mana==1 && $n_rulai>30 && $v_rulai_open==1} {#al do_next {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2;
+#class control open;
+#ac {^你目前的法力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^你目前的内力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^只见$fabao_name1突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name4突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#class control close;}};
+#if {$v_advanced_force==1 && $v_advanced_mana==1 && $v_rulai_open==0} {#al do_next {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2;
+#class control open;
+#ac {^你目前的法力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^你目前的内力太低，不能修炼法宝} {tick 10;delwait;neidan use advanced_force;wait hp 2} {1};
+#ac {^只见$fabao_name1突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#ac {^只见$fabao_name4突然放出五彩霞光，你面露喜色，长长地吐了一口气} {tick 10;wait {#if @time_c{}<290 {charge_fabao;wait {tick 10;neidan use advanced_force;wait hp 2} 2} {tick 10;neidan use advanced_force;wait hp 2}} 2} {1};
+#class control close;}};
+wait do_next 0.1
+};
+
+
+#ac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身} {tick 10;jiali 0;wait {touxiang;s;hp} 5};
+
+#ac {^咦？．．．怎么还在原来的地方？} {delwait;fly sky;hp};
+#ac {^你目前的法力太低，不能修炼法宝。} {delwait;#if {$v_chargefabao>=0 && $v_extra_catch>0} {fabao_full} {#var v_chargefabao 3;hp}};
+#ac {^你目前的内力太低，不能修炼法宝。} {delwait;#if {$v_chargefabao>=0 && $v_extra_catch>0} {fabao_full} {#var v_chargefabao 3;hp}};
+
+#ac {^你目前法力不够充盈。} {T- control;delwait;w;mingsi 100};
+
+#ac {^只见$fabao_name1突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {tick 10;wait {charge_fabao;wait {#var v_chargefabao 2;hp} 2} 2};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {tick 10;wait {charge_fabao;wait {#var v_chargefabao 2;hp} 2} 2};
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {tick 10;wait {charge_fabao;wait {#var v_chargefabao 2;hp} 2} 2};
+#ac {^只见$fabao_name4突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {tick 10;wait {charge_fabao;wait {#var v_chargefabao 2;hp} 2} 2};
+
+
+
+#ac {^只见$fabao_name1突然好似有生命一般跳了一下。} {#var v_upgrade_fabao 1};
+#ac {^只见$fabao_name2突然好似有生命一般跳了一下。} {#var v_upgrade_fabao 2};
+#ac {^只见$fabao_name3突然好似有生命一般跳了一下。} {#var v_upgrade_fabao 3};
+#ac {^只见$fabao_name4突然好似有生命一般跳了一下。} {#var v_upgrade_fabao 4};
+
+
+#ac {^你行功完毕，吸一口气，缓缓站了起来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {e;exert recover;hp} 3} 1} {wait {e;exert recover;hp} 1}};
+#ac {^你行功完毕，从冥思中回过神来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {e;exert refresh;hp} 3} 1} {wait {e;exert refresh;hp} 1}};
+
+#ac {^你向袁天罡打听} {delwait;#sh 本次时间@time_c{};tick 20;T- control;T+ lijing.tin;wait {kquest} 5} {1};
+#ac {^你向李靖打听有关} {delwait;#sh 本次时间@time_c{};tick 20;T- control;T+ lijing.tin;wait {kquest} 5} {1};
+#nop ac {^你向李靖打听有关『kill2』的消息。} {delwait;#sh 本次时间@time_c{};tick 20;T- control;T+ lijing.tin;wait {kquest} 2};
+#nop ac {^%?%s李靖对你说道：近有%1(%2)在%3为非作歹，请速去降服！} {delwait;T- control;#var v_liguai_ask @eval{$v_liguai_ask+1};#var liguai_name %1;#var liguai_idupper %2;#var liguai_where %3;#var liguai_id @lower{$liguai_idupper};#var liguai_find -1;#var time_liguaistart @time{};kquest};
+
+#ac {女娲补天处 -}
+{
+tick 10;
+#if {$v_upgrade_fabao==1} {unwield $fabao_id1;upgrade $fabao_id1 for attack_qi;upgrade $fabao_id1 for damage_qi;upgrade $fabao_id1 for damage_shen};
+#if {$v_upgrade_fabao==4} {unwield $fabao_id4;upgrade $fabao_id4 for attack_qi;upgrade $fabao_id4 for damage_qi;upgrade $fabao_id4 for damage_shen};
+#if {$v_upgrade_fabao==2} {remove $fabao_id2;upgrade $fabao_id2 for defense_qi;upgrade $fabao_id2 for defense_shen};
+#if {$v_upgrade_fabao==3} {remove $fabao_id3;upgrade $fabao_id3 for defense_qi;upgrade $fabao_id3 for defense_shen};
+wait {#var v_upgrade_fabao 0;eat_jindan;e;fly guild wait hp 1} 1
+};
+
+#ac {^你站在讲台上，给门下弟子们解释并示范战斗技巧！} {tick 40;#var v_teach 1;wait {n;hp} 35};
+#ac {^旁边门派监工走过来笑眯眯的对你说：真是辛苦你了，不过今天的} {#var v_teach 1};
+#ac {^你自己都%+完蛋了，还有功夫教别人} {#var v_teach 1;n;hp};
+#ac {^等你头脑清醒点再来教导新人，不要害人害己} {#var v_teach 1;n;hp};
+#ac {^门派监工告诉你，你的劳务费一共} {#var v_teach 1;#delay teach {#var v_teach 0} 3600};
+#ac {^你刚给新人传道，先休息休息再去教导他们吧!} {#var v_teach 1;#delay teach {#var v_teach 0} 600;n;hp};
+#ac {^刚刚有别的玩家教过新弟子，等他们融会贯通了之后你再来教吧。} {#var v_teach 1;#delay teach {#var v_teach 0} 300;n;hp};
+
+#ac {^你没有任何神秘魔法力量！} {};
+#ac {^你有%1点神秘魔法力量！} {};
+
+#ac {^你最少要花 20 点} {tick 5};
+
+#ac {^周围没有一片云，没办法腾云驾雾。} {delwait;timeout};
+
+#ac {^本次中英文转换成功！} {tick 10;#var liguai_id $name_id;#var liguai_idupper @upper_f{$name_id};wait timeout 0.5};
+
+#ac {^你从布袋中拿出一束信香。} {#var liguai_find 2};
+
+#ac {^五气朝元刚刚使用过，还需蛰伏静养。} {tick 10;delwait;neidan use advanced_mana;wait hp 2};
+#ac {^三花聚顶刚刚使用过，还需蛰伏静养。} {tick 10;delwait;wait {#sh 你行功完毕，从冥思中回过神} 0.1};
+#ac {^你将体内%+转了一转，内力登时从丹田中翻涌而出！} {tick 10;delwait;neidan use advanced_mana;wait hp 2};
+#ac {^你将体内%+转了一转，法力登时自虚空汇聚而来！} {tick 10;delwait;#if {$v_dazuo==1} {dazuo 20} {#if {$v_mingsi==1} {mingsi 20} {wait {#sh 你行功完毕，从冥思中回过神} 0.1}};
+#class control open;
+#ac {^你行功完毕，吸一口气，缓缓站了} {tick 10;wait {#if {$v_mingsi==1} {mingsi 20} {#sh 你行功完毕，从冥思中回过神}} 1} {1};
+#ac {^你行功完毕，从冥思中回过神} {tick 10;wait {
+#if {@time_c{}<=290 && $v_quests_open==1} {#if {$v_dazuo==1} {eat @eval{$hp_nlmax/500+1} ren shen;dazuo 20};#if {$v_mingsi==1} {eat @eval{$hp_flmax/500+1} ling zhi;mingsi 20};#if {$v_dazuo==0 && $v_mingsi==0} {#if {$v_fillsea_open==1} {remove leather coat;wear tian yi;};e;Treset;tick 20;fly sky;e;e;e;e;n;n;n;n;n;open west;w;w;s;s;e;open east;e;n;u;wait {T+ control.tin;#var v_checkitem 0;placenewbie;ask li jing about $liguai_lv} 0.5}} {#if {$v_fillsea_open==1} {remove leather coat;wear tian yi};e;Treset;tick 20;fly sky;e;e;e;e;n;n;n;n;n;open west;w;w;s;s;e;open east;e;n;u;wait {T+ control.tin;#var v_checkitem 0;placenewbie;ask li jing about $liguai_lv} 0.5}
+} 1} {1};
+#ac {^当你的内息遍布全身经脉时却没有功力提升的迹象，似乎内力修为已经遇到了瓶颈。} {#var v_dazuo 0};
+#ac {^当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎法力的提升已经到了瓶颈。} {#var v_mingsi 0};
+#class control close;
+};
+#class control close;

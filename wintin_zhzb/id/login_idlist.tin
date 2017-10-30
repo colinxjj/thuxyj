@@ -1,0 +1,5 @@
+#CLASS {login_idlist} OPEN
+
+#VARIABLE         {login_idlist}  {{1}{zhzb}}
+
+#CLASS {login_idlist} CLOSE

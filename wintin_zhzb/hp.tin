@@ -1,0 +1,314 @@
+#class hp open;
+
+#ac {^%?%s气血：%s%1/%s%2%s(%3%)%s内力：%s%4/%s%5%s(%6%) (+%7)} {#var hp_qi %1;#var hp_qimax %2;#var hp_qiper %3;#var hp_nl %4;#var hp_nlmax %5;#var hp_nlper %6;#var hp_jiali %7};
+#ac {^%?%s精神：%s%1/%s%2%s(%3%)%s法力：%s%4/%s%5%s(%6%) (+%7)} {#var hp_shen %1;#var hp_shenmax %2;#var hp_shenper %3;#var hp_fl %4;#var hp_flmax %5;#var hp_flper %6;#var hp_jiafl %7};
+#ac {^%?%s食物：%s%1/%s%2%s武学：%s%3} {#var hp_food %1;#var hp_foodmax %2;#format hp_wx {%G} {%3}};
+#nop ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3} {#var hp_water %1;#var hp_watermax %2;#var hp_dx %3};
+#ac {^%?%s潜能：%s%1%s杀气：%s%2} {#var hp_qn %1;#var hp_sq %2;#tick {hp} {showhp;#untick hp} {0.1};wait {#sh ...do...next...} 0.3};
+
+#nop high {...do...next...} {light green};
+#gag {...do...next};
+
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3年%4天%5时辰} {#var hp_water %1;#var hp_watermax %2;#var hp_dx {%3年%4天%5时辰};#var hp_dx_ctd @eval{@ctd{%3}*1000+@ctd{%4}*4+@ctd{%5}/3}} {1};
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3年%4天} {#var hp_water %1;#var hp_watermax %2;#var hp_dx {%3年%4天};#var hp_dx_ctd @eval{@ctd{%3}*1000+@ctd{%4}*4}} {2};
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3年%4时辰} {#var hp_water %1;#var hp_watermax %2;#var hp_dx {%3年%4时辰};#var hp_dx_ctd @eval{@ctd{%3}*1000+@ctd{%4}/3}} {2};
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3年} {#var hp_water %1;#var hp_watermax %2;#var hp_dx {%3年};#var hp_dx_ctd @eval{@ctd{%3}*1000}} {3};
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3天%4时辰} {#var hp_water %1;#var hp_watermax %2;#var hp_dx {%3天%4时辰};#var hp_dx_ctd @eval{@ctd{%3}*4+@ctd{%4}/3}} {2};
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3时辰} {#var hp_water %1;#var hp_watermax %2;#var hp_dx {%3时辰};#var hp_dx_ctd @eval{@ctd{%3}/3}} {3};
+#ac {^%?%s饮水：%s%1/%s%2%s道行：%s%3天} {#var hp_water %1;#var hp_watermax %2;#var hp_dx {%3天};#var hp_dx_ctd @eval{@ctd{%3}*4}} {3};
+
+#ac {^你目前所掌握的技能：} {
+#var skill_namelist {};
+#var skill_idlist {};
+#var skill_numlist {};
+#var skill_nummaxlist {};
+#var skill_nummin {999999};
+#var skill_nummin_last {999999};
+#var skill_nummin_lastspells {999999};
+#var v_last_skill 0;
+#var lian_idnow {0};
+#var lian_skill_num {999999};
+};
+
+#list skill_spells_list creat {spells;dengxian-dafa;pingtian-dafa;yaofa;dao;seashentong;xiaoyao-dafa;moonshentong;taiyi;mizong-buddhism;mingwang-buddhism;wulei;buddhism;gouhunshu;jiuzhuan-xuangong;pansi-dafa;baguazhou};
+
+#ac {^┃%s%*%s(%*)%s-%s%*%s%d/%*┃} 
+{#list skill_namelist add @replace{%2;□;};#list skill_idlist add %4;#list skill_numlist add %9;#list skill_nummaxlist add %10;
+#if {@ismember{%4;v_skill_research_all}>0} {
+#if {@ismember{%4;skill_spells_list}==0}
+{#nop ==1表示上一个技能是法术类，同时锁定了法术类不能超过最大支持-10;
+#if $v_last_skill==1 {#if {%9<@eval{$skill_nummin_lastspells}} {#var skill_nummin %9;#var skill_namenow @replace{%2;□;};#var skill_idnow %4;#var skill_nummin_last %9;#var skill_nummin_max %10;#var v_last_skill 0}} {#if {%9<$skill_nummin_last} {#var skill_nummin %9;#var skill_namenow @replace{%2;□;};#var skill_idnow %4;#var skill_nummin_last %9;#var skill_nummin_max %10;#var v_last_skill 0}}
+} {
+ #if $v_last_skill==1 {#if {%9<$skill_nummin_lastspells} {#var skill_nummin %9;#var skill_namenow @replace{%2;□;};#var skill_idnow %4;#var skill_nummin_lastspells %9;#var skill_nummin_max %10;#var v_last_skill 1}} {#if {%9<@eval{$skill_nummin_limit-$skill_nummin_limit_dif-10} && %9<$skill_nummin_last} {#var skill_nummin %9;#var skill_namenow @replace{%2;□;};#var skill_idnow %4;#var skill_nummin_lastspells %9;#var skill_nummin_max %10;#var v_last_skill 1}} 
+}};
+#if {"%4"!="dismantle" && %9<=5} {abandon %4};
+#if {"%4"=="parry"} {#var skill_num_parry %9};
+#if {@ismember{%4;v_skill_lian_base}>0} {#var skill_num_%4 %9};
+#if {@ismember{%4;v_skill_lian}>0 && %10<=@eval{(%9+1)*(%9+1)}} {#if {%9<=$skill_num_parry || %9<=${skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}}} {#var lian_idnow %4;#var lian_skill_num %9}};
+#if {@ismember{%4;v_skill_lian}>0 && %10>=@eval{(%9+1)*(%9+1)}} {#if {%9<$skill_num_parry || %9<${skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}}} {#var lian_idnow %4;#var lian_skill_num %9}};
+#if {"%4"=="wulei"} {#if {@ismember{wulei;v_skill_special}>0 && %9<$skill_numlist[@ismember{spells;skill_idlist}]} {#var lian_idnow %4;#var lian_skill_num %9}};
+#if {"%4"=="mizong-buddhism"} {#if {@ismember{mizong-buddhism;v_skill_special}>0 && %9<$skill_numlist[@ismember{spells;skill_idlist}]} {#var lian_idnow %4;#var lian_skill_num %9}};
+#if {"%4"=="dragonforce" && %9<200} {#if {@ismember{dragonforce;v_skill_special}>0 && %9<$skill_numlist[@ismember{force;skill_idlist}]} {#var lian_idnow %4;#var lian_skill_num %9}};
+#if {"%4"=="jiuzhuan-xuangong" && %9<200} {#if {@ismember{jiuzhuan-xuangong;v_skill_special}>0 && %9<$skill_numlist[@ismember{spells;skill_idlist}]} {#var lian_idnow %4;#var lian_skill_num %9}};
+};
+
+
+#alias showhp
+	{
+		#if {@screenw{}>@eval{84+@len{$myid}}}
+		{
+			#echo {{<053>$myname($myid):武学$hp_wx 道行$hp_dx 潜能$hp_qn储存点$v_qn_depmax  转世$n_zhuanshi 黄金$v_account_gold 昨日消费@eval{$v_account_gold_last1-$v_account_gold_last} 今日消费@eval{$v_account_gold_last-$v_account_gold} 人参果库存@eval{$n_rsg+$n_rsg1}<099>} {-8}};
+			#echo {{<020>※解谜:<030>排序<070> $PriorityList1[1]|$PriorityList1[2]|$PriorityList1[3]|$PriorityList1[4]|$PriorityList1[5]|$PriorityList1[6]|$PriorityList1[7] <030>云彩<070> $ColorList <099>} {-7}};
+		  #echo {{<020>※送宝:<030>$songbao_searchname [$songbao_do] $songbao_sta 宝盒[$wabao_room-$wabao_where]} {-6}};
+			#echo {{<020>※李靖:<030>$liguai_name<$liguai_id>$liguai_where $liguai_sta  <020>如来:<030>$rulai_name<$rulai_id>$rulai_where $v_rulai<$v_rulai_num> $rulai_sta <020>} {-5}};
+			#echo {{<020>※昨天:<030>[武@eval{$v_award_lj_wx_last+$v_award_rl_wx_last+$v_award_zs_wx_last+$v_award_fg_wx_last+$v_award_guard_wx_last+$v_award_sb_wx_last+$v_award_quest_wx_last}|道@eval{$v_award_lj_dx_last+$v_award_rl_dx_last+$v_award_zs_dx_last+$v_award_fg_dx_last+$v_award_guard_dx_last+$v_award_sb_dx_last+$v_award_quest_dx_last}|潜@eval{$v_award_lj_qn_last+$v_award_rl_qn_last+$v_award_zs_qn_last+$v_award_fg_qn_last+$v_award_guard_qn_last+$v_award_sb_qn_last+$v_award_quest_qn_last+$enable_spells_lv_last*$n_fillsea_last}|魔@eval{$v_award_box_md_last+$v_award_guard_md_last+$v_award_sb_mp_last}]<070>李[$v_liguai_ask_last/$v_liguai_over_last|$v_award_lj_wx_last|$v_award_lj_dx_last|$v_award_lj_qn_last]转[$v_award_zs_wx_last|$v_award_zs_dx_last|$v_award_zs_qn_last]谜[七$v_award_quest_seven_last/$v_award_quest_cloud_last|$v_award_quest_wx_last|$v_award_quest_dx_last|$v_award_quest_qn_last]<099>} {-3}};
+			#echo {{<070>       连[]如[$n_rulai_last/$v_rulai_over_last|$v_award_rl_wx_last|$v_award_rl_dx_last|$v_award_rl_qn_last]填[$n_fillsea_last|@eval{$enable_spells_lv_last*$n_fillsea_last}]宝[$n_songbao_last/$n_songbao_done_last|连$v_award_sb_ten_last|$v_award_sb_wx_last|$v_award_sb_dx_last|$v_award_sb_qn_last|$v_award_sb_mp_last|$v_award_sb_silver_last]<099>} {-4}};
+			#echo {{<020>※当天:<030>[武@eval{$v_award_lj_wx+$v_award_rl_wx+$v_award_zs_wx+$v_award_fg_wx+$v_award_guard_wx+$v_award_sb_wx+$v_award_quest_wx}|道@eval{$v_award_lj_dx+$v_award_rl_dx+$v_award_zs_dx+$v_award_fg_dx+$v_award_guard_dx+$v_award_sb_dx+$v_award_quest_dx}|潜@eval{$v_award_lj_qn+$v_award_rl_qn+$v_award_zs_qn+$v_award_fg_qn+$v_award_guard_qn+$v_award_sb_qn+$v_award_quest_qn+$enable_spells_lv*$n_fillsea}|魔@eval{$v_award_box_md+$v_award_guard_md+$v_award_sb_mp}]<070>李[$v_liguai_ask/$v_liguai_over|$v_award_lj_wx|$v_award_lj_dx|$v_award_lj_qn]转[$v_award_zs_wx|$v_award_zs_dx|$v_award_zs_qn]谜[七$v_award_quest_seven/$v_award_quest_cloud|$v_award_quest_wx|$v_award_quest_dx|$v_award_quest_qn]<099>} {-1}};
+		 			#echo {{<070>       连[$v_lianxu]如[$n_rulai/$v_rulai_over|$v_award_rl_wx|$v_award_rl_dx|$v_award_rl_qn]填[$n_fillsea|@eval{$enable_spells_lv*$n_fillsea}]宝[$n_songbao/$n_songbao_done|连$v_award_sb_ten|$v_award_sb_wx|$v_award_sb_dx|$v_award_sb_qn|$v_award_sb_mp|$v_award_sb_silver]<099>} {-2}};
+		};
+		#else
+		{
+			#echo {{<053>$myname($myid):武学$hp_wx 道行$hp_dx 潜能$hp_qn储存点$v_qn_depmax  转世$n_zhuanshi 黄金$v_account_gold 昨日消费@eval{$v_account_gold_last1-$v_account_gold_last} 今日消费@eval{$v_account_gold_last-$v_account_gold}<099>} {-6}};
+			#echo {{<020>※李靖:<030>$liguai_name<$liguai_id>$liguai_where $liguai_sta} {-5}};
+			#echo {{<020>※昨天:<030>[武@eval{$v_award_lj_wx_last+$v_award_zs_wx_last+$v_award_fg_wx_last+$v_award_guard_wx_last}|道@eval{$v_award_lj_dx_last+$v_award_zs_dx_last+$v_award_fg_dx_last+$v_award_guard_dx_last}|潜@eval{$v_award_lj_qn_last+$v_award_zs_qn_last+$v_award_fg_qn_last+$v_award_guard_qn_last}|魔@eval{$v_award_box_md_last+$v_award_guard_md_last}]<070>李靖[$v_liguai_ask_last/$v_liguai_over_last|$v_award_lj_wx_last|$v_award_lj_dx_last|$v_award_lj_qn_last]转世加成[$v_award_zs_wx_last|$v_award_zs_dx_last|$v_award_zs_qn_last]<099>} {-3}};
+			#echo {{<070>       连[]如[$n_rulai_last/$v_rulai_over_last|$v_award_rl_wx_last|$v_award_rl_dx_last|$v_award_rl_qn_last]<099>} {-4}};
+			#echo {{<020>※当天:<030>[武@eval{$v_award_lj_wx+$v_award_zs_wx+$v_award_fg_wx+$v_award_guard_wx}|道@eval{$v_award_lj_dx+$v_award_zs_dx+$v_award_fg_dx+$v_award_guard_dx}|潜@eval{$v_award_lj_qn+$v_award_zs_qn+$v_award_fg_qn+$v_award_guard_qn}|魔@eval{$v_award_box_md+$v_award_guard_md}]<070>李靖[$v_liguai_ask/$v_liguai_over|$v_award_lj_wx|$v_award_lj_dx|$v_award_lj_qn]转世加成[$v_award_zs_wx|$v_award_zs_dx|$v_award_zs_qn]<099>} {-1}};
+						#echo {{<070>       守[$v_award_guard_wx|$v_award_guard_dx|$v_award_guard_qn|$v_award_guard_md]连[$v_lianxu]如[$n_rulai/$v_rulai_over|$v_award_rl_wx|$v_award_rl_dx|$v_award_rl_qn]填海[$n_fillsea]<099>} {-2}};
+		};
+	};
+
+#ac {^ 体格：[%*]   根骨：[%*]  悟性：[ %1]  灵性：[%*]} {#var v_int %1};
+#ac {^定力：[%1]%+容貌：[%2]%+根骨：[%3]%+福缘：[%4]} {#var v_cps %1};
+
+#ac {^好象身后有个人纠住你，你动也动不了！} {#var v_pig 0;#var v_checkitem 0;timeout};
+#ac {^皇宫伺卫将枪一横，威严地喝了一声：禁行！} {#var v_xiuqiu 0;#var v_checkitem 0;timeout};
+#ac {^守门牛精一晃两只大牛角抵住你：想溜到哪儿去？} {#var v_hulu 0;#var v_checkitem 0;timeout};
+#ac {^ 你是一位%1岁的%*性%*，} {#var v_age @ctd{%1}};
+#ac {^你当前可以修炼的最大内力为%1，最大法力为%2。} {#var nlmax %1;#var flmax %2;#if {$hp_nlmax<%1} {#var v_dazuo 1} {#var v_dazuo 0};#if {$hp_flmax<%2} {#var v_mingsi 1} {#var v_mingsi 0}};
+#ac {^你尚未达到转世轮回的条件!} {#var n_zhuanshi 0};
+#ac {^你目前已经转世%1次。} {#var n_zhuanshi %1};
+#ac {^潜能银行 -} {account};
+#ac {^你储存了%1点潜能！} {#var v_qn_depmax %1};
+
+#ac {^你吸取了太多别人的内力，再吸下去恐怕会走火入魔！} {#var v_beiming_force 1;faint;s;s;timeout};
+#nop 设置最高技能限制,以武术类为主,极少数情况法术类若超过武术类仍以武术为限制，增加一个变量作为两者之差;
+#ac {^你当前转世%1次，武功类技能支持%2级，法术类技能支持%3级。} {#var n_zhuanshi %1;#var skill_nummin_limit %2;#if {%2>=%3} {#var skill_nummin_limit_dif @eval{%2-%3}} {#var skill_nummin_limit_dif 0}};
+
+#nop 下方为判断填海时间;
+#list time_fillsea creat {戌;亥;子;丑};
+#list time_cant_fillsea creat {寅;卯;辰;巳;午;未;申};
+#ac {^%?%s现在是西游%S年%S月%S日%1时%2刻。}
+{#var v_day_time %1;#nop 用v_day_time来表示当日时辰;#var v_day_minute %2;
+  #if {$v_fillsea_open==1 && $v_bdlh==1} {#if {@ismember{%1;time_fillsea}>0} {#var v_fillsea 1} {#if $v_quests_open==1 {#if {"%1"=="酉" && @ctd{%2}>3} {#var v_fillsea 1} {#var v_fillsea 0}} {#if {"%1"=="酉" && @ctd{%2}>2} {#var v_fillsea 1} {#var v_fillsea 0}}}}
+};
+
+#ac {^设定环境变数：public = "检查填海时间"} {#if {$v_fillsea==1} {#if $v_xiudao>0 {e;s} {d;w};T+ control.tin;hp} {#delay {fillsea} {time;set public 检查填海时间} 60}};
+#ac {^ 你已不堕轮回。} {#var v_bdlh 1};
+
+#var v_weaponid {nang;quiver;fist;bow;di;mace;qin;spear;hammer;fork;axe;staff;dagger;blade;whip;sword;stick};
+#var v_weaponID {gang nang;gang nang;quan tao;tie gong;biyu di;tiger mace;fenghuang qin;sanliang spear;meihua hammer;chumo cha;xuanhua fu;fumo zhang;deathtouch;zhanmo dao;damo bian;zhenyao sword;xiangmo bang};
+#list v_weaponid creat $v_weaponid;#list v_weaponID creat {$v_weaponID};
+#class hp close;
+
+#class fight open;
+#nop 增加v_checkitem函数，用来作为是否调用checkitem文件的判断，接口主要在timeout文件和解谜衔接，本文件中主要考虑武器没有和穿梭器不够的情况赋值0(即调用);
+#ac {^( 你似乎受了点轻伤，不过光从外表看不大出来。} {hurt1_qi}; 
+#ac {^( 你看起来可能受了点轻伤。} {hurt1_qi};
+#ac {^( 你受了几处伤，不过似乎并不碍事。} {hurt1_qi};
+#ac {^( 你似乎有些疲惫，但是仍然十分有活力。} {hurt1_qi};
+#ac {^( 你看起来可能有些累了。} {hurt1_qi}; 
+#ac {^( 你动作似乎开始有点不太灵光，但是仍然有条不紊。} {hurt1_qi};
+
+#ac {^( 你受伤不轻，看起来状况并不太好。} {hurt2_qi};
+#ac {^( 你气息粗重，动作开始散乱，看来所受的伤着实不轻。} {hurt2_qi};
+#ac {^( 你气喘嘘嘘，看起来状况并不太好。} {hurt2_qi};
+#ac {^( 你似乎十分疲惫，看来需要好好休息了。} {hurt2_qi};
+
+
+#ac {^( 你已经伤痕累累，正在勉力支撑着不倒下去。} {hurt3_qi};
+#ac {^( 你受了相当重的伤，只怕会有生命危险。} {hurt4_qi};
+#ac {^( 你伤重之下已经难以支撑，眼看就要倒在地上。} {hurt4_qi}; 
+#ac {^( 你受伤过重，已经奄奄一息，命在旦夕了。} {hurt4_qi};
+#ac {^( 你受伤过重，已经有如风中残烛，随时都可能断气。} {hurt4_qi};
+#ac {^( 你已经一副头重脚轻的模样，正在勉力支撑着不倒下去。} {hurt3_qi};
+#ac {^( 你看起来已经力不从心了。} {hurt4_qi};
+#ac {^( 你摇头晃脑、歪歪斜斜地站都站不稳，眼看就要倒在地上。} {hurt4_qi};
+#ac {^( 你已经陷入半昏迷状态，随时都可能摔倒晕去。} {hurt4_qi};
+#ac {^你已经受伤过重，只怕一运真气便有生命危险！} {hurt4_qi};
+
+#ac {^( 你拍了拍自己的脑袋，似乎有点不太得劲。} {hurt1_shen};
+#ac {^( 你看起来有些迷糊了。} {hurt1_shen};
+
+#ac {^( 你的确有点迷糊了，但还辨得出东西南北。} {hurt2_shen};
+
+#ac {^( 你两眼发直，口角流涎，神智开始混乱。} {hurt2_shen}; 
+#ac {^( 你迷迷糊糊，摇摇晃晃，已经辨不出东西南北了。} {hurt2_shen}; 
+#ac {^( 你神智已经处在极度混乱中。} {hurt3_shen}; 
+#ac {^( 你心智已经完全迷失，随时都有可能背过气去。} {hurt3_shen};
+
+#ac {^你吐出一颗%+，%+发出红光照在你身上，你脸色顿时好多了！} {launch};
+#ac {^你手忙脚乱地想用时空穿梭器逃跑，不幸的是穿梭器坏掉了} {#var n_ufo @eval{$n_ufo-1};tick 5;launch};
+#ac {^一阵时空弯曲之后你来到一个陌生的地方，时空穿梭器随之坠毁了！} {#var n_ufo @eval{$n_ufo-1};Treset;hurt_reset;tick 5;#nop ask pan gu about 转世;#nop if {$v_int<40 && &v_int} {add int};#if $n_ufo<2 {#var v_checkitem 0}};
+
+#ac {^天赋增加到四十点以上时请用add2指令。} {#nop};
+#nop ac {^你决定增加一点悟性} {tick 5;#math v_int $v_int+1;#if {$v_int<40 && &v_int} {add int}};
+
+#ac {^你想飞起来，可是体力似乎有点不支。} {hp;tick 5;placenewbie;playnewbie;exert recover;#if {$hp_qiper>60} {exert recover} {get jinchuang yao from hualan;#5 eat jinchuang yao}};
+
+#ac {^你现在头脑不太清醒，当心掉下来摔死} {hp;tick 5;placenewbie;playnewbie;exert refresh;#if {$hp_shenper>60} {exert refresh} {get hunyuan dan from hualan;#5 eat hunyuan dan}};
+
+#ac {^你被嘭地一声摔在地上！} {tick 60;Treset;hurt_reset;delwait;wait {zuan;T+ kgd.tin;l} 5};
+#ac {^一阵金光过后，你来到了一个陌生的房间！} {tick 300;Treset_guard;#var v_guard 1;n;#8 e;#4 w;#8 n;signup;savepet $myid's};
+#ac {^你回长安城去了} {tick 10;#var v_guard 0;unset combat_message_others;unset combat_message_self;unset equip_message;unset active_message_others;unset report_message_status;set wimpy 40;w;hurt_reset;timeout};
+#ac {^白帝拍拍你的头说到：现在长留城正在打仗，无关人员请迅速撤离} {#var v_guard 0;unset combat_message_others;unset combat_message_self;unset equip_message;unset active_message_others;unset report_message_status;set wimpy 40;w;hurt_reset;timeout};
+#ac {^【西游战争】战争精灵(Westwar)：进攻长留城的%+全被消灭了} {#if {$v_guard==1} {tick 10} {tick 60}};
+#ac {^【西游战争】战争精灵(Westwar)：齐心协力挫败异域%+族主力！} {#var v_guard 0};
+#ac {^【西游战争】战争精灵(Westwar)：齐心协力挫败异域%+族增援！} {#if {@ismember{$v_today;v_guard_day}>0} {#var v_guard 1}};
+#ac {^【西游战争】战争精灵(Westwar)：来自异域的%+族} {#if {@ismember{$v_today;v_guard_day}>0} {#var v_guard 1;#var v_guardstep 1;tick 60;signup}};
+#ac {^【西游战争】战争精灵(Westwar)：各路妖神尽快抢修城门，抵御%+族下一次攻击！} {#if {@ismember{$v_today;v_guard_day}>0} {#var v_guard 1;#var v_guardstep 2}};
+#ac {^【西游战争】战争精灵(Westwar)：异域%+族主力已距长留城不远，各门补充人手！} {#if {@ismember{$v_today;v_guard_day}>0} {#var v_guard 1;#var v_guardstep 3}};
+#ac {^【西游战争】战争精灵(Westwar)：%+(%+)于西游%+来长留城报名参加保卫战。} {#if {@ismember{$v_today;v_guard_day}>0} {#var v_guard 1}};
+#ac {^目的地受法力保护，无法使用！} {#var v_guard 0;wait timeout 1};
+
+#ac {^你必须先用 enable 选择你要用的内功心法。} {enable force $v_skill_enable_force};
+#ac {^你请先用 enable 指令选择你要使用的内功。} {enable force $v_skill_enable_force};
+
+
+#ac {^你见到%*祥宁之态，娇美不可方物，心中一荡，却不防那} {#var v_cure 1};
+#ac {^结果你被扎个正着，顿时疼得眼泪直流！} {#var v_cure 1};
+#ac {^你中的%*发作了！} {#var v_cure 1};
+#ac {^你感觉身体一点点虚弱下去！} {#var v_cure 1};
+#ac {^你嘴唇发青，身子微微发抖，好象冷得厉害。} {#buff write quit_<$myid>.log;#tick quit {quit} 1};
+#ac {^你嘴唇乌青发亮，浑身抖个不停，不知道中了什么邪。} {#buff write quit_<$myid>.log;#tick quit {quit} 1};
+#ac {^瞌睡虫迅速地爬进你的鼻孔里。} {#buff write quit_<$myid>.log;#tick quit {quit} 1};
+#ac {^你死了。} {#delay death {#buff write dead_<$myid>.txt;#tick quit {quit} 1} 5} {1};
+#ac {^如来佛一伸左手把你的魂魄从地府} {tick 10;#undelay death};
+#ac {^相记钱庄 -} {account};
+#ac {^您在敝银庄共存有%1两黄金} {#var v_account @ctd{%1};#if {$v_account<1} {#var robot_stop 1}};
+#var v_time_eatjindan {0};
+#al eat_jindan {#if {@time{}>$v_time_eatjindan} {#if {$v_extra_catch>0} {fabao_full;#math v_time_eatjindan {@time{}+2}} {eat jin dan;#if {$n_jindan==1} {do_launch}};#math v_time_eatjindan {@time{}+2}}};
+#al do_launch {#if {@time{}>$v_time_dolaunch} {launch;#math v_time_dolaunch {@time{}+2}}};
+
+#al hurt1_qi {exert recover};
+#al hurt2_qi {#3 eat jinchuang yao;exert recover};
+#al hurt3_qi {eat_jindan;exert recover};
+#al hurt4_qi {eat_jindan;do_launch;#2 {eat jinchuang yao;eat hunyuan dan;exert recover;exert refresh}};
+#al hurt1_shen {#2 eat hunyuan dan;exert refresh};
+#al hurt2_shen {#5 eat hunyuan dan;exert refresh};
+#al hurt3_shen {eat_jindan;do_launch;#2 {eat jinchuang yao;eat hunyuan dan;exert recover;exert refresh}};
+
+#al hurt_reset
+{
+#al hurt1_qi {exert recover};
+#al hurt2_qi {#3 eat jinchuang yao;exert recover};
+#al hurt3_qi {eat_jindan;do_launch;#2 {eat jinchuang yao;eat hunyuan dan;exert recover;exert refresh}};
+#al hurt4_qi {eat_jindan;do_launch;#2 {eat jinchuang yao;eat hunyuan dan;exert recover;exert refresh}};
+#al hurt1_shen {#2 eat hunyuan dan;exert refresh};
+#al hurt2_shen {#5 eat hunyuan dan;exert refresh};
+#al hurt3_shen {eat_jindan;do_launch;#2 {eat jinchuang yao;eat hunyuan dan;exert recover;exert refresh}};
+#al do_launch {#if {@time{}>$v_time_dolaunch} {#if {$v_extra_trap>0} {fabao_escape;#math v_time_dolaunch {@time{}+2}} {launch;#math v_time_dolaunch {@time{}+2}}}};
+};
+#al hurt_lijing
+{
+#al hurt1_qi {exert recover};
+#al hurt2_qi {exert recover};
+#al hurt3_qi {eat_jindan;exert recover};
+#al hurt4_qi {eat_jindan;do_launch;#2 {eat jinchuang yao;eat hunyuan dan;exert recover;exert refresh}};
+#al hurt1_shen {exert refresh};
+#al hurt2_shen {exert refresh};
+#al hurt3_shen {eat_jindan;do_launch;#2 {eat jinchuang yao;eat hunyuan dan;exert recover;exert refresh}};
+#al do_launch {#if {@time{}>$v_time_dolaunch} {#if {$v_extra_trap>0} {fabao_escape;#math v_time_dolaunch {@time{}+2}} {launch;#math v_time_dolaunch {@time{}+2}}}};
+};
+
+#al hurt_guard
+{
+#al hurt1_qi {#nop};
+#al hurt2_qi {#nop};
+#al hurt3_qi {#if {@time{}>$v_time_eatjindan} {#if {$v_extra_catch>0} {fabao_full;#math v_time_eatjindan {@time{}+2}}}};
+#al hurt4_qi {#if {@time{}>$v_time_eatjindan} {#if {$v_extra_catch>0} {fabao_full;#math v_time_eatjindan {@time{}+2}}}};
+#al hurt1_shen {#nop};
+#al hurt2_shen {#nop};
+#al hurt3_shen {#if {@time{}>$v_time_eatjindan} {#if {$v_extra_catch>0} {fabao_full;#math v_time_eatjindan {@time{}+2}}}};
+#al do_launch {#if {@time{}>$v_time_dolaunch} {launch;#math v_time_dolaunch {@time{}+2}}};
+};
+
+#al hurt_rltask
+{
+set wimpy 0;
+#al hurt1_qi {#nop};
+#al hurt2_qi {#nop};
+#al hurt3_qi {#nop};
+#al hurt4_qi {#nop};
+#al hurt1_shen {#nop};
+#al hurt2_shen {#nop};
+#al hurt3_shen {#nop};
+};
+#al {fabao_escape} {#if {&fabao_id2 || &fabao_id3} {feel $fabao_id2 for extra_trap;feel $fabao_id3 for extra_trap}};
+#al {fabao_full} {#if {&fabao_id2 || &fabao_id3} {feel $fabao_id2 for extra_catch;feel $fabao_id3 for extra_catch}};
+#ac {^ <气血伤害力>(attack_qi    ) %1} {#var v_fabaoid1_attackqi @len{%1}};
+#ac {^ <战斗扰乱力>(extra_trap   ) %1} {#var v_extra_trap @eval{@len{@replace{%1;□;}}/2}};
+#ac {^ <敌人捕获力>(extra_catch  ) %1} {#var v_extra_catch @eval{@len{@replace{%1;□;}}/2}};
+#ac {^你从$fabao_name2中倒出一颗金丹吃了下去} {#math v_extra_catch $v_extra_catch-1;charge $fabao_id2 for extra_catch 5};
+#ac {^你从$fabao_name3中倒出一颗金丹吃了下去} {#math v_extra_catch $v_extra_catch-1;charge $fabao_id3 for extra_catch 5};
+#ac {^空中突然出现%*$fabao_name2，你从里面跳了出来。} {#math v_extra_trap $v_extra_trap-1};
+#ac {^空中突然出现%*$fabao_name3，你从里面跳了出来。} {#math v_extra_trap $v_extra_trap-1};
+#ac {^你将一颗金丹送入嘴中，一时间香气四溢。} {#math n_jindan $n_jindan-1};
+#ac {^你被定住了，哪里飞得起来！} {fixme};
+#ac {^袁守诚已经太拥挤了} {delwait;tick 20;kill yuan shoucheng};
+#ac {^只听见「啪」地一声，你手中的%+已经断为两截！} {#math v_weapon_dest $v_weapon_dest+1;wield $userweapon 2;wield $userweapon;#if {$v_weapon_dest>=3} {#var v_checkitem 0}};
+#nop ac {^你只觉得手中%+把持不定，脱手飞出！} {#math v_weapon_dest $v_weapon_dest+1;#if {$v_weapon_dest>=3} {#var v_checkitem 0}};
+#gag {^> $};
+#gag {^$};
+
+#var v_extra_natural 0;#var extra_natural 0;
+#ac {^天人合一(extra_natural)　%s%1　%s%2} {#var v_extra_anger 0;#var v_extra_natural 1;#var extra_natural %2};
+#ac {^金刚怒相(extra_anger)　　%s%1　%s%2} {#var v_extra_natural 0;#var v_extra_anger 1;#var extra_anger %2};
+#ac {^五气朝元(advanced_force)　 %s%1　%s%2} {#var v_advanced_force 1};
+#ac {^三花聚顶(advanced_mana)　　%s%1　%s%2} {#var v_advanced_mana 1};
+#ac {^调和阴阳(extra_balance)　　%s%1　%s%2} {#var v_extra_balance 1};
+
+#ac {^现在时间 %1 %2 %3 %4:%5:%6 CST %7} {#nop 这部分停用;
+#var v_hour %4;
+#if {$v_questsopen==1} {#class idlog open;#var v_quests_open 1;#class idlog close};
+#if {$v_int>=40 && $v_questsopen==1} {
+#nop 模式一不开如来，每小时判断若潜能>5万则随机关闭解密，打开学习和填海，随机数的目的是错开多个挂机id，平衡解谜资源;
+#if {$v_fillsea_open==1 && $v_rulai_open==0} {
+#if {$hp_qn>50000 && @rnd{1;10}>5} {#class idlog open;#var v_quests_open 0;#class idlog close} {#class idlog open;#var v_quests_open 1;#class idlog close};
+};
+#nop 模式二开如来，每天凌晨随机定一个1-12点的时刻关闭解密以此来学习 如来和填海;
+#if {$v_rulai_openxxxxxxx==1} {
+#if {$v_hour==$v_rulai_time} {#class idlog open;#var v_quests_open 0;#class idlog close};
+#if {$v_hour<$v_rulai_time} {#class idlog open;#var v_quests_open 1;#class idlog close};
+#if {$v_hour>$v_rulai_time && $n_rulai==30 && "$rulai_sta"=="已经完成"} {#class idlog open;#var v_quests_open 1;#class idlog close};
+};
+};
+};
+#ac {^现在是北京时间: %+%s星期%1} {#var v_today @ctd{%1}};
+#ac {^你的参战日期为：周%1和周日} {#list v_guard_day creat {%1;7}};
+#ac {^你的参战日期为：周%1和周六} {#list v_guard_day creat {%1;6}};
+#ac {^你可以进贡(pay)给神来乞求参战。} {};
+#ac {^你是实名id} {#list v_guard_day creat {1;2;3;4;5;6;7}};
+#ac {^设定环境变数：public = %.检查垃圾} {T+ drop.tin;i};
+#ac {^设定环境变数：public = %.卖垃圾} {T+ sell.tin;i;#var v_sell 0};
+#ac {^设定环境变数：public = %.填充容器} {T+ rongqi.tin;i};
+#ac {^你西行求取真经还须%+关：} {#var v_rulai_open 0};
+
+#ac {^袁天罡对你一拱手：这位小兄弟请速去天廷协助灭妖！} {#if $v_autolearn==1 {tick 10;e;s;s;e} {tick 999999;e;s;s;e}};
+#ac {^你吃下一棵人参。} {#math n_renshen $n_renshen-1};
+#ac {^你吃下一棵灵芝。} {#math n_lingzhi $n_lingzhi-1};
+#ac {^你吃下%1颗混元丹，脸色看起来好多了} {#math n_hunyuan $n_hunyuan-@ctd{%1}};
+#ac {^你吃下%1包金创药，气色看起来好多了} {#math n_jinchuang $n_jinchuang-@ctd{%1}};
+#ac {^你吃下%1盒熊蛇固元膏，%+色看起来好多了} {#math n_gao $n_gao-@ctd{%1}};
+#ac {^你吃下%1包云南白药，气色看起来好多了} {#math n_baiyao $n_baiyao-@ctd{%1}};
+#ac {^你拿起包云南白药往嘴里一倒，胡乱咽了下去。} {#math n_baiyao $n_baiyao-1};
+#ac {^你打开一盒熊蛇固元膏服下，精神看起来好多了。} {#math n_gao $n_gao-1};
+
+#ac {^石材对你而言太重了。} {timeout};
+#ac {^你从银号里取出零文铜板。} {#if $v_account>0 {Treset;tick 10;wait {n;e;d;set public 检查垃圾} 2}};
+
+#ac {转世之胄     :        } {#var v_zhuanshi_armor 1};
+#ac {转世之戈     :        } {#var v_zhuanshi_weapon 1};
+
+#nop ac {^记录问题 } {#line log debug.txt};
+#class fight close;
+

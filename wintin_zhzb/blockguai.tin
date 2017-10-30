@@ -1,0 +1,5 @@
+#class blockguai open;
+
+#ac {^$blockguai_name%s= %*, %w's %1,%*,} {tick 10;T- blockguai;findpet;whisper $myid's kill %1;wait {do_s;give 1 silver to %1} 0.1};
+
+#class blockguai close;

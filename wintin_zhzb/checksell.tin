@@ -1,0 +1,40 @@
+#class checksell open;
+#nop v_sell 0 表示需要去;
+
+#var v_tianyi 0;
+
+#ac {^  %1(%2)} {#if {@ismember{@replace{@lower{%2};{ };{-}};safelist}==0} {#var v_sell 0}};
+#ac {^□%1(%2)} {#if {@ismember{@replace{@lower{%2};{ };{-}};safelist}==0} {#var v_sell 0}};
+#ac {^  %*$rulai_name($rulai_idupper) <昏迷不醒>} {#nop} {1};
+#ac {粒} {#nop} {2};
+#ac {^%s%1粒金丹(Jin dan)} {#var n_jindan @ctd{%1}} {1};
+#ac {把} {#nop} {2};
+#ac {枚} {#nop} {1};
+#ac {人参果} {#nop} {1};
+#ac {两黄金} {#nop} {1};
+#ac {两银子} {#nop} {1};
+#ac {文钱} {#nop} {1};
+#ac {包金创药} {#nop} {1};
+#ac {颗混元丹} {#nop} {1};
+#ac {棵人参} {#nop} {1};
+#ac {棵灵芝} {#nop} {1};
+#ac {颗跌打丸} {#nop} {1};
+#ac {包筋骨粉} {#nop} {1};
+#ac {^  灰羽鹤氅(Leather coat)} {#nop} {1};
+#ac {^%s%1架时空穿梭器(Chuansuo qi)} {#var n_ufo @ctd{%1}} {1};
+#ac {张一千两金票} {#nop} {1};
+#ac {张一万两金票} {#nop} {1};
+#ac {枝铁箭}  {#nop} {1};
+#ac {^%s断掉的%+(%1)} {drop %1} {1};
+#ac {^  通灵武器(Axe)} {#nop} {1};
+#ac {^  宝盒(Treasure box)} {#if $v_songbao_box==1 {#var v_sell 0}} {1};
+#ac {^  挖宝铲(Treasure shovel)} {#nop} {1};
+#ac {^□三生石(Three lives stone)} {#nop} {1};
+#ac {^  三生石(Three lives stone)} {#nop} {1};
+#ac {^  五彩天衣(Tian yi)} {#math v_tianyi $v_tianyi+1;#if $v_tianyi>1 {#var v_sell 0}} {1};
+#ac {^这样东西不能随意丢弃。} {#var v_sell 0};
+
+#ac {^总计%+种} {wait {T- checksell;T+ checkitem.tin;#var v_checkitem 0;set public 检查身上物品} 0.5};
+
+
+#class checksell close;

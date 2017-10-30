@@ -1,0 +1,81 @@
+#class rulaiask open;
+#nop 用以下这个控制不做难度等级的怪;
+#al rulai_change
+{
+#if {$rulai_lv==1} {if {"$v_rulai_num"!="一"} {#var rulai_find 4}};
+#if {$rulai_lv==2} {if {"$v_rulai_num"=="三"} {#var rulai_find 4}};
+#if {$rulai_lv==3} {if {"$v_rulai_num"=="三" && "$v_rulai"=="降"} {#var rulai_find 4}};
+#nop if {"$v_rulai_num"=="二" && "$v_rulai"=="降"} {#var rulai_find 4};
+#nop if {"$v_rulai_num"=="二"} {#var rulai_find 4};
+#nop if {"$v_rulai_num"=="三" && "$v_rulai"=="降"} {#var rulai_find 4};
+};
+
+#var v_changansouth_name {{1}{弟子训练广场}{2}{茅屋内间}{3}{小茅屋}{4}{石材店}};
+#var v_pet_name {{1}{物品交易中心}{2}{宠物店}{3}{礼品店}{4}{潜能银行}};
+
+#var v_swty_name {{1}{林荫道}{2}{小树林}{3}{世外桃源入口}{4}{世外桃源}};
+#var v_wizroom_name {{1}礼品店{2}{潜能银行}};
+
+#var v_sls_name {{1}{终南山脚}{2}{圭峰山}{3}{山门}{4}{山路}{5}{嵩山}{6}{少林寺}{7}{寺院}};
+
+#var v_wxz_name {{1}{乱葬岗}{2}{荒地}{3}{五行阵·阵门}{4}{五行阵中心·土阵}{5}{五行阵·雷阵}{6}{五行阵·风阵}{7}{五行阵·水阵}{8}{五行阵·火阵}};
+#ac {^你说道：敢问佛祖，最近可有妖怪为害？} {rltask};
+#ac {^你的妖怪已经跑没影了。} {#var rulai_find 4;tick 60};
+#ac {^你任务失败了。} {#var rulai_find 4;tick 60;cancel;e;n;zuochan;#delay 1 {#var rulai_find 0}};
+#ac {^如来佛说道：你先到禅房参悟，以提高自身的修行，再来拿任务吧。} {};
+#ac {^只听见大殿之中如来佛洪亮的嗓音：你功不可没，赐予%1一%.%.} {#var v_rulai_item %1;#sh %1};
+#ac {^你说道：这个任务弟子恐怕无能为力。} {tick 60;e;n;#var rulai_find 0;zuochan};
+#ac {^你只觉灵台一片清明，似乎禅意已尽。} {#var rulai_find 0;s;w;#if $n_rulai==31 {tick 5;#var rulai_sta 已经完成;localtime;#sh 记录问题 $myid的如来完成时间为@time_now{}};#if {@time_c{}<120 && $v_guard!=1} {task} {#5 n;wait timeout 1};#nop 这个地方需要考虑李静时间};
+#ac {^你没有任务在身。} {#var rulai_find 4};
+#nop 任务完成所有中毒状态应该可以清除;
+#ac {^你刚刚完成了一个%+妖任务。} {tick 40;#var v_cure 0;#var rulai_find 4;e;n;zuochan;T+ award.tin;fabao_full};
+#ac {^你今天已经拿了%1个任务。} {#var n_rulai @ctd{%1};#if {$n_rulai==30 && $rulai_find>3} {#var n_rulai 31;cancel} {#if {$rulai_find<4} {find $rulai_id} {#if {$rulai_find==4} {cancel}}}};
+#ac {^难度：%1} {#var v_rulai_num %1;rulai_change};
+
+#ac {^你盘膝坐在一个蒲团上，} {delwait};
+#ac {^你有任务在身，定不下神来参悟。} {};
+
+#ac {^你现在的任务是%1妖,%2(%3)。} {#var rulai_sta 没有完成;#var name_ctd_old %2;#var v_rulai %1;#var rulai_name %2;#var rulai_id %3;#var rulai_idupper @upper_f{$rulai_id}};
+
+#ac {^本次中英文转换成功！} {tick 10;#var rulai_id $name_id;#var rulai_idupper @upper_f{$name_id};find $name_id};
+
+#ac {^千里眼告诉你：%1(%+)在%2。}
+{T- ctd;
+#if {"%1"=="$rulai_name"}
+{
+#var rulai_where %2;
+get jin dan from hualan;get hunyuan dan from hualan;get jinchuang yao from hualan;get renshen from hualan;get lingzhi from hualan;#5 n;fly guild;wait {w} 1;
+#if {@ismember{%2;v_changansouth_name}>0} {#var rulai_where 长安城南};
+#if {@ismember{%2;v_pet_name}>0} {#var rulai_where 宠物店};
+
+#if {"%2"=="地窖口"} {#var rulai_where 长安城};
+
+#if {@ismember{%2;v_wizroom_name}>0} {#var rulai_where 大神领域};
+
+#if {@ismember{%2;v_sls_name}>0} {#var rulai_where 少林寺};
+
+#if {@ismember{%2;v_wxz_name}>0} {#var rulai_where 五行阵};
+#if {"%2"=="%*名人堂%*" || "%2"=="%*展室"} {#var rulai_where 名人堂}} {find $rulai_id 2}
+
+};
+
+#ac {^...do...next..}
+{tick 10;
+   #math hp_flmax {$hp_flmax-500};
+#al do_next {T- rulaiask;e;s;wait {T+ pathrl.tin;rulai_start} 0.5};
+    #if {$hp_qiper<100 && $hp_qiper>50} {#al do_next {#5 exert heal;hp}};
+    #if {$hp_qiper<=50} {#al do_next {eat jindan;hp}};
+    #if {$hp_shenper<=60} {#al do_next {eat jindan;hp}};
+    #if {$hp_shenper<100 && $hp_shenper>60} {#al do_next {#5 eat hunyuan dan;hp}};
+    #if {$hp_nl<@eval{$hp_nlmax-1000}} {#al do_next {#if {$n_renshen<100} {dazuo max;#if {$v_extra_catch>0} {fabao_full};tick 60;wait {dazuo 0} 30} {#2 eat ren shen;hp}}};
+    #if {$hp_fl<=$hp_flmax} {#al do_next {#if {$n_lingzhi<50} {mingsi max;#if {$v_extra_catch>0} {fabao_full};tick 60;wait {mingsi 0} 30} {#2 eat ling zhi;hp}}};
+wait do_next 0.5
+} {1};
+
+#ac {^你行功完毕，吸一口气，缓缓站了起来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {exert recover;hp} 3} 1} {wait {exert recover;hp} 1}};
+#ac {^你行功完毕，从冥思中回过神来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {exert refresh;hp} 3} 1} {wait {exert refresh;hp} 1}};
+#ac {^天宫城墙 -} {tick 10;neidan use anti_magic;neidan use advanced_force;neidan use advanced_mana;hp};
+#ac {^静室 -} {tick 10;neidan use anti_magic;neidan use advanced_force;neidan use advanced_mana;hp};
+#ac {^咦？．．．怎么还在原来的地方？} {delwait;gotodazuo};
+#ac {^%1一把抓住了你} {#if {"%1"!="%*【%*" && "%1"!="%*：%*" && "%1"!="%*>%*"} {#var rulai_find 0;tick 5}};
+#class rulaiask close;

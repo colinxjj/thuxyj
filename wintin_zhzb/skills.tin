@@ -1,0 +1,146 @@
+#class skills open;
+#var v_enableforce {0};
+
+#ac {^...do...next..}
+{
+tick 10;
+delwait;time;
+#var v_checktime_lijing 240;
+#if {"$liguai_sta"=="没有完成" && $liguai_find>=2} {#var v_checktime_lijing 840};
+
+#al do_next {#sh 出问题啦!;wait {T- skills;T+ control.tin;hp} 1};
+
+
+#if {@ismember{$skill_idnow;v_skill_research_base}>0}
+{
+#if {$skill_nummin_max<=@eval{($skill_nummin+1)*($skill_nummin+1)} && $hp_qn>0} {#if {$skill_nummin>=250} {#al do_next {#5 {research $skill_idnow;exert refresh};skills;hp};#if $skill_nummin_max>@eval{($skill_nummin+1)*($skill_nummin+1)-6000} {#al do_next {#2 {research $skill_idnow;exert refresh};skills;hp}}} {T- skills;Tmenpai}};
+#if {$skill_nummin_max>@eval{($skill_nummin+1)*($skill_nummin+1)}}
+{
+#if {@time_c{}<@eval{$v_checktime_lijing+30}} {#al do_next {tick 5;touxiang;fly changan;ne;#if {"$skill_idnow"!="parry"} {yao $skill_idnow};sw;e;n;open north;n;open north;n;l paizi}};
+#if {"$skill_idnow"=="spells" && @time_c{}<@eval{$v_checktime_lijing+20}} {#al do_next {tick 40;xiudao 31}};
+#if {"$skill_idnow"=="archery"} {#al do_next {tick 10;fly meishan;e;e;ne;unwield all;wear jian nang;wield bow;input 10 tie jian in jian nang;shejian;exert recover;skills;wait hp 2}};
+#if {"$skill_idnow"=="dodge"} {#al do_next {tick 10;get xueshan map from hualan;touxiang;fly xueshan;#3 nu;n;jump shi bi;n;skate;exert recover;wait hp 2}};
+#if {"$skill_idnow"=="force"} {#al do_next {tick 5;touxiang;fly changan;ne;yao qin;sw;e;n;open north;n;open north;n;#var v_enableforce 1;l paizi}};
+#if {"$skill_idnow"=="dragonforce"} {#al do_next {tick 5;touxiang;fly changan;#16 s;#3 e;dive;wait {#2 e;#if $v_train>10 {ne;e;e;eu;e;n;n;nw} {sw;s}} 4}};
+}
+};
+
+#if {@ismember{$skill_idnow;v_skill_research_double}>0 && $hp_qn>0 && $skill_nummin>=250}
+{
+#al do_next {#5 {research $skill_idnow;exert refresh};skills;hp}
+};
+
+
+
+#nop 潜能为0但是还有存储的情况下,返还control(待menpai文件修正后改为T+ menpai);
+#nop if {$hp_qn==0 && $v_qn_depmax>=2000} {#al do_next {fly changan;ne;enter;withdraw 2000;out;sw;n;wait {T+ control.tin;hp} 1}};
+#if {$hp_qn==0} {#al do_next {#if {$v_qn_depmax>=2000} {fly changan;ne;enter;#if {$v_qn_depmax>10000 && $v_qn_dep>=20000} {withdraw 10000} {withdraw 2000};account;out;sw;n;fly guild;wait {hp} 1} {wait {T- skills;T+ control.tin;hp} 1}}};
+
+#if {$v_extra_natural==1} {
+#if {$hp_nl<@eval{$hp_nlmax*2/3} || $hp_fl<@eval{$hp_flmax-400}}
+{
+#al do_next {
+#class skills open;
+#ac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身} {tick 10;jiali 0;wait {#unac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身};touxiang;s;fly guild;wait hp 1} 5};
+#class skills close;
+tick 15;fly changan;e;n;kill shadai;jiali 0;pfm_bang;wait {#unac {^你运转九转神魔舍利天人合一之法，天地能量汇聚自身};touxiang;s;fly guild;wait hp 1} 8}
+}};  
+
+#nop 法力过低;
+#if {$v_extra_natural==0 && $hp_fl<@eval{$hp_flmax-400}}
+{
+#if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {
+#al do_next {#if {$v_quests_open==1 && $n_lingzhi>=1000} {eat 5 ling zhi;hp} {tick 40;fly guild;wait {w;mingsi max;#if {$v_extra_catch>0} {fabao_full};wait {mingsi 0} 30} 1}};
+#al do_next1 {mingsi max;#if {$v_extra_catch>0} {fabao_full};tick 40;wait {mingsi 0} 30}};
+};
+
+#nop 内力过低;
+#if {$v_extra_natural==0 && $hp_nl<@eval{$hp_nlmax/5*4}}
+{
+#if {$v_age>=18 || @eval{$hp_wx+$hp_dx_ctd}>=1000000} {
+#al do_next {#if {$v_quests_open==1 && $n_renshen>=1000} {eat 5 ren shen;hp} {tick 40;fly guild;wait {w;dazuo max;#if {$v_extra_catch>0} {fabao_full};wait {dazuo 0} 30} 1}};
+#al do_next1 {dazuo max;#if {$v_extra_catch>0} {fabao_full};tick 40;wait {dazuo 0} 30}};
+};
+
+#nop 填海时间;
+#if {@time_c{}<@eval{$v_checktime_lijing+30} && $v_fillsea==1}
+{
+#al do_next {gotofillsea}
+};
+
+#nop 针对于送宝给练功师傅从擂台下来后的判断;
+#if {"$liguai_sta"=="没有完成" && $liguai_find<2}
+{
+#al do_next {gotolijing}
+};
+
+#nop 时间不够;
+#if {@time_c{}>=@eval{$v_checktime_lijing+30}}
+{
+#al do_next {gotolijing}
+};
+
+wait do_next 0.5
+} {4};
+
+#ac {^咦？．．．怎么还在原来的地方？} {#var v_guild 0;delwait;gotodazuo;do_next1};
+
+#ac {^你行功完毕，吸一口气，缓缓站了起来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch} 1} {wait {e;s;exert recover;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}}};hp} 1}};
+
+#ac {^你行功完毕，从冥思中回过神来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch} 1} {wait {e;s;exert refresh;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;#switch {1d2} {#case 1 {w};#case 2 {#2 w}}};hp} 1}};
+
+
+#ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {e;s;exert recover;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;w;hp}};
+#ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {e;s;exert recover;touxiang;#if $v_guild==1 {fly guild;hp} {fly sky;w;hp}};
+
+
+#ac {^南城客栈 -} {tick @eval{$tick_time+10};wait {T- skills;wait {w;T+ control.tin;hp} $tick_time} 1};
+
+#ac {^有请NPC        youqing} {#unac {^你身上没有这样东西。};tick 40;unwield all;wield $skill_idnow;#if {"$skill_idnow"=="parry"} {youqing wzg;wield $userweapon;bihua erdi} {youqing wzg;bihua}};
+
+#ac {^有人正在擂台上交手，请稍候。} {wait {youqing wzg;bihua erdi} 1};
+
+#ac {^水陆大会模拟战擂台 -} {hurt_guard;#if {"$skill_idnow"=="force"} {#if {$v_enableforce==1} {enable force none} {enable force $v_skill_enable_force};#delay 5 faint} {set wimpy 0;jiali 0;#if {"$skill_idnow"=="spells"} {} {enable $skill_idnow none};#delay 6 {exert nobuff};
+}
+};
+
+#ac {^你的「内功心法」进步了！} {#if {$v_enableforce==2} {n;n;l paizi}} {1};
+#ac {^你的两仪剑法进步了！} {#if {$v_enableforce==2} {lian parry;lian sword}} {1};
+
+#ac {^你的「法术」进步了！} {tick 5;skills;hp} {1};
+
+#ac {^你的「基本轻功」进步了！} {tick 5;skills;hp} {1};
+
+#ac {^你的杀气不够，无法领悟更高深的摄气诀。} {exert powerup};
+#ac {^你的「摄气诀」进步了！} {#8 exert powerfade} {1};
+
+#ac {^你的「龙神心法」进步了！} {wait timeout 2} {1};
+
+#ac {^你的「%1」进步了} {#if {"%1"=="扑击格斗之技" && "$skill_idnow"=="parry"} {skills};#if {"%1"=="$skill_namenow"} {touxiang;#delay 2 faint;tick 10}} {2};
+
+#ac {^欢迎来此比武交友。} {hurt_reset;#if {"$skill_idnow"=="force" && $v_enableforce==1} {#tick 10;#var v_enableforce 2;wield qin;enable sword liangyi-sword;enable parry liangyi-sword;s;s;lian parry;lian sword} {wait {s;s;skills;#if $v_guild==1 {fly guild;hp} {fly sky;w;hp}} 3}};
+
+#al kill_xiaodi {pfm_kill;wait {kill_xiaodi} 2};
+
+#ac {^海底莽林 -} {#ac {^海底 -} {s};
+#if {@time_c{}>@eval{$v_checktime_lijing+30}} {timeout} {tick 30;touxiang;train;train 2;wait {#switch {1d4} {#case 1 {s};#case 2 {w};#case 3 {e};#case 4 {n}}} 1}};
+#ac {^海底 -} {#nop};
+#ac {^你对%+大喊一声：孽畜，看你猖狂到几时！} {delwait};
+#ac {^%.%.%.%.%.%.低头缩尾，以示降服。} {#math v_train {$v_train+1};train;wait {#switch {1d4} {#case 1 {s};#case 2 {w};#case 3 {e};#case 4 {n}}} 1};
+#ac {^这只海兽正在战斗。} {delwait};
+#ac {^散华台 -} {#if {@time_c{}>@eval{$v_checktime_lijing+30}} {se;s;s;w;wd;se;se;gotolijing} {
+#class skills open;
+#ac {^你的内力不够} {T- skills;cast transfer;exert recover;se;s;s;w;wd;se;se;Tmenpai};
+#class skills close;
+tick 10;burstpractice force;#5 {lian force 50;exert refresh;exert recover};fabao_full;wait l 1}};
+
+#ac {^你试着练功，可毫无进展，需要驯服更多的海兽以增进龙神心法。} {#var v_train 0;wait {se;s;s;w;wd;se;se;hp} 1};
+
+
+#gag {什么？};
+
+#ac {^周围没有一片云，没办法腾云驾雾。} {delwait;timeout};
+#class skills close;
+
+
+
