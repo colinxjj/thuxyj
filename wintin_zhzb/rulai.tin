@@ -1,10 +1,11 @@
 #class rulaiask open;
 #nop 用以下这个控制不做难度等级的怪;
+#var v_rulai_plow 1;
 #al rulai_change
 {
-#if {$rulai_lv==1} {if {"$v_rulai_num"!="一"} {#var rulai_find 4}};
-#if {$rulai_lv==2} {if {"$v_rulai_num"=="三"} {#var rulai_find 4}};
-#if {$rulai_lv==3} {if {"$v_rulai_num"=="三" && "$v_rulai"=="降"} {#var rulai_find 4}};
+#if {$rulai_lv==1} {#if {"$v_rulai_num"!="一"} {#var rulai_find 4}};
+#if {$rulai_lv==2} {#if {"$v_rulai_num"=="三"} {#var rulai_find 4}};
+#if {$rulai_lv==3} {#if {"$v_rulai_num"=="三" && "$v_rulai"=="降"} {#var rulai_find 4}};
 #nop if {"$v_rulai_num"=="二" && "$v_rulai"=="降"} {#var rulai_find 4};
 #nop if {"$v_rulai_num"=="二"} {#var rulai_find 4};
 #nop if {"$v_rulai_num"=="三" && "$v_rulai"=="降"} {#var rulai_find 4};
@@ -64,18 +65,20 @@ get jin dan from hualan;get hunyuan dan from hualan;get jinchuang yao from huala
    #math hp_flmax {$hp_flmax-500};
 #al do_next {T- rulaiask;e;s;wait {T+ pathrl.tin;rulai_start} 0.5};
     #if {$hp_qiper<100 && $hp_qiper>50} {#al do_next {#5 exert heal;hp}};
-    #if {$hp_qiper<=50} {#al do_next {eat jindan;hp}};
-    #if {$hp_shenper<=60} {#al do_next {eat jindan;hp}};
+    #if {$hp_qiper<=50} {#al do_next {eat 5 baiyao;hp}};
+    #if {$hp_shenper<=60} {#al do_next {eat 5 guyuan gao;hp}};
     #if {$hp_shenper<100 && $hp_shenper>60} {#al do_next {#5 eat hunyuan dan;hp}};
     #if {$hp_nl<@eval{$hp_nlmax-1000}} {#al do_next {#if {$n_renshen<100} {dazuo max;#if {$v_extra_catch>0} {fabao_full};tick 60;wait {dazuo 0} 30} {#2 eat ren shen;hp}}};
     #if {$hp_fl<=$hp_flmax} {#al do_next {#if {$n_lingzhi<50} {mingsi max;#if {$v_extra_catch>0} {fabao_full};tick 60;wait {mingsi 0} 30} {#2 eat ling zhi;hp}}};
+    #if {"$myid"=="zhzb" && $v_rulai_plow==1} {#al do_next {e;s;fly wudidong;wu;sd;sw;w;w;n;buy plow from boss;l li tou;s;e;e;hp}};
 wait do_next 0.5
 } {1};
 
 #ac {^你行功完毕，吸一口气，缓缓站了起来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {exert recover;hp} 3} 1} {wait {exert recover;hp} 1}};
 #ac {^你行功完毕，从冥思中回过神来。} {tick 10;#if {&v_extra_catch} {#math v_extra_catch $v_extra_catch+1;wait {charge $fabao_id2 for extra_catch;charge $fabao_id3 for extra_catch;wait {exert refresh;hp} 3} 1} {wait {exert refresh;hp} 1}};
 #ac {^天宫城墙 -} {tick 10;neidan use anti_magic;neidan use advanced_force;neidan use advanced_mana;hp};
-#ac {^静室 -} {tick 10;neidan use anti_magic;neidan use advanced_force;neidan use advanced_mana;hp};
+#ac {^静室 -} {tick 10;neidan use anti_magic;neidan use advanced_force;neidan use advanced_mana;hp;#if {"$myid"=="zhzb"} {l li tou}};
 #ac {^咦？．．．怎么还在原来的地方？} {delwait;gotodazuo};
 #ac {^%1一把抓住了你} {#if {"%1"!="%*【%*" && "%1"!="%*：%*" && "%1"!="%*>%*"} {#var rulai_find 0;tick 5}};
+#ac {^这是一把黑黝黝的犁头，看上去确实只有老牛才拉得动。} {#var v_rulai_plow 0};
 #class rulaiask close;

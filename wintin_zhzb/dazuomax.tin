@@ -51,6 +51,9 @@ wait do_next 0.5;
 #ac {^只见$fabao_name3突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {exert recover;exert refresh;l};
 #ac {^只见$fabao_name2突然放出五彩霞光，你面露喜色，长长地吐了一口气。} {exert recover;exert refresh;l};
 
+#nop #ac {^你的内力增强了！} {#var n_eat_rs @eval{$hp_nlmax/500 + 1};eat $n_eat_rs ren shen};
+#nop #ac {^你的法力增强了！} {#var n_eat_lz @eval{$hp_flmax/500 + 1};eat $n_eat_lz ling zhi};
+
 #ac {^当你的内息遍布全身经脉时却没有功力提升的迹象，似乎内力修为已经遇到了瓶颈。} {#var v_dazuo 0;#var v_dazuomax 2};
 #ac {^当你的法力增加的瞬间你忽然觉得脑中一片混乱，似乎法力的提升已经到了瓶颈。} {#var v_mingsi 0;#var v_mingsimax 2};
 #ac {^咦？．．．怎么还在原来的地方？} {delwait;gotodazuo};
