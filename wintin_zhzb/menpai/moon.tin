@@ -1,9 +1,9 @@
 #class menpai open;
 tick 10;fly moon;climb tree;u;u;enter;n;n;n;n;w;n;w;hp;
 
-#var menpai_skill_id {dodge;force;parry;spells;sword;unarmed;moonforce;moonshentong};
-#var menpai_skill_max {180;180;180;190;200;180;180;190};
-#var menpai_skill_master {xi;xi;xi;xi;xi;xi;xi;xi};
+#var menpai_skill_id {dodge;force;parry;spells;sword;unarmed;moonforce;moonshentong;literate};
+#var menpai_skill_max {180;180;180;190;200;180;180;190;150};
+#var menpai_skill_master {xi;xi;xi;xi;xi;xi;xi;xi;xi};
 
 #list menpai_skill_id creat $menpai_skill_id;
 #list menpai_skill_max creat $menpai_skill_max;
