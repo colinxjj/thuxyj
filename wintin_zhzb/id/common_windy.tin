@@ -1,0 +1,67 @@
+#class common_windy open;
+#nop #al windy_getb {w;n;ne;drop linen;yao bonnet;yao stick;yao sword;yao dagger;yao map;yao tu;yao tianyi;yao pifeng;yao dun;yao armor;yao yupei;yao pai;wear all;wield dagger;wield stick;sw;s;e};
+#nop #al pet_getb {w;n;ne;whisper $myid's yao bonnet;whisper $myid's yao $userweapon;whisper $myid's yao dagger;whisper $myid's yao tianyi;whisper $myid's yao pifeng;whisper $myid's yao dun;whisper $myid's yao armor;whisper $myid's yao yupei;whisper $myid's wear all;whisper $myid's wield all;sw;s;e};
+#nop #al pet_skate {w;get xueshan map from hualan;touxiang;fly xueshan;#3 nu;n;jump shi bi;n;findpet;whisper $myid's skate;#delay 1 {whisper $myid's skate;fly changan;s;e}}
+#nop #al pet_pashu {w;fly moon;findpet;#5 whisper $myid's climb tree;fly changan;s;e};
+#nop #al pet_duishi {#ac {^当前题目：　　　%%1} {#line log poem_$myid's.txt %%1 pet;wait {#textin answer_poem_$myid's.txt} 1};w;s;w;u;u;u;l poem;#delay 3 {w;e;l poem;#delay 2 {d;d;d;e;n;e}}};
+#nop #al usexx {Treset;T+ path.tin;T+ liguaikill.tin;get xin xiang from bag;#var liguai_find 4;moveto $liguai_id};
+#nop #al giveyu {give windyu guo;get 1000 ren shen from hualan;give windyu ren shen;get 1000 ling zhi from hualan;give windyu ling zhi};
+#nop #al {storeguo} {d;w;n;e;e;e;s;e;pickup 1;pickup 2;pickup 3;store renshen guo at 1;store ren shen at 2;store ling zhi at 3;l dui};
+#nop #al {guoback} {w;n;w;w;w;s;e;u};
+
+#al sr {surrender};
+#al er {exert recover};
+#al ef {exert refresh};
+#al ers {#if "%1"=="" {eat ren shen} {eat %1 ren shen}}
+#al elz {#if "%1"=="" {eat ling zhi} {eat %1 ling zhi}}
+
+
+#nop #al huancmp {w;n;w;s;withdraw 20000 gold;#delay 1 {convert 20000 gold to tenthousand-goldcash;#delay 1.5 {n;e;s;s;w;#3 u;n;#2 give 1 ttgcash to taker;s;#3 d;e;n;e}}};
+#nop #al hhcmp {w;n;e;e;e;s;e;pickup %1;w;fly changan;s;s;w;#3 u;n;#10 give 1 ttgcash to taker;#delay 1 {s;d;d;d;e;n;e}};
+#nop #al lingfy {unset no_accept;w;n;e;e;s;ask qin about 俸银;n;fly changan;s;e};
+#nop #al jianlaji {w;n;d;glean;get all;u;s;e;i};
+#nop #al buynecklace {fly changan;#6 s;w;n;e;buy chu wu xiang lian from good witch;s;s};
+
+#al startread {get ren shen from hualan;#tick read {#2 eat ren shen;#3 {exert refresh;#%2 read %1};skills} {2.5}};
+#al startread2 {#tick read {#3 {exert refresh;#%2 read %1};skills;fabao_full} {3}};
+#al stopread {#untick read};
+
+#al gotofo {fei lingshan;w;w;w;s;wu;sw;nu;wu;nw;n;nw;wu;s;s;s;s;s};
+#al gotoputi {fly lingtai;n;n;nu;n;nw;ne;nw;ne;enter;};
+#al putiback {out;sw;se;sw;se;s;sd;};
+#al gotoxiwangmu {fly moon;climb tree;u;u;enter;n;n;n;w;n;w};
+#al gotomagic {fly changan;#12 s;nw;#3 w;#3 wu;s;enter};
+#al gotowupo {fly changan;#6 s;w;n;};
+#al gotoqiongcao {get eastsea map from hualan;fly penglai;nu;enter;ne;ne;ne;ne;ne;nw;nw;nw;nw;nw;nw;nw;n;n;n;ne;ne;nw;n;n;n;climb cliff};
+#al getsongguo {w;fly lingtai;sd;sd;sw;sw;sd;climb pine;get songguo;fly lingtai;n;n;ne;n;ask guang about 千字文;get songguo from bag;give guang songguo;put songguo in bag;s;fly changan;s;w;sell book;#delay 1.5 {e;e}}
+#al getsongguo2 {w;fly lingtai;sd;sd;sw;sw;sd;climb pine;get songguo;fly lingtai;n;n;ne;n;ask guang about 道德经;get songguo from bag;give guang songguo;put songguo in bag;s;fly changan;s;w;sell book;#delay 1.5 {e;e}}
+#al gotowall {fly meishan;e;e;ne;nu;nw;nu};
+#al gotoyunfang {fly putuo;get bishui zhou from hualan;sd;sd;s;s;swim;e;e;e;dive;wait {e;e;ne;e;e;se;se;e;bian long nu;w;s} 3};
+#al startlianwu {#ti dub {ers;er;#20 lianwu;skills} 1;unwield all;wield plow;remove all;wear golden armor;enable dodge none;}
+#al stoplianwu {#untick dub;unwield plow}
+
+#al gotoqilu {fly changan;#10 s;wu;nu;eu;open door;n;enter;n};
+#al gototzdp {fly tianzhu;#6 w;#8 s;#3 e;ne;se;e;s};
+#al gotopubu {fly stone;sd;wd;nu;nu;nu;#6 enter;nu;e};
+#al gotochange {fly moon;climb tree;u;u;enter;n;n;n;w;w};
+#al gomoon {w;n;#7 w;nw;ne;nw;nw;nw;w;wu;su;su;wu;wu;nu;n};
+#al moonback {s;sd;ed;ed;nd;nd;ed;e;se;se;se;sw;se;#7 e;s;e};
+
+#al atianfu {w;n;ne;ask wiz rjdwmbtq about 天赋;sw;s;e}
+
+#ac {^天上突然掉下了什么东西到你的口袋里，你最好检查一下。} {open hongbao};
+#ac {^ %?%s补天石碎片(Stone chip)} {get chip;put chip in chu wu xiang lian;put chip in bag};
+#ac {^ %?%s储物项链(Chu wu xiang lian)} {get necklace};
+
+#nop #al openfg {#var v_faguan {2}};
+#nop #al closefg {#var v_faguan {1}};
+#nop #al openlrg {#ac {^%?%s落日弓(Luori gong)} {get luori gong}};
+#nop #al closelrg {#unac {^%?%s落日弓(Luori gong)}};
+
+#nop ---- du book -----
+#nop 〖无字经〗(Wuzi jing)
+#nop 你研读了一会儿，但是发现上面所说的对你而言都太浅了，没有学到任何东西。
+
+
+#class common_windy close;
+
