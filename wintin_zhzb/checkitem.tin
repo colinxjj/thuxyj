@@ -26,6 +26,7 @@ tick 20;
 #nop var v_hualan 0;
 #nop 解谜状态下不装备shield,防止物品冲突;
 #if $v_quests_open==1 {#var v_diedawan 0;#var v_jingufen 0;#if {@ismember{jingu-fen;safelist}==0} {#list safelist add {jingu-fen}};#if {@ismember{dieda-wan;safelist}==0} {#list safelist add {dieda-wan}};#var n_jindansha 0;#if {@ismember{jindan-sha;safelist}==0} {#list safelist add {jindan-sha}};#var v_shield 1;#if {@ismember{ziluo-dun;safelist}>0} {#list safelist delete @ismember{ziluo-dun;safelist}}} {#var v_diedawan 1;#var v_jingufen 1;#var v_shield 0;#if {@ismember{ziluo-dun;safelist}==0} {#list safelist add {ziluo-dun}}};
+#if $v_super_vip==2 {#var v_chuwuxianglian 0};
 #var v_chuansuo 0;
 #var v_hunyuan 0;
 #var v_jinchuang 0;
@@ -71,6 +72,7 @@ i};
 #ac {^宝盒 = treasure box, box} {#var v_songbao_box 1;#if $songbao_find<=2 {#var v_songbao_box 2}};
 #ac {^挖宝铲               = treasure shovel, shovel} {#var v_wabao_shovel 1;#if $wabao_find<2 {#var v_wabao_shovel 2}};
 
+#ac {^储物项链             = chu } {#var v_chuwuxianglian 1};
 #ac {^%s〖东海仙山图〗(Eastsea map)} {#if {$v_eastmap==1} {drop eastsea map 2};#var v_eastmap 1};
 #ac {^%s【大雪山地图】(Xueshan map)} {#if {$v_xueshanmap==1} {drop xueshan map 2};#var v_xueshanmap 1};
 #ac {^%s避水咒(Bishui zhou)} {#if {$v_zhou==1} {drop bishui zhou 2};#var v_zhou 1};
@@ -118,8 +120,8 @@ i};
 #ac {^%s%1棵人参(} {#var n_renshen @ctd{%1}};
 #ac {^%s%1棵灵芝(} {#var n_lingzhi @ctd{%1}};
 #ac {^%s%1架时空穿梭器(} {#if {@ctd{%1}>=10} {#var v_chuansuo 1}};
-#ac {^%s%1颗混元丹(} {#var n_hunyuan @ctd{%1};#if {@ctd{%1}>100} {#var v_hunyuan 1};#if {$v_rulai_open==1 && $n_rulai<31} {#var v_hunyuan 0};#if {@ctd{%1}>=300} {#var v_hunyuan 1}};
-#ac {^%s%1包金创药(} {#var n_jinchuang @ctd{%1};#if {@ctd{%1}>100} {#var v_jinchuang 1};#if {$v_rulai_open==1 && $n_rulai<31} {#var v_jinchuang 0};#if {@ctd{%1}>=300} {#var v_jinchuang 1}};
+#ac {^%s%1颗混元丹(} {#var n_hunyuan @ctd{%1};#if {@ctd{%1}>100} {#var v_hunyuan 1};#if {$v_rulai_open==1 && $n_rulai<31} {#var v_hunyuan 0};#if {@ctd{%1}>=300} {#var v_hunyuan 1};#if {$v_super_vip==2 && @ctd{%1}<2000} {#var v_hunyuan 0}};
+#ac {^%s%1包金创药(} {#var n_jinchuang @ctd{%1};#if {@ctd{%1}>100} {#var v_jinchuang 1};#if {$v_rulai_open==1 && $n_rulai<31} {#var v_jinchuang 0};#if {@ctd{%1}>=300} {#var v_jinchuang 1};#if {$v_super_vip==2 && @ctd{%1}<2000} {#var v_jinchuang 0}};
 #ac {^%s%1粒金丹(} {#if {@ctd{%1}>=3} {#var v_jindan 1};#if {$v_rulai_open==1 && $n_rulai<31} {#var v_jindan 0};#if {@ctd{%1}>=10} {#var v_jindan 1}};
 #ac {^%s%1包筋骨粉(Jingu fen)} {#if {@ctd{%1}>4} {#var v_jingufen 1}};
 #ac {^%s%1颗跌打丸(Dieda wan)} {#if {@ctd{%1}>4} {#var v_diedawan 1}};
@@ -194,18 +196,19 @@ delwait;
 
 #if {$v_fillsea_open==1 && $v_leathercoat==0 && &v_leathercoat} {#al do_next {fly lingtai;sd;sd;sw;e;kill zhang daoling;pfm_kill;wait {get leather coat;#var v_leathercoat 1;set public 检查身上物品} 5}};
 
-#if {$hp_wx>1000000 && $v_hunyuansan==0} {#al do_next {fly sky;#4 w;#10 n;#4 e;get hunyuan san;
+#if {$hp_wx>3000000 && $v_hunyuansan==0} {#al do_next {fly sky;#4 w;#10 n;#4 e;get hunyuan san;
 #class tmp open;
 #ac {^你附近没有这样东西。} {T- tmp;kill moli hong;pfm_bang;wait {get all from corpse;#var v_hunyuansan 1;touxiang;w;remove shield;wear hunyuan san;set public 检查身上物品} 5};
 #ac {^你捡起一只混元伞。} {T- tmp;remove shield;wear hunyuan san;set public 检查身上物品};
 #class tmp close;}
 };
 
+#if {$v_chuwuxianglian==0 && $v_super_vip==2} {#al do_next {fly changan;#6 s;w;n;e;buy chu wu xiang lian from good witch;s;s;set public 检查身上物品}};
 #if {$v_renshenguo==1} {#al do_next {fly changan;e;e;e;s;e;pickup 10000;pickup 10001;store renshen guo at 10000;store renshen guo at 10001;#var n_rsg 0;#var n_rsg1 0;l huo dui}};
 
 #if {$v_cps==0} {#al do_next {fly changan;ne;ask wiz rjdwmbtq about tianfu;sw;set public 检查身上物品}};
 
-#if {$v_wzgbug==0} {#al do_next {fly changan;s;e;#if {$v_wzgdan==1} {buy wzgdan from waiter;use wzg dan};#if {$v_wzgdan==2} {buy nowzgdan from waiter;use no wzg dan};wait {w;set public 检查身上物品} 2}};
+#if {$v_wzgbug==0} {#al do_next {fly changan;s;e;#if {$v_wzgdan==1} {buy wzgdan from boss;use wzg dan};#if {$v_wzgdan==2} {buy nowzgdan from boss;use no wzg dan};wait {w;set public 检查身上物品} 2}};
 
 #nop 最大化使用潜能;
 #if {$v_qn_depmax<2000 && $v_qn_depmax>0 && @eval{$hp_qn+$v_qn_depmax}>2000 && $v_qn_dep>0} {#al do_next {fly changan;ne;enter;deposit @eval{2000-$v_qn_depmax};account;wait {out;sw;n;set public 检查身上物品} 1}};
@@ -251,7 +254,7 @@ sw;n}};
 #if {$v_diedawan==0} {#al do_next {fly jisaiguo;#4 n;#6 e;#5 w;n;buy 20 wan from boss}};
 #if {$v_jingufen==0} {#al do_next {fly tianzhu;#7 w;s;s;e;buy 20 fen from boss}};
 #if {$v_baiyao==0 || $v_gao==0} {#al do_next {fly changan;s;s;e;#if {$v_baiyao==0} {buy 50 baiyao from boss};#if {$v_gao==0} {buy 50 gao from boss}}};
-#if {$v_jinchuang==0 || $v_hunyuan==0} {#al do_next {fly changan;s;s;e;#if {$v_jinchuang==0} {buy 100 yao from boss};#if {$v_hunyuan==0} {buy 100 dan from boss}}};
+#if {$v_jinchuang==0 || $v_hunyuan==0} {#al do_next {fly changan;s;s;e;#if {$v_jinchuang==0} {#if {$v_super_vip==2} {buy 2000 yao from boss} {buy 100 yao from boss}};#if {$v_hunyuan==0} {#if {$v_super_vip==2} {buy 2000 dan from boss} {buy 100 dan from boss}}}};
 
 #if {$v_fabao1==0 || $v_fabao2==0 || $v_fabao3==0 || $v_fabao4==0} {#al do_next {T- checkitem;fly moon;w;w;enter;wait {T+ checkitem.tin;pray} 2}};
 
@@ -290,6 +293,12 @@ s;wait timeout 1}}};
 #if {$n_renshen<1000} {buy 2500 shen from wu po};
 s;wait timeout 1} 2}}};
 
+#if {$v_super_vip==2} {#if {$n_lingzhi<2000 ||$n_renshen<2000} {#al do_next
+{T- checkitem;fly changan;w;s;withdraw 50 gold;wait {n;e;#6 s;w;n;
+#if {$n_lingzhi<2000} {buy 2500 zhi from wu po};
+#if {$n_renshen<2000} {buy 2500 shen from wu po};
+s;wait timeout 1} 2}}};
+
 #nop if {$v_bag==0} {#al do_next {fly changan;#4 s;w;w;buy bag from boss;e}};
 
 #if {$v_shenjia==0 || $v_shendagger==0} {#al do_next {T- checkitem;fly changan;d;drop shenzhi zhanjia;drop shenzhi bishou;launch;ask pan gu about 装备;wait timeout 1}};
@@ -321,8 +330,8 @@ s;wait timeout 1} 2}}};
 #if {$v_gold>1} {#al do_next {fly changan;w;s;deposit $v_gold gold}};
 
 #nop if {$v_pillow==0 || $v_zhou==0} {#al do_next {T- checkitem;fly changan;s;e;#if {$v_zhou==0 && $v_jiudai==0} {buy jiudai from er};#if {$v_pillow==0} {get pillow from hualan;buy pillow from er};w;n;w;w;w;n;unset no_accept;cast xianshen;give jiudai to yuan shoucheng;wait {tear book;s;drop pillow 2;drop bishui zhou 2;timeout} 1}};
-#if {$v_songbao_box==2} {#al do_next {Treset;T+ songbao/pathwabao.tin;songbao_start}};
-#if {$v_wabao_shovel==2} {#al do_next {Treset;T+ songbao/readwords.tin;read words}};
+#if {$v_songbao_box==2 && $F_fillsea!=1} {#al do_next {Treset;T+ songbao/pathwabao.tin;songbao_start}};
+#if {$v_wabao_shovel==2 && $F_fillsea!=1} {#al do_next {Treset;T+ songbao/readwords.tin;read words}};
 #if {$v_eastmap==0 || $v_xueshanmap==0} {#al do_next {fly changan;ne;yao map;yao tu;drop xueshan map 2;drop eastsea map 2;#2 put map in hua lan;sw;n}};
 
 #if {$v_huangqian==0} {#al do_next {unset no_accept;drop huang qian;fly zhuzi;#9 n;wait {w;w;nw;nw;sw;w;wu;se;w;sw;sw;cast xianshen;ask furen about 钱} 2}};
@@ -372,6 +381,7 @@ wait do_next 0.5;
 #ac {^你不可以频繁转换通灵兵器类型。(%1)} {#var v_tongling_stop 1;#delay %1 {#unvar v_tongling_stop}};
 #ac {^你不可以频繁召唤通灵兵器。(%1)} {#var v_tongling_stop 1;#delay %1 {#unvar v_tongling_stop}};
 #ac {^周围没有一片云，没办法腾云驾雾。} {timeout} {1};
+#ac {^你正在战斗，飞不开。} {timeout};
 
 #class checkitem close;
 
