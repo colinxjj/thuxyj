@@ -1,0 +1,1 @@
+java -classpath xyj_windyii_2.0.1.jar faguan.Program c:\WinTin++ 2>&1
