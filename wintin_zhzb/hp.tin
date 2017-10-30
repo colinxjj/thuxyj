@@ -44,8 +44,16 @@
 #if {"%4"!="dismantle" && %9<=5} {abandon %4};
 #if {"%4"=="parry"} {#var skill_num_parry %9};
 #if {@ismember{%4;v_skill_lian_base}>0} {#var skill_num_%4 %9};
-#if {@ismember{%4;v_skill_lian}>0 && %10<=@eval{(%9+1)*(%9+1)}} {#if {%9<=$skill_num_parry || %9<=${skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}}} {#var lian_idnow %4;#var lian_skill_num %9}};
-#if {@ismember{%4;v_skill_lian}>0 && %10>=@eval{(%9+1)*(%9+1)}} {#if {%9<$skill_num_parry || %9<${skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}}} {#var lian_idnow %4;#var lian_skill_num %9}};
+#if {@ismember{%4;v_skill_lian}>0 && %10<=@eval{(%9+1)*(%9+1)}} {
+#if &{skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}} {
+#if {%9<=$skill_num_parry || %9<=${skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}}} {#var lian_idnow %4;#var lian_skill_num %9}} {
+#if {%9<=$skill_num_parry} {#var lian_idnow %4;#var lian_skill_num %9}}
+};
+#if {@ismember{%4;v_skill_lian}>0 && %10>=@eval{(%9+1)*(%9+1)}} {
+#if &{skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}} {
+#if {%9<$skill_num_parry || %9<${skill_num_@item{v_skill_lian_base;@ismember{%4;v_skill_lian}}}} {#var lian_idnow %4;#var lian_skill_num %9}} {
+#if {%9<$skill_num_parry} {#var lian_idnow %4;#var lian_skill_num %9}}
+};
 #if {"%4"=="wulei"} {#if {@ismember{wulei;v_skill_special}>0 && %9<$skill_numlist[@ismember{spells;skill_idlist}]} {#var lian_idnow %4;#var lian_skill_num %9}};
 #if {"%4"=="mizong-buddhism"} {#if {@ismember{mizong-buddhism;v_skill_special}>0 && %9<$skill_numlist[@ismember{spells;skill_idlist}]} {#var lian_idnow %4;#var lian_skill_num %9}};
 #if {"%4"=="dragonforce" && %9<200} {#if {@ismember{dragonforce;v_skill_special}>0 && %9<$skill_numlist[@ismember{force;skill_idlist}]} {#var lian_idnow %4;#var lian_skill_num %9}};
@@ -97,9 +105,18 @@
 #nop 下方为判断填海时间;
 #list time_fillsea creat {戌;亥;子;丑};
 #list time_cant_fillsea creat {寅;卯;辰;巳;午;未;申};
+#list time_shichen creat {寅;卯;辰;巳;午;未;申;酉;戌;亥;子;丑};
 #ac {^%?%s现在是西游%S年%S月%S日%1时%2刻。}
-{#var v_day_time %1;#nop 用v_day_time来表示当日时辰;#var v_day_minute %2;
-  #if {$v_fillsea_open==1 && $v_bdlh==1} {#if {@ismember{%1;time_fillsea}>0} {#var v_fillsea 1} {#if $v_quests_open==1 {#if {"%1"=="酉" && @ctd{%2}>3} {#var v_fillsea 1} {#var v_fillsea 0}} {#if {"%1"=="酉" && @ctd{%2}>2} {#var v_fillsea 1} {#var v_fillsea 0}}}}
+{#var v_day_time %1;#nop 用v_day_time来表示当日时辰;#var v_day_minute %2;#var F_fillsea 0;#var F_rulai 0;
+#var v_day_filltime @eval{(@ismember{%1;time_shichen}-1)*120+@ctd{%2}*30};
+  #if {$v_fillsea_open==1 && $v_bdlh==1} {#if {@ismember{%1;time_fillsea}>0} {#var v_fillsea 1} {#if $v_quests_open==1 {#if {"%1"=="酉" && @ctd{%2}>3} {#var v_fillsea 1} {#var v_fillsea 0}} {#if {"%1"=="酉" && @ctd{%2}>2} {#var v_fillsea 1} {#var v_fillsea 0}}};
+  #if {"$v_day_time"=="丑"} {#var F_fillsea 1};
+  #if {"$v_day_time"=="子" && @ctd{%2}>=3} {#var F_fillsea 1};
+  #if {"$liguai_sta"=="没有完成" && $liguai_find<2 && @time_c{}>=180} {#var F_fillsea 2};
+  #if {"$liguai_sta"=="没有完成" && $liguai_find>=2 && @time_c{}>=870} {#var F_fillsea 2};
+  #if {"$liguai_sta"=="已经完成" && @time_c{}>=270} {#var F_fillsea 2};
+  #if {"$liguai_sta"=="已经完成"} {#if {@eval{960-$v_day_filltime}>@eval{300-@time_c{}}} {#var F_rulai 1}};
+  };
 };
 
 #ac {^设定环境变数：public = "检查填海时间"} {#if {$v_fillsea==1} {#if $v_xiudao>0 {e;s} {d;w};T+ control.tin;hp} {#delay {fillsea} {time;set public 检查填海时间} 60}};
@@ -308,6 +325,9 @@ set wimpy 0;
 
 #ac {转世之胄     :        } {#var v_zhuanshi_armor 1};
 #ac {转世之戈     :        } {#var v_zhuanshi_weapon 1};
+
+#nop ac {^你微一凝神，运起反五行摄气诀，头上冒出一股青气，脸部现出一个鬼形。。。} {#math sheqi_power $sheqi_power+1};
+#al {C_sheqi} {#if {"$v_shaqi"=="max"} {#$sheqi_power exert powerfade;#var sheqi_power 0} {#if $hp_sq>$v_shaqi {#$sheqi_power exert powerfade};#var sheqi_power 0}};
 
 #nop ac {^记录问题 } {#line log debug.txt};
 #class fight close;
