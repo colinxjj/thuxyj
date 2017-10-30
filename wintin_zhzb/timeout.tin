@@ -937,7 +937,7 @@ wait {input tie jian in jian nang;delwait;wear all;checksell} 1
 #al {Á·¹¦ÌÃÁú¹¬} {s;sw;sw;se;se;canf};
 #al {Áú¹¬´óÃÅÁú¹¬} {e;se;se;canf};
 #al {Áú¹¬Ç°ÌüÁú¹¬} {w;wd;se;se;canf};
-#al {Áú¹¬ÕıµîÁú¹¬} {w;wd;w;w;wd;se;se;canf};
+#al {Áú¹¬ÕıµîÁú¹¬} {wd;wd;w;w;wd;se;se;canf};
 #al {Ã÷²ìÌÃÁú¹¬} {s;w;wd;se;se;canf};
 #al {Ä»¸®Áú¹¬} {sw;s;s;nw;n;n;w;wd;se;se;canf};
 #al {ÄÚÌÃÁú¹¬} {w;wd;wd;w;w;wd;se;se;canf};
