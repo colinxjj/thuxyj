@@ -1557,6 +1557,7 @@ tick 10;#var path_step 1;
 #ac {^千里眼告诉你：%1($songbao_giveid)在%2。} {#if "%1"=="$songbao_name" {#var songbao_do %2;#if &{$songbao_do} {#var songbao_find 1.5} {#var songbao_find 3};wait songbao_start 1} {#var songbao_sta 送宝失败;#var songbao_find 3;timeout}};
 #ac {^千里眼告诉你：奇怪，找不到这个人．．．} {#var songbao_sta 送宝失败;#var songbao_find 3;timeout;#nop line log songbao/wabao_miss.txt {find找不到：$songbao_searchname}};
 #ac {^安全区内不能用天眼通。} {tick 10;fly sky;fly guild;find $songbao_giveid};
+#ac {^你想用天眼通查谁？} {#var songbao_sta 送宝失败;#var songbao_find 3;timeout;#line log songbao/wabao_miss.txt {无法搜索检查是否有问题：$songbao_searchname}};
 
 #ac {^你成功地把宝物送到了%+的手中。} {#math n_songbao_done $n_songbao_done+1;#var songbao_sta 送宝完成;T+ award.tin;wait timeout 1};
 #ac {^你成功地把宝物送到了练功师傅的手中} {tick 10;#math n_songbao_done $n_songbao_done+1;#var songbao_sta 送宝完成;T+ award.tin;wait {faint;s;s;timeout} 6} {1};

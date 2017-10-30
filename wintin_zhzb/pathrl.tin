@@ -209,6 +209,7 @@ wait {do_next;do_s} 0.1
 #ac {^%?%s只听铁栏杆发出%+的响声} {exert recover;exert refresh;wait break 1};
 #ac {^%?%s哗啦啦一阵碎石头响，你从山壁上斜滑了下来！} {#math path_step $path_step-2};
 #ac {^%?%s乌鸦先生喝道：干嘛的？(answer ０．巡山的　１．过路的　２．捣乱的)} {answer 1;#math path_step {$path_step-1};wait do_s 0.1};
+#ac {^秦安喝道：将军府岂是你乱闯之地！有何贵干(answer)？} {answer 拜师;#math path_step {$path_step-1};wait do_s 0.1};
 #ac {^%?%s你手捻口诀，念动真言，摇身一变，变得和蝴蝶一模一样！} {#var v_bian_hudie 1};
 #ac {^%?%s五彩蜘蛛缩成一团，不再动了。} {wait do_s 0.005};
 #ac {^%?%s你手捻口诀，念动真言，摇身一变，变得和小童一模一样！} {#var v_bian_xiaotong 1};

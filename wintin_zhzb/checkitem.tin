@@ -285,10 +285,10 @@ s;wait timeout 1}}};
 s;wait timeout 1}}};
 
 #if {$v_advanced_force==1 && $v_advanced_mana==1 && $v_account_gold>=1000 && $v_quests_open==1} {#if {$n_lingzhi<1000 ||$n_renshen<1000} {#al do_next
-{T- checkitem;fly changan;w;s;with 50 gold;wait {n;e;#6 s;w;n} 2;
+{T- checkitem;fly changan;w;s;withdraw 50 gold;wait {n;e;#6 s;w;n;
 #if {$n_lingzhi<1000} {buy 2500 zhi from wu po};
 #if {$n_renshen<1000} {buy 2500 shen from wu po};
-s;wait timeout 1}}};
+s;wait timeout 1} 2}}};
 
 #nop if {$v_bag==0} {#al do_next {fly changan;#4 s;w;w;buy bag from boss;e}};
 

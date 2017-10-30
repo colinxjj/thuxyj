@@ -28,7 +28,7 @@ delwait;time;
 #if {"$v_lian_weapon"=="force" || "$v_lian_weapon"=="spells"} {} {enable $v_lian_weapon_parry $lian_idnow;wield $v_lian_weapon};
 #if {"$lian_idnow"=="miemo-archery"} {wield quiver} {
 #if {$lian_skill_num<=${skill_num_@item{v_skill_lian_base;@ismember{$lian_idnow;v_skill_lian}}}} {enable $v_lian_weapon $lian_idnow;#var v_lian_weapon_parry {$v_lian_weapon}};
-#if {$lian_skill_num<=$skill_num_parry} {#if $skill_num_parry>${skill_num_@item{v_skill_lian_base;@ismember{$lian_idnow;v_skill_lian}}} {enable parry $lian_idnow;#var v_lian_weapon_parry {parry}}};
+#if {$lian_skill_num<=$skill_num_parry} {#if $skill_num_parry>${skill_num_@item{v_skill_lian_base;@ismember{$lian_idnow;v_skill_lian}}} {enable parry $lian_idnow;#var v_lian_weapon_parry {parry}};#if &{skill_num_@item{v_skill_lian_base;@ismember{$lian_idnow;v_skill_lian}}} {} {enable parry $lian_idnow;#var v_lian_weapon_parry {parry}}};
 }};
 
 #al do_next {#3 {lian $v_lian_weapon_parry 50;placenewbie;playnewbie;exert refresh;exert recover};skills;placenewbie;playnewbie;hp};
