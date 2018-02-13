@@ -69,6 +69,9 @@
 #ac {^风月(windyue)告诉你：好样的！} {#unvar kangguai_tasks[windyue]};
 #ac {^风儿(windyii)告诉你：近有%1(%2)在%3为非作歹，请速去降服！} {#list kangguai_tasks[windyii] creat {%1;%2;%3;-1;@time{}};#if {&kangguai_task==0 && $doing_liguai==0 && $robot_stop==0} {wait timeout 5}};
 #ac {^风儿(windyii)告诉你：好样的！} {#unvar kangguai_tasks[windyii]};
+#ac {^风%*(%4)告诉你：近有%1(%2)在%3为非作歹，请速去降服！} {#list kangguai_tasks[%4] creat {%1;%2;%3;-1;@time{}};#if {&kangguai_task==0 && $doing_liguai==0 && $robot_stop==0} {wait timeout 5}};
+#ac {^风%*(%1)告诉你：好样的！} {#unvar kangguai_tasks[%1]};
+
 
 #nop ****************************武器设置区***************************************;
 
