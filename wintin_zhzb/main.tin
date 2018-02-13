@@ -9,10 +9,9 @@
 #sh *                                                                *
 #sh *                     <120>欢迎光临西游记-清华站<070>                      *
 #sh *                                                                *
-#sh *                       <410>123.125.116.212  6666<070>                         *
+#sh *                       <410>xyj.thu.cn  6666<070>                         *
 #sh *                  220.181.69.181   6666 (电信)                  *
-#sh *                  123.125.116.212  6666 (联通)                  *
-#sh *                  115.25.217.20    6666 (教育网)                *
+#sh *                  166.111.5.220    6666 (教育网)                *
 #sh *                  175.100.207.215  6666 (海外)                  *
 #sh *                                                                *
 #sh *            本游戏终身QQ群<520>34048832<070>,欢迎大家互相交流。           *
@@ -25,9 +24,9 @@
 #gag {^#THERE'S A SESSION WITH THAT NAME ALREADY.};
 
 #alias login_all {#re id/login_idlist.tin;#foreach {$login_idlist[%*]} {login_id} {#if "$login_id"!="try123" {thu_rec $login_id}}};
-#alias thu {#re id/login_idlist.tin;#ses %1 220.181.69.181 6666};
+#alias thu {#re id/login_idlist.tin;#ses %1 xyj.thu.cn 6666};
 #nop alias thu_rec {#switch {1d4} {#case 1 {#ses %1 220.181.69.181 6666};#case 2 {#ses %1 220.181.69.181 6666};#case 3 {#ses %1 220.181.69.181 6666};#case 4 {#ses %1 220.181.69.181 6666}}};
-#alias thu_rec {#if {1d10>7} {#ses %1 220.181.69.181 6666} {#ses %1 220.181.69.181 6666}};
+#alias thu_rec {#if {1d10>7} {#ses %1 220.181.69.181 6666} {#ses %1 166.111.5.220 6666}};
 #gag {^THERE'S A SESSION WITH THAT NAME ALREADY.};
 #alias login_addsave {#re id/login_idlist.tin;#var login_idlist @additem{login_idlist;$myid};#class login_idlist write id/login_idlist.tin};
 #alias login_delsave {#re id/login_idlist.tin;#var login_idlist @delitem{login_idlist;$myid};#class login_idlist write id/login_idlist.tin};
