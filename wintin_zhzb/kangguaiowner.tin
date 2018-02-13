@@ -77,6 +77,7 @@ u;w;timeout} {1};
 #nop --------袁天罡灭妖--------
 #al {已经完成} {tick 15;#if {$robot_stop!=1 && @time_y{}>=299} {d;w;n;n;w;ask yuan about kill;#sh 本次时间@time_y{}}};
 #al {没有完成} {tick 15;#if {$robot_stop!=1 && @time_y{}>=899} {d;w;n;n;w;ask yuan about kill;#sh 本次时间@time_y{}}};
+#ac {^你现在没有灭妖任务。} {#var yuanguai_sta 已经完成;$yuanguai_sta}
 #ac {^袁天罡：第%1个妖「%+」%2。} {#var yuanguai_sta %2;$yuanguai_sta}
 #ac {^　　近有%1(%2)在%3出没，为害不小，请速去收服！} {
   #var yuanguai_name %1;#var yuanguai_idupper %2;#var yuanguai_where %3;#var yuanguai_id @lower{$yuanguai_idupper};#var time_yuanguaistart @time{};e;s;s;e;u;
