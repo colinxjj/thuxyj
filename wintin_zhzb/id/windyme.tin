@@ -36,13 +36,13 @@
 
 #nop ---------自动学习控制1为学习，0为不学习----------;
 #var v_autolearn {0};
-#var v_skill_max {160};
+#var v_skill_max {248};
 #nop ---------设置身上最多保持多少潜能，多余部分自动储存，若不想储存请设置足够大比如99999999999----------------;
 #nop ---------开学习的话建议设置成200000，一定不要设置成20000及以下----------;
 #nop ---------如果存了很多潜能需要学的时候，手动取出潜能，将这个值设置大于要学掉的潜能----------;
 #var v_qn_dep {200000};
 #nop ---------是否有帮派，1有，0无，填错会导致错误----------;
-#var v_guild {0};
+#var v_guild {1};
 #nop ---------是否开启法官，0无，1自动，2手动---------;
 #var v_faguan {0};
 #nop ------连续杀怪大于以下值的情况下不守城，设置99999表示仅守城、设置0表示日常一直不守城---------;
@@ -77,7 +77,7 @@
 #nop -----以下为主武器及busy技能武器，输入基本武器类型即可(两个可以一样)，不需要手动添加到safelist-------;
 #nop !!!!!!如果有弓和箭囊，弓必须写进thirdweapon，箭囊必须写进fourthweapon(且弓和箭囊必须同时填写)，同时1、2类武器不能为空或0!!!!!;
 #var {userweapon} {sword};
-#var {busyweapon} {sword};
+#var {busyweapon} {whip};
 #nop ----以下是第三、四类武器，特殊门派及id使用，如果不需要请填写none，需要则输入类型-----;
 #var {thirdweapon} {none};
 #var {fourthweapon} {none};
@@ -92,11 +92,12 @@
 #list safelist add {str;cor;int;spi;cps;per;con;kar;};
 #list safelist add {sheng-lingzhu;kevlar-vest;black-vest;black-knickers;hair-band;black-stockings;black-bra};
 #list safelist add {book;fumo-book;mi-jue};
+#list safelist add {ring};
 
 #nop ****************************自动学习技能设置区***************************************;
 
 #nop ------只要一倍研习的基础技能，比如法术、轻功、刀法、剑法等，支持force用两仪剑法升级--------;
-#var v_skill_research_base {sword};
+#var v_skill_research_base {sword;parry;dodge;spells};
 #nop #var v_skill_research_base {literate};
 #nop ------若一倍中升级force，则下面填写对应enable的特殊内功-----;
 #var v_skill_enable_force {moonforce};
@@ -106,7 +107,7 @@
 #nop -----对应上一行特殊武技的基础技能，比如筋斗云对应dodge，千钧棒法对应stick，不能填错------;
 #var v_skill_lian_base {sword;dodge};
 #nop -----需要双倍研习的技能，比如基本内功、特殊内功、特殊法术-------;
-#var v_skill_research_double {moonforce};
+#var v_skill_research_double {moonforce;moonshentong};
 #nop #var v_skill_research_double {}
 #nop -----需要特殊处理的技能，目前仅支持密宗、五雷，若不需要填0-------;
 #var v_skill_special {0};
@@ -125,10 +126,10 @@
 #al {pfm_kill} {wield $userweapon;wield all;jiali max;perform fenghuixuewu with sword;perform huifeng with sword;perform fenghuixuewu with sword 2;perform huifeng with sword 2};
 
 #nop -----设置重击pfm命令同时作为清除高级拦路怪及九转神魔恢复内力法力(连击要多，不要加on $怪id，因为要补充内力所以不要****加力****)------;
-#al {pfm_bang} {wield $userweapon;wield all;perform mace.qisheng with mace;perform mace.qisheng with mace 2;perform mace.qisheng with mace 3};
+#al {pfm_bang} {wield $userweapon;wield all;perform fenghuixuewu with sword;perform huifeng with sword;perform fenghuixuewu with sword 2;perform huifeng with sword 2};
 
 #nop -----设置基础busy命令，注意加上enable 同上，如果跟主武器一样，请修改$busyweapon为$userweapon----------;
-#al {pfm_busy} {jiali max;perform dodge.fuhai};
+#al {pfm_busy} {unwield all;wield $busyweapon;wield all;jiali max;cast qingwang};
 
 #nop ------遇到怪后，需要使用的护法类技能，无则填写none--------;
 #var {pfm_hufa} {#2 perform diezhang on $myid;cast invocation};
@@ -142,7 +143,7 @@
 #nop ------如来未完成前，不用如来法宝杀李靖------;
 #al {pfm_liguai}
 {
-pfm_kill
+cast mihun;wield $userweapon;wield all;jiali max;perform fenghuixuewu with sword;perform huifeng with sword;perform fenghuixuewu with sword 2;perform huifeng with sword 2
 };
 
 #nop ------杀怪时busy技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
@@ -157,7 +158,7 @@ pfm_kill
 #var rulai_pfm_time {1.8};
 
 #nop ------如来杀怪技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
-#al {pfm_rl} {};
+#al {pfm_rl} {pfm_liguai};
 
 #nop ------如来杀怪时busy技能，如跟基础一样，直接填写，不一样则需要单独设置--------;
 #nop 目前未使用,请全部填写在pfm_rl;
